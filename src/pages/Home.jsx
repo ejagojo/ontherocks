@@ -29,9 +29,9 @@ const Home = () => {
         <div className="flex flex-grow items-center justify-between mx-20">
           {/* Left Side Content */}
           <div className="max-w-lg">
-            <h1 className="text-7xl font-bold knewave-font">On The Rocks</h1>
+            <h1 className="text-7xl font-bold knewave-font">Welcome to On The Rocks</h1>
             <p className="text-lg mt-4 poppins-font">
-              Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque laudantium.
+              Browse and order from local liquor stores with ease.
             </p>
 
             {/* Order Now Button */}
