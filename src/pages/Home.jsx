@@ -1,4 +1,3 @@
-// src/pages/Home.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -50,7 +49,7 @@ const Home = () => {
           </div>
 
           {/* Right Side - Enlarged Login/Register Form */}
-          <div className="w-[650px] p-10 border-white rounded-xl bg-opacity-0">
+          <div className="w-[500px] p-10 border-white rounded-xl bg-opacity-0">
             {isRegistering ? <SignUpForm toggleForm={toggleForm} /> : <LoginForm toggleForm={toggleForm} />}
           </div>
         </div>
