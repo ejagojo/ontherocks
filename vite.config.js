@@ -7,4 +7,11 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    port: 3000, 
+    host: "0.0.0.0", // Ensures it listens on all network interfaces
+  },
+  build: {
+    outDir: "dist",
+  },
 });
