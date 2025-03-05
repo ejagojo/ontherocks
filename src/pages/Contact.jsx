@@ -1,9 +1,19 @@
 import React from "react";
+import Navbar from "../components/Navbar";
 
 const Contact = () => {
   return (
-    <div className="flex items-center justify-center h-screen text-black">
-      <h1 className="text-4xl font-bold">Contact Page - Placeholder</h1>
+    <div className="relative w-full h-screen">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url('/src/assets/landing-page/background.jpg')`,
+          filter: "contrast(100%) brightness(30%)",
+        }}
+      ></div>
+
+      <Navbar />
     </div>
   );
 };

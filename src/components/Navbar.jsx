@@ -8,7 +8,11 @@ const Navbar = () => {
     <nav className="absolute top-0 left-0 w-full flex justify-between items-center p-6 bg-transparent h-16">
       {/* Logo Image */}
       <div className="h-full flex items-center">
-        <img src={Logo} alt="On The Rocks Logo" className="h-40 w-auto" />
+        <Link
+          to="/"
+        >
+          <img src={Logo} alt="On The Rocks Logo" className="h-40 w-auto" />
+        </Link>
       </div>
 
       {/* Menu Links (Navigation Placeholders) */}
@@ -30,6 +34,12 @@ const Navbar = () => {
           className="text-white poppins-font text-lg relative transition-transform duration-300 ease-in-out hover:scale-110 hover:text-white after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-white after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100"
         >
           About
+        </Link>
+        <Link
+          to="/partner"
+          className="text-white poppins-font text-lg relative transition-transform duration-300 ease-in-out hover:scale-110 hover:text-white after:absolute after:left-0 after:bottom-0 after:w-full after:h-0.5 after:bg-white after:scale-x-0 after:transition-transform after:duration-300 after:ease-in-out hover:after:scale-x-100"
+        >
+          Partner
         </Link>
       </div>
 
