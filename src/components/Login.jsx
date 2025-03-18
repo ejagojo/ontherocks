@@ -20,7 +20,7 @@ const LoginForm = ({ toggleForm }) => {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-3 py-2 text-black bg-white rounded-md focus:outline-none font-medium"
+          className="w-full px-3 py-2 text-black bg-white rounded-md focus:outline-none font-medium border border-gray-300"
           placeholder="Email"
         />
       </div>
@@ -29,11 +29,11 @@ const LoginForm = ({ toggleForm }) => {
       <div className="mb-3">
         <label className="block text-xs mb-1">Password</label>
         <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2 text-black bg-white rounded-md focus:outline-none font-medium"
-            placeholder="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full px-3 py-2 text-black bg-white rounded-md focus:outline-none font-medium border border-gray-300"
+          placeholder="Password"
         />
       </div>
 
@@ -51,7 +51,7 @@ const LoginForm = ({ toggleForm }) => {
       {/* Google Sign-In Button */}
       <button
         onClick={() => signInWithGoogle(navigate)}
-        className="w-full flex items-center justify-center px-4 py-3 text-sm font-semibold bg-white text-black rounded-md transition-transform duration-300 ease-in-out hover:scale-105"
+        className="w-full flex items-center justify-center px-4 py-3 text-sm font-semibold bg-white text-black rounded-md transition-transform duration-300 ease-in-out hover:scale-105 border border-gray-300"
       >
         <FcGoogle className="mr-2 text-lg" /> Sign in with Google
       </button>

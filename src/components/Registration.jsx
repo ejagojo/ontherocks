@@ -12,9 +12,8 @@ const SignUpForm = ({ toggleForm }) => {
   const [dob, setDob] = useState("");
   const [error, setError] = useState("");
 
-  // Function to handle sign up with validation
   const handleSignUp = () => {
-    setError(""); // Reset previous errors
+    setError("");
 
     if (password.length < 6) {
       setError("Password must be at least 6 characters.");
@@ -40,7 +39,7 @@ const SignUpForm = ({ toggleForm }) => {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-3 py-2 text-black bg-white rounded-md focus:outline-none font-medium"
+          className="w-full px-3 py-2 text-black bg-white rounded-md focus:outline-none font-medium border border-gray-300"
           placeholder="Email"
         />
       </div>
@@ -52,7 +51,7 @@ const SignUpForm = ({ toggleForm }) => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-3 py-2 text-black bg-white rounded-md focus:outline-none font-medium"
+          className="w-full px-3 py-2 text-black bg-white rounded-md focus:outline-none font-medium border border-gray-300"
           placeholder="Password"
         />
       </div>
@@ -64,12 +63,11 @@ const SignUpForm = ({ toggleForm }) => {
           type="password"
           value={password2}
           onChange={(e) => setPassword2(e.target.value)}
-          className="w-full px-3 py-2 text-black bg-white rounded-md focus:outline-none font-medium"
+          className="w-full px-3 py-2 text-black bg-white rounded-md focus:outline-none font-medium border border-gray-300"
           placeholder="Re-type password"
         />
       </div>
 
-      {/* Display Error Message if Any */}
       {error && <p className="text-red-500 text-xs text-center mb-2">{error}</p>}
 
       {/* Date of Birth Input */}
@@ -79,11 +77,10 @@ const SignUpForm = ({ toggleForm }) => {
           type="date"
           value={dob}
           onChange={(e) => setDob(e.target.value)}
-          className="w-full px-3 py-2 text-black bg-white rounded-md focus:outline-none font-medium"
+          className="w-full px-3 py-2 text-black bg-white rounded-md focus:outline-none font-medium border border-gray-300"
         />
       </div>
 
-      {/* Sign Up Button - Disabled if any input is missing */}
       <button
         onClick={handleSignUp}
         className={`w-full px-4 py-3 mt-4 text-sm font-semibold rounded-md transition-transform duration-300 ease-in-out ${
@@ -96,25 +93,21 @@ const SignUpForm = ({ toggleForm }) => {
         Sign Up
       </button>
 
-      {/* Divider */}
       <div className="my-3 text-center text-xs text-gray-400">- or -</div>
 
-      {/* Google Sign-Up Button */}
       <button
         onClick={() => signInWithGoogle(navigate)}
-        className="w-full flex items-center justify-center px-4 py-3 text-sm font-semibold bg-white text-black rounded-md transition-transform duration-300 ease-in-out hover:scale-105"
+        className="w-full flex items-center justify-center px-4 py-3 text-sm font-semibold bg-white text-black rounded-md transition-transform duration-300 ease-in-out hover:scale-105 border border-gray-300"
       >
         <FcGoogle className="mr-2 text-lg" /> Sign up with Google
       </button>
 
-      {/* Terms & Privacy Policy */}
       <p className="mt-3 text-[10px] text-center">
         By continuing, you agree to OnTheRocks <br />
         <span className="underline cursor-pointer">Terms of Service</span> and acknowledge you’ve read <br />
         our <span className="underline cursor-pointer">Privacy Policy</span>. Notice at collection.
       </p>
 
-      {/* Switch to Login */}
       <p className="mt-3 text-xs text-center">
         Already a member?{" "}
         <button onClick={toggleForm} className="text-yellow-400 hover:underline">

@@ -1,12 +1,31 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaSearch, FaBars } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion"; 
+import { motion, AnimatePresence } from "framer-motion";
 import Logo from "../assets/logo/Logo-White.png";
+import LoginForm from "../components/Login";
+import SignUpForm from "../components/Registration";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen((prev) => !prev);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [showLogin, setShowLogin] = useState(true);
+
+  const openLogin = () => {
+    setShowLogin(true);
+    setModalOpen(true);
+    toggleMenu();
+  };
+
+  const openSignUp = () => {
+    setShowLogin(false);
+    setModalOpen(true);
+    toggleMenu();
+  };
+
+  const closeModal = () => setModalOpen(false);
 
   return (
     <nav className="absolute top-0 left-0 w-full p-6 bg-transparent h-16 flex items-center justify-between z-50">
@@ -106,20 +125,46 @@ const Navbar = () => {
             >
               Partner
             </Link>
-            <Link
-              to="#"
-              onClick={toggleMenu}
+            <button
+              onClick={openLogin}
               className="text-white poppins-font text-lg py-2"
             >
               Login
-            </Link>
-            <Link
-              to="#"
-              onClick={toggleMenu}
+            </button>
+            <button
+              onClick={openSignUp}
               className="text-white poppins-font text-lg py-2"
             >
               Sign Up
-            </Link>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {modalOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70"
+          >
+            <motion.div
+              initial={{ scale: 0.7 }}
+              animate={{ scale: 1 }}
+              exit={{ scale: 0.7 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white text-black p-6 rounded-md w-[320px] max-w-[400px] relative"
+            >
+              <button
+                onClick={() => setModalOpen(false)}
+                className="absolute top-2 right-3 text-2xl text-gray-600 hover:text-gray-900"
+              >
+                &times;
+              </button>
+              {showLogin ? <LoginForm toggleForm={openSignUp} /> : <SignUpForm toggleForm={openLogin} />}
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
