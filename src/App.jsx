@@ -5,6 +5,7 @@ import Order from "./pages/Order";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Partner from "./pages/partner";
+import UserProfile from "./UserProfile/UserProfile";
 
 const App = () => {
   return (
