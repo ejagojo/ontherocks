@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import ProfileTabs from "./ProfileTabs";
 import OrderHistory from "./OrderHistory";
 import PaymentMethods from "./PaymentMethods";
-import "./UserProfile.css";
+// import "./UserProfile.css";
 
 // Sample data based on the prototype
 const orderData = [

@@ -5,7 +5,8 @@ import Order from "./pages/Order";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Partner from "./pages/partner";
-import UserProfile from "./UserProfile/UserProfile";
+import Loyalty from "./pages/Loyalty";
+import UserProfile from "../UserProfile/UserProfile";
 
 const App = () => {
   return (
@@ -16,6 +17,8 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
         <Route path="/partner" element = {<Partner />} />
+        <Route path="/UserProfile" element = {<UserProfile />} />
+        <Route path = "/loyalty" element = {<Loyalty />} />
       </Routes>
     </Router>
   );
