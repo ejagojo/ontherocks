@@ -1,4 +1,5 @@
 import logo from "../assets/logo/Logo.png";
+import { Link } from "react-router-dom";
 import profile from "../assets/Profile-icon/profile.jpg"
 
 const Header = () => {
@@ -6,7 +7,9 @@ const Header = () => {
     <header className="w-full fixed top-0 bg-white shadow z-50">
     <div className="flex items-center justify-between h-20 px-4">
         {/* Logo flush left */}
-        <img src={logo} alt="logo" className="h-40" />
+        <Link to="/">
+            <img src={logo} alt="logo" className="h-40" />
+        </Link>
 
         {/* Centered button */}
         <div className="flex-1 flex justify-center">
