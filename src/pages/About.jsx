@@ -16,7 +16,7 @@ const About = () => {
       <div className="relative z-10 flex flex-col h-full text-white">
         <Navbar />
         {/* Team profile cards */}
-        <div className="flex flex-col h-full justify-center items-center mt-20 md:mt-32 mx-4 md:mx-20">
+        <div className="flex flex-col h-full justify-center items-center mt-16 md:mt-20 mx-4 md:mx-20">
           <div>
             {/* top 2 cards */}
             <div className="flex flex-col md:flex-row md:w-auto w-full gap-6">
@@ -39,7 +39,7 @@ const About = () => {
               />
             </div>
             {/* bottom 2 cards */}
-            <div className="flex flex-col md:flex-row md:w-auto w-full justify-center gap-6 mt-6 mb-8">
+            <div className="flex flex-col md:flex-row md:w-auto w-full justify-center gap-6 mt-6 mb-6">
               <ProfileCard
                 imageUrl="https://placehold.co/250"
                 name="John Doe"
