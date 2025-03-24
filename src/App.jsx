@@ -7,6 +7,7 @@ import About from "./pages/About";
 import Partner from "./pages/partner";
 import Loyalty from "./pages/Loyalty";
 import UserProfile from "../UserProfile/UserProfile";
+import Profile from "./pages/Profile";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/partner" element = {<Partner />} />
         <Route path="/UserProfile" element = {<UserProfile />} />
         <Route path = "/loyalty" element = {<Loyalty />} />
+        <Route path = "/profile" element = {<Profile />} />
       </Routes>
     </Router>
   );

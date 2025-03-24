@@ -1,40 +1,96 @@
-import logo from "../assets/logo/Logo.png";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import profile from "../assets/Profile-icon/profile.jpg"
+import { FaShoppingCart } from "react-icons/fa";
+import logo from "../assets/logo/Logo.png";
+import profile from "../assets/Profile-icon/profile.jpg";
 
 const Header = () => {
+  const userName = null;
+  const [address, setAddress] = useState("123 Lowell St");
+  const [isEditing, setIsEditing] = useState(false);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [addressHistory] = useState([
+    "123 Lowell St",
+    "234 Maple Ave",
+    "567 Oak Rd",
+  ]);
+  const [cartCount] = useState(0);
+
+  const handleInputFocus = () => {
+    setIsEditing(true);
+    setShowSuggestions(true);
+  };
+
+  const handleSelectAddress = (addr) => {
+    setAddress(addr);
+    setIsEditing(false);
+    setShowSuggestions(false);
+  };
+
   return (
     <header className="w-full fixed top-0 bg-white shadow z-50">
-    <div className="flex items-center justify-between h-20 px-4">
-        {/* Logo flush left */}
+      <div className="flex items-center justify-between h-20 px-4">
         <Link to="/">
-            <img src={logo} alt="logo" className="h-40" />
+          <img src={logo} alt="logo" className="h-40" />
         </Link>
-
-        {/* Centered button */}
         <div className="flex-1 flex justify-center">
-            <button className="ml-4 flex items-center justify-between px-4 py-2 bg-gray-200 rounded-full shadow-md text-black font-medium hover:bg-gray-300">
-                <span className="font-bold">123 Lowell St</span>
-                <span className="mx-2 h-6 w-px bg-gray-400"></span>
-                <span>Pick Up</span>
-            </button>
+          <div className="ml-4 relative flex items-center justify-between px-4 py-2 bg-gray-200 rounded-full shadow-md text-black font-medium hover:bg-gray-300">
+            {isEditing ? (
+              <input
+                autoFocus
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                onBlur={() => setTimeout(() => setIsEditing(false), 200)}
+                onFocus={handleInputFocus}
+                className="bg-transparent outline-none font-bold w-30"
+              />
+            ) : (
+              <span
+                className="font-bold cursor-pointer w-30 truncate"
+                onClick={handleInputFocus}
+              >
+                {address}
+              </span>
+            )}
+            <span className="mx-2 h-6 w-px bg-gray-400"></span>
+            <span>Pick Up</span>
+            {showSuggestions && (
+              <div className="absolute top-14 left-0 w-full bg-white text-black rounded-lg shadow-md mt-1 z-50 py-2">
+                {addressHistory.map((addr) => (
+                  <div
+                    key={addr}
+                    onMouseDown={() => handleSelectAddress(addr)}
+                    className="px-3 py-1 hover:bg-gray-100 cursor-pointer"
+                  >
+                    {addr}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-
-        {/* Search + Profile on the right */}
         <div className="flex items-center gap-4">
-            <div className="flex items-center px-4 py-2 bg-gray-200 rounded-full shadow-md text-black font-medium">
-                <input
-                    className="bg-transparent outline-none"
-                    placeholder="Search"
-                />
-                <span className="mx-2 h-6 w-px bg-gray-400"></span>
-            </div>
-            <img src={profile} className="h-10 w-10 rounded-full object-cover" />
+          <div className="flex items-center px-4 py-2 bg-gray-200 rounded-full shadow-md text-black font-medium">
+            <input
+              className="bg-transparent outline-none"
+              placeholder="Search"
+            />
+            <span className="mx-2 h-6 w-px bg-gray-400"></span>
+            <FaShoppingCart className="mr-1" />
+            <span className="font-bold">{cartCount}</span>
+          </div>
+          <Link to="/profile" className="flex items-center gap-2">
+            <img
+              src={profile}
+              alt="profile"
+              className="h-10 w-10 rounded-full object-cover"
+            />
+            {userName && <span>{userName}</span>}
+          </Link>
         </div>
-    </div>
-</header>
-
+      </div>
+    </header>
   );
 };
 
-export default Header
+export default Header;
