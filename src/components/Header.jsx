@@ -28,13 +28,13 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full fixed top-0 bg-white shadow z-50">
+    <header className="w-full sticky top-0 bg-white z-50">
       <div className="flex items-center justify-between h-20 px-4">
         <Link to="/">
           <img src={logo} alt="logo" className="h-40" />
         </Link>
         <div className="flex-1 flex justify-center">
-          <div className="ml-4 relative flex items-center justify-between px-4 py-2 bg-gray-200 rounded-full shadow-md text-black font-medium hover:bg-gray-300">
+          <div className="ml-40 relative flex items-center justify-between px-4 py-2 bg-gray-200 rounded-full text-black font-medium hover:bg-gray-300">
             {isEditing ? (
               <input
                 autoFocus
@@ -70,7 +70,7 @@ const Header = () => {
           </div>
         </div>
         <div className="flex items-center gap-4">
-          <div className="flex items-center px-4 py-2 bg-gray-200 rounded-full shadow-md text-black font-medium">
+          <div className="flex items-center px-4 py-2 bg-gray-200 rounded-full text-black font-medium">
             <input
               className="bg-transparent outline-none"
               placeholder="Search"
