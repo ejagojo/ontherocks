@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
-import logo from "../assets/logo/Logo.png";
+import logoDark from "../assets/logo/Logo.png";
+import logoWhite from "../assets/logo/Logo-White.png";
 import profile from "../assets/Profile-icon/profile.jpg";
 
-const Header = () => {
+const Header = ({ theme = "light" }) => {
   const userName = null;
   const [address, setAddress] = useState("123 Lowell St");
   const [isEditing, setIsEditing] = useState(false);
@@ -28,10 +29,20 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full sticky top-0 bg-white z-50">
+    <header
+      className={`w-full fixed top-0 shadow z-50 ${
+        theme === "dark"
+          ? "bg-[linear-gradient(45deg,#000031,#000000,#220000)] text-white"
+          : "bg-white"
+      }`}
+    >
       <div className="flex items-center justify-between h-20 px-4">
         <Link to="/">
-          <img src={logo} alt="logo" className="h-40" />
+          <img
+            src={theme === "dark" ? logoWhite : logoDark}
+            alt="logo"
+            className="h-40"
+          />
         </Link>
         <div className="flex-1 flex justify-center">
           <div className="ml-40 relative flex items-center justify-between px-4 py-2 bg-gray-200 rounded-full text-black font-medium hover:bg-gray-300">

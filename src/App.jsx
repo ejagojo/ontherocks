@@ -4,9 +4,9 @@ import Home from "./pages/Home";
 import Order from "./pages/Order";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
-import Partner from "./pages/partner";
+import Partner from "./pages/Partner";
 import Loyalty from "./pages/Loyalty";
-import UserProfile from "../UserProfile/UserProfile";
+import UserProfile from "./components/UserProfile";
 import Profile from "./pages/Profile";
 
 const App = () => {
@@ -17,10 +17,10 @@ const App = () => {
         <Route path="/order" element={<Order />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/about" element={<About />} />
-        <Route path="/partner" element = {<Partner />} />
-        <Route path="/UserProfile" element = {<UserProfile />} />
-        <Route path = "/loyalty" element = {<Loyalty />} />
-        <Route path = "/profile" element = {<Profile />} />
+        <Route path="/partner" element={<Partner />} />
+        <Route path="/user-profile" element={<UserProfile />} />
+        <Route path="/loyalty" element={<Loyalty />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );
