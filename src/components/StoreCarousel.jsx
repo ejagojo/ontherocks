@@ -23,7 +23,7 @@ const StoreCarousel = () => {
       name: "Discount Liquors",
       distance: "3 miles away",
       rating: 3,
-      image: "src/assets/stores/Store3.jpg",
+      image: "src/assets/stores/store3.jpg",
     },
     {
       id: 4,
