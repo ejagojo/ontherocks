@@ -6,6 +6,7 @@ import PlasticBottle from "../assets/drinks/Plastic-Bottle.png";
 import Batanga from "../assets/drinks/Batanga-Tequila.png";
 import Calumet from "../assets/drinks/Calumet-Farm.png";
 import profile from "../assets/Profile-icon/profile.jpg";
+import ProfilePage from "./ProfilePage"
 
 const orderData = [
   {
@@ -49,7 +50,7 @@ const paymentData = [
 ];
 
 const UserProfile = () => {
-  const [activeTab, setActiveTab] = useState('orders');
+  const [activeTab, setActiveTab] = useState('profile');
 
   return (
     <div className="min-h-screen bg-white text-white flex items-center justify-center">
@@ -67,7 +68,8 @@ const UserProfile = () => {
           <div className="md:col-span-3">
             {activeTab === 'profile' && (
               <div className="p-4">
-                <h2 className="text-xl font-bold text-yellow-400">Profile Content</h2>
+                <h2 className="text-xl font-bold text-yellow-400"></h2>
+                <ProfilePage />
               </div>
             )}
             {activeTab === 'orders' && <OrderHistory orders={orderData} />}
