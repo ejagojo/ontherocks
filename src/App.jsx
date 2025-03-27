@@ -4,9 +4,9 @@ import Home from "./pages/Home";
 import Order from "./pages/Order";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
-import Partner from "./pages/partner";
+import Partner from "./pages/Partner";
 import Loyalty from "./pages/Loyalty";
-import UserProfile from "../UserProfile/UserProfile";
+import UserProfile from "./components/UserProfile";
 import Profile from "./pages/Profile";
 
 const App = () => {

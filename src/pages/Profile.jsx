@@ -1,15 +1,18 @@
 import React from "react";
 import Header from "../components/Header";
+import UserProfile from "../components/UserProfile";
 
-const Profile = () => {
+const ProfilePage = () => {
   return (
-    <div className="relative w-full h-screen text-black">
-      <Header />
-      <div className="pt-24 flex flex-col items-center justify-center h-full">
-        <h1 className="text-4xl font-bold">Profile Page - Placeholder</h1>
+    <div className="h-screen text-white ">
+      {/* Pass theme="dark" to use the white logo and dark header background */}
+      <Header theme="light" />
+      {/* Add top padding so the fixed header doesn't cover your content */}
+      <div className="">
+        <UserProfile />
       </div>
     </div>
   );
-}
+};
 
-export default Profile;
+export default ProfilePage;
