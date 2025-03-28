@@ -14,11 +14,10 @@ const ProfileTabs = ({ activeTab, setActiveTab }) => {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`py-3 px-6 focus:outline-none ${
-              activeTab === tab.id
-                ? 'border-b-2 border-yellow-500 text-yellow-500 font-medium'
-                : 'text-gray-400 hover:text-white'
-            }`}
+            className={`py-3 px-6 focus:outline-none ${activeTab === tab.id
+              ? 'border-b-2 border-yellow-500 text-yellow-500 font-medium'
+              : 'text-gray-400 hover:text-white'
+              }`}
           >
             {tab.label}
           </button>

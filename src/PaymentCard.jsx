@@ -1,27 +1,27 @@
-import React from "react";
+import React from 'react';
 
-const PaymentCard = ({ payment, onDelete }) => {
+const PaymentCard = ({ payment }) => {
   // Choose the logo styles based on card type
   const getLogoClass = (type) => {
     switch (type) {
-      case "mastercard":
-        return "bg-yellow-500";
-      case "visa":
-        return "bg-blue-500";
+      case 'mastercard':
+        return 'bg-yellow-500';
+      case 'visa':
+        return 'bg-blue-500';
       default:
-        return "bg-gray-500";
+        return 'bg-gray-500';
     }
   };
 
   // Display text inside the card logo
   const getLogoText = (type) => {
     switch (type) {
-      case "mastercard":
-        return "MC";
-      case "visa":
-        return "VISA";
+      case 'mastercard':
+        return 'MC';
+      case 'visa':
+        return 'VISA';
       default:
-        return "CARD";
+        return 'CARD';
     }
   };
 
@@ -31,11 +31,7 @@ const PaymentCard = ({ payment, onDelete }) => {
         <div className="flex items-center">
           {/* Card brand logo */}
           <div className="w-10 h-6">
-            <div
-              className={`${getLogoClass(
-                payment.type
-              )} text-white rounded px-1 py-0.5 text-xs text-center`}
-            >
+            <div className={`${getLogoClass(payment.type)} text-white rounded px-1 py-0.5 text-xs text-center`}>
               {getLogoText(payment.type)}
             </div>
           </div>
@@ -43,17 +39,13 @@ const PaymentCard = ({ payment, onDelete }) => {
           {/* Card details */}
           <div className="ml-4">
             <p className="text-white">{payment.name}</p>
-            <div className="text-sm text-blue-400">
-              Ending with {payment.lastFour}
-            </div>
-            <div className="text-xs text-gray-400">
-              Expires {payment.expires}
-            </div>
+            <div className="text-sm text-blue-400">Ending with {payment.lastFour}</div>
+            <div className="text-xs text-gray-400">Expires {payment.expires}</div>
           </div>
         </div>
 
         {/* Delete icon */}
-        <button className="text-gray-400 hover:text-white" onClick={() => onDelete(payment.id)} aria-label="Delete card">
+        <button className="text-gray-400 hover:text-white">
           <svg
             className="w-5 h-5"
             fill="none"
