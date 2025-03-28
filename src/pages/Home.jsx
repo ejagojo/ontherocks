@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import LoginForm from "../components/Login";
 import SignUpForm from "../components/Registration";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const Home = () => {
   const [isRegistering, setIsRegistering] = useState(false);
+  const [loading, setLoading] = useState(true);
   const toggleForm = () => setIsRegistering((prev) => !prev);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div className="relative w-full h-screen">
