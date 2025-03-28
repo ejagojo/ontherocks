@@ -2,7 +2,7 @@ import React from "react";
 
 const ProfilePage = () => {
     return (
-        <form className="max-w-md mx-auto mt-4 space-y-6">
+        <form className="max-w-md mx-auto mt-4 space-y-4">
             {/* Form that allows users to change profile data like name, email, and password */}
             <div>
                 {/* Input field where users can change name */}
