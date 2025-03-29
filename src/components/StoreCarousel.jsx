@@ -39,6 +39,34 @@ const StoreCarousel = () => {
       rating: 3,
       image: "src/assets/stores/store6.webp",
     },
+    {
+      id: 6,
+      name: "Aums Liquors",
+      distance: "27 miles away",
+      rating: 3,
+      image: "src/assets/stores/store8.jpg",
+    },
+    {
+      id: 7,
+      name: "Mena's Liquors",
+      distance: "18 miles away",
+      rating: 3,
+      image: "src/assets/stores/store7.jpeg",
+    },
+    {
+      id: 8,
+      name: "Jake's Liquors",
+      distance: "12 miles away",
+      rating: 3,
+      image: "src/assets/stores/store9.png",
+    },
+    {
+      id: 9,
+      name: "Pak's Liquors",
+      distance: "12 miles away",
+      rating: 5,
+      image: "src/assets/stores/store6.webp",
+    },
   ];
 
   const getStars = (rating) => {

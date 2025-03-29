@@ -23,7 +23,6 @@ const Order = () => {
       <Header />
       <SubNav />
       <BackArrow />
-
       <RewardShowcase />
       <div className="mx-auto w-4/5 my-8">
         <h2 className="text-xl font-semibold mb-2">Stores Near By</h2>
