@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import Navbar from "../components/Navbar";
-import backgroundImage from '../../public/assets/landing-page/background.jpg';
+import backgroundImage from '/assets/landing-page/background.jpg';
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const Contact = () => {

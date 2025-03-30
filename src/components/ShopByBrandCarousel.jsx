@@ -8,31 +8,31 @@ const ShopByBrandCarousel = () => {
       id: 1,
       name: "Modelo",
       description: "The classic Mexican beer",
-      image: "public/assets/brands/brand1.jpg",
+      image: "/assets/brands/brand1.jpg",
     },
     {
       id: 2,
       name: "Dos Equis",
       description: "A refreshing lager for any occasion",
-      image: "public/assets/brands/brand2.jpg",
+      image: "/assets/brands/brand2.jpg",
     },
     {
       id: 3,
       name: "Miller Lite",
       description: "A true American pilsner",
-      image: "public/assets/brands/brand3.jpg",
+      image: "/assets/brands/brand3.jpg",
     },
     {
       id: 4,
       name: "Budlight BudlightYuhhh",
       description: "Budlight",
-      image: "public/assets/brands/brand4.jpg",
+      image: "/assets/brands/brand4.jpg",
     },
     {
       id: 5,
       name: "Sapporo",
       description: "Sapporo Yummy",
-      image: "public/assets/brands/brand5.webp",
+      image: "/assets/brands/brand5.webp",
     },
   ];
 
