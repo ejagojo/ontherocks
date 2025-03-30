@@ -3,9 +3,9 @@ import { Link } from "react-router-dom";
 
 const RewardShowcase = () => {
   const rewards = [
-    { id: 1, img: "src/assets/Rewards/reward1.png", title: "Reward 1" },
-    { id: 2, img: "src/assets/Rewards/reward2.png", title: "Reward 2" },
-    { id: 3, img: "src/assets/Rewards/reward3.png", title: "Reward 3" },
+    { id: 1, img: "public/assets/Rewards/reward1.png", title: "Reward 1" },
+    { id: 2, img: "public/assets/Rewards/reward2.png", title: "Reward 2" },
+    { id: 3, img: "public/assets/Rewards/reward3.png", title: "Reward 3" },
   ];
 
   return (

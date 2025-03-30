@@ -22,7 +22,7 @@ const Home = () => {
       <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: `url('/src/assets/landing-page/background.jpg')`,
+          backgroundImage: `url('/public/assets/landing-page/background.jpg')`,
           filter: "contrast(100%) brightness(30%)",
         }}
       ></div>

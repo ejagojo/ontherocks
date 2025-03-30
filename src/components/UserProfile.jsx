@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import ProfileTabs from "./ProfileTabs.jsx";
 import OrderHistory from "./OrderHistory";
 import PaymentMethods from "./PaymentMethods";
-import PlasticBottle from "../assets/drinks/Plastic-Bottle.png";
-import Batanga from "../assets/drinks/Batanga-Tequila.png";
-import Calumet from "../assets/drinks/Calumet-Farm.png";
-import profile from "../assets/Profile-icon/profile.jpg";
+import PlasticBottle from "../../public/assets/drinks/Plastic-Bottle.png";
+import Batanga from "../../public/assets/drinks/Batanga-Tequila.png";
+import Calumet from "../../public/assets/drinks/Calumet-Farm.png";
+import profile from "../../public/assets/Profile-icon/profile.jpg";
 import ProfilePage from "./ProfilePage";
 
 const orderData = [

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaSearch, FaBars } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
-import Logo from "../assets/logo/Logo-White.png";
+import Logo from "../../public/assets/logo/Logo-White.png";
 import LoginForm from "../components/Login";
 import SignUpForm from "../components/Registration";
 

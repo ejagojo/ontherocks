@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
-import logo from "../assets/logo/Logo.png";
-import profile from "../assets/Profile-icon/profile.jpg";
+import logo from "../../public/assets/logo/Logo.png";
+import profile from "../../public/assets/Profile-icon/profile.jpg";
 import StoreSearchPopup from "../pages/StoreSearchPopup";
 
 const Header = ({ theme = "light" }) => {
