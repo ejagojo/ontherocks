@@ -5,8 +5,12 @@ import {
   collection,
   getDocs,
   doc,
-  getDoc
+  getDoc,
+  setDoc,
+  updateDoc,
+  increment
 } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import Header from "../components/Header";
 import SubNav from "../components/SubNav";
 import LoadingSpinner from "../components/LoadingSpinner";
@@ -18,6 +22,7 @@ const StoreDetails = () => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [storeInfo, setStoreInfo] = useState(null);
+  const auth = getAuth();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,6 +52,42 @@ const StoreDetails = () => {
     fetchData();
   }, [storeId]);
 
+  const handleAddToCart = async (item) => {
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("Please sign in to add items to your cart.");
+        return;
+      }
+
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+      if (!userDocSnap.exists()) {
+        await setDoc(userDocRef, { createdAt: new Date().toISOString() });
+      }
+
+      const cartItemRef = doc(db, "users", user.uid, "AddToCartItems", item.id);
+      const cartItemSnap = await getDoc(cartItemRef);
+
+      if (cartItemSnap.exists()) {
+        await updateDoc(cartItemRef, {
+          quantity: increment(1)
+        });
+      } else {
+        await setDoc(cartItemRef, {
+          name: item.name,
+          brand: item.brand,
+          price: item.price,
+          storeId,
+          quantity: 1
+        });
+      }
+      alert("Item added to cart.");
+    } catch (err) {
+      console.error("Error adding item to cart:", err);
+    }
+  };
+
   if (loading) return <LoadingSpinner />;
 
   return (
@@ -71,7 +112,7 @@ const StoreDetails = () => {
                 <p className="text-gray-700 leading-relaxed mb-2">
                   Explore the finest selection of beverages, all curated with
                   the highest standards. Whether you're looking for a refreshing
-                  lager, a smooth spirit, or an exclusive vintage, {storeInfo.name}
+                  lager, a smooth spirit, or an exclusive vintage, {storeInfo.name}{" "}
                   offers an array of products to suit every taste.
                 </p>
                 <p className="text-gray-700 leading-relaxed">
@@ -111,6 +152,7 @@ const StoreDetails = () => {
                   ${item.price.toFixed(2)}
                 </p>
                 <button
+                  onClick={() => handleAddToCart(item)}
                   className="bg-[#2F2F2F] text-white w-full text-center font-medium py-2 rounded mt-3 hover:bg-[#404040] transition-colors duration-200"
                 >
                   Add to Cart
