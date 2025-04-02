@@ -27,8 +27,8 @@ const LoginForm = ({ toggleForm }) => {
     setLoading(true);
     try {
       console.log("Seeding inventory...");
-      // await seedStores();
-      // await seedInventory(); // Wait for seeding to complete or fail
+      await seedStores();
+      await seedInventory(); // Wait for seeding to complete or fail
       console.log("Inventory seeded!");
 
       await signInWithGoogle(navigate);

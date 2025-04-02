@@ -1,4 +1,7 @@
 import React from "react";
+import { getAuth } from "firebase/auth";
+import { db } from "../services/firebase";
+import { collection, addDoc, deleteDoc, doc } from "firebase/firestore";
 import PaymentCard from "./PaymentCard";
 
 const PaymentMethods = ({
@@ -11,6 +14,47 @@ const PaymentMethods = ({
   handleAddCard,
   onCancel,
 }) => {
+  const auth = getAuth();
+
+  const addCardToFirestore = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const { type, number, expires, name, cvc } = newCard;
+    const lastFour = number.replace(/\s+/g, "").slice(-4);
+
+    const cardData = {
+      type,
+      name,
+      lastFour,
+      expires,
+      cvc,
+      createdAt: new Date().toISOString(),
+    };
+
+    try {
+      const userPaymentsRef = collection(db, "users", user.uid, "paymentMethods");
+      await addDoc(userPaymentsRef, cardData);
+      setNewCard({ type: "", number: "", expires: "", name: "", cvc: "" });
+      handleAddCard();
+    } catch (error) {
+      console.error("Error adding card to Firestore:", error);
+    }
+  };
+
+  const deleteCardFromFirestore = async (cardId) => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    try {
+      const cardRef = doc(db, "users", user.uid, "paymentMethods", cardId);
+      await deleteDoc(cardRef);
+      onDeleteCard(cardId);
+    } catch (error) {
+      console.error("Error deleting card:", error);
+    }
+  };
+
   return (
     <div className="mt-6">
       <div className="space-y-4 overflow-y-auto max-h-[300px]">
@@ -18,7 +62,7 @@ const PaymentMethods = ({
           <PaymentCard
             key={payment.id}
             payment={payment}
-            onDelete={() => onDeleteCard(payment.id)}
+            onDelete={() => deleteCardFromFirestore(payment.id)}
           />
         ))}
       </div>
@@ -114,7 +158,7 @@ const PaymentMethods = ({
                 Cancel
               </button>
               <button
-                onClick={handleAddCard}
+                onClick={addCardToFirestore}
                 className="px-4 py-2 bg-yellow-500 hover:bg-yellow-600 rounded-md text-black font-medium"
                 disabled={
                   !newCard.type ||

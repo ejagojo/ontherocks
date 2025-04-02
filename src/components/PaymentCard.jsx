@@ -1,7 +1,6 @@
 import React from "react";
 
 const PaymentCard = ({ payment, onDelete }) => {
-  // Choose the logo styles based on card type
   const getLogoClass = (type) => {
     switch (type) {
       case "mastercard":
@@ -13,7 +12,6 @@ const PaymentCard = ({ payment, onDelete }) => {
     }
   };
 
-  // Display text inside the card logo
   const getLogoText = (type) => {
     switch (type) {
       case "mastercard":
@@ -29,7 +27,6 @@ const PaymentCard = ({ payment, onDelete }) => {
     <div className="bg-[#000021] bg-opacity-50 rounded-lg p-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center">
-          {/* Card brand logo */}
           <div className="w-10 h-6">
             <div
               className={`${getLogoClass(
@@ -39,8 +36,6 @@ const PaymentCard = ({ payment, onDelete }) => {
               {getLogoText(payment.type)}
             </div>
           </div>
-
-          {/* Card details */}
           <div className="ml-4">
             <p className="text-white">{payment.name}</p>
             <div className="text-sm text-blue-400">
@@ -51,9 +46,11 @@ const PaymentCard = ({ payment, onDelete }) => {
             </div>
           </div>
         </div>
-
-        {/* Delete icon */}
-        <button className="text-gray-400 hover:text-white" onClick={() => onDelete(payment.id)} aria-label="Delete card">
+        <button
+          className="text-gray-400 hover:text-white"
+          onClick={() => onDelete(payment.id)}
+          aria-label="Delete card"
+        >
           <svg
             className="w-5 h-5"
             fill="none"

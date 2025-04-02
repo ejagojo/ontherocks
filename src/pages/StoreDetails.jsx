@@ -7,8 +7,7 @@ import {
   doc,
   getDoc,
   setDoc,
-  updateDoc,
-  increment
+  updateDoc
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import Header from "../components/Header";
@@ -22,6 +21,7 @@ const StoreDetails = () => {
   const [loading, setLoading] = useState(true);
   const [items, setItems] = useState([]);
   const [storeInfo, setStoreInfo] = useState(null);
+  const [quantities, setQuantities] = useState({});
   const auth = getAuth();
 
   useEffect(() => {
@@ -39,10 +39,13 @@ const StoreDetails = () => {
         const itemsRef = collection(db, "stores", storeId, "items");
         const querySnapshot = await getDocs(itemsRef);
         const fetchedItems = [];
+        const quantityMap = {};
         querySnapshot.forEach((docSnap) => {
           fetchedItems.push({ id: docSnap.id, ...docSnap.data() });
+          quantityMap[docSnap.id] = 1;
         });
         setItems(fetchedItems);
+        setQuantities(quantityMap);
       } catch (error) {
         console.error("Error fetching store details:", error);
       } finally {
@@ -60,6 +63,8 @@ const StoreDetails = () => {
         return;
       }
 
+      const quantity = quantities[item.id] || 1;
+
       const userDocRef = doc(db, "users", user.uid);
       const userDocSnap = await getDoc(userDocRef);
       if (!userDocSnap.exists()) {
@@ -70,8 +75,9 @@ const StoreDetails = () => {
       const cartItemSnap = await getDoc(cartItemRef);
 
       if (cartItemSnap.exists()) {
+        const prevQty = cartItemSnap.data()?.quantity || 0;
         await updateDoc(cartItemRef, {
-          quantity: increment(1)
+          quantity: prevQty + quantity
         });
       } else {
         await setDoc(cartItemRef, {
@@ -79,13 +85,21 @@ const StoreDetails = () => {
           brand: item.brand,
           price: item.price,
           storeId,
-          quantity: 1
+          quantity
         });
       }
+
       alert("Item added to cart.");
     } catch (err) {
       console.error("Error adding item to cart:", err);
     }
+  };
+
+  const updateQuantity = (itemId, delta) => {
+    setQuantities((prev) => {
+      const newQty = Math.max(1, (prev[itemId] || 1) + delta);
+      return { ...prev, [itemId]: newQty };
+    });
   };
 
   if (loading) return <LoadingSpinner />;
@@ -151,12 +165,31 @@ const StoreDetails = () => {
                 <p className="text-gray-700 font-medium mt-2">
                   ${item.price.toFixed(2)}
                 </p>
-                <button
-                  onClick={() => handleAddToCart(item)}
-                  className="bg-[#2F2F2F] text-white w-full text-center font-medium py-2 rounded mt-3 hover:bg-[#404040] transition-colors duration-200"
-                >
-                  Add to Cart
-                </button>
+                <div className="flex items-center justify-between mt-3">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => updateQuantity(item.id, -1)}
+                      className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black"
+                    >
+                      −
+                    </button>
+                    <span className="text-lg font-semibold w-6 text-center">
+                      {quantities[item.id] || 1}
+                    </span>
+                    <button
+                      onClick={() => updateQuantity(item.id, 1)}
+                      className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black"
+                    >
+                      +
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => handleAddToCart(item)}
+                    className="bg-[#2F2F2F] text-white text-sm font-medium py-2 px-4 rounded hover:bg-[#404040] transition-colors duration-200"
+                  >
+                    Add to Cart
+                  </button>
+                </div>
               </div>
             ))}
           </div>

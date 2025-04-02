@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaSearch } from "react-icons/fa";
 import logo from "/assets/logo/Logo.png";
 import profile from "/assets/Profile-icon/profile.jpg";
 import StoreSearchPopup from "../pages/StoreSearchPopup";
+import { db } from "../services/firebase";
+import { getAuth } from "firebase/auth";
+import { collection, onSnapshot } from "firebase/firestore";
+import CartPreviewPopup from "./CartPreviewPopup";
 
 const Header = ({ theme = "light" }) => {
   const userName = null;
@@ -12,8 +16,12 @@ const Header = ({ theme = "light" }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [cartCount] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
+  const [showCartPreview, setShowCartPreview] = useState(false);
+  const auth = getAuth();
+  const prevCartRef = useRef([]);
 
   const handleInputFocus = () => {
     setIsEditing(true);
@@ -30,6 +38,40 @@ const Header = ({ theme = "light" }) => {
     e.preventDefault();
     setShowPopup(true);
   };
+
+  const toggleCartPreview = () => {
+    setShowCartPreview((prev) => !prev);
+  };
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    const cartRef = collection(db, "users", user.uid, "AddToCartItems");
+
+    const unsubscribe = onSnapshot(cartRef, (snapshot) => {
+      const items = [];
+      snapshot.forEach((doc) => {
+        items.push({ id: doc.id, ...doc.data() });
+      });
+
+      const currentCart = items;
+      const previousCart = prevCartRef.current;
+
+      const previousCount = previousCart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+      const currentCount = currentCart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+
+      if (currentCount > previousCount) {
+        setShowCartPreview(true);
+      }
+
+      prevCartRef.current = currentCart;
+      setCartItems(currentCart);
+      setCartCount(currentCount);
+    });
+
+    return () => unsubscribe();
+  }, [auth.currentUser]);
 
   useEffect(() => {
     const fetchSuggestions = async () => {
@@ -65,7 +107,7 @@ const Header = ({ theme = "light" }) => {
   return (
     <>
       <header className="w-full sticky top-0 bg-white z-50 py-2">
-        <div className="flex items-center justify-between h-24 md:h-16 px-4 gap-2">
+        <div className="flex items-center justify-between h-24 md:h-16 px-4 gap-2 relative">
           <Link to="/" className="shrink-0">
             <img src={logo} alt="logo" className=" h-40 w-auto" />
           </Link>
@@ -109,8 +151,11 @@ const Header = ({ theme = "light" }) => {
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-1 w-full md:w-auto justify-end">
-              <div className="flex items-center px-3 md:px-4 py-2 bg-gray-200 rounded-full">
+            <div className="flex items-center gap-1 w-full md:w-auto justify-end relative">
+              <div
+                className="flex items-center px-3 md:px-4 py-2 bg-gray-200 rounded-full cursor-pointer"
+                onClick={toggleCartPreview}
+              >
                 <FaSearch className="md:hidden mr-1" />
                 <input
                   className="md:block bg-transparent outline-none w-20 md:w-auto"
@@ -120,7 +165,12 @@ const Header = ({ theme = "light" }) => {
                 <FaShoppingCart className="mr-1" />
                 <span className="font-bold">{cartCount}</span>
               </div>
-              <Link to="/profile" className="flex items-center gap-2">
+
+              {showCartPreview && (
+                <CartPreviewPopup cartItems={cartItems} onClose={toggleCartPreview} />
+              )}
+
+              <Link to="/profile" className="flex items-center gap-2 ml-2">
                 <img
                   src={profile}
                   alt="profile"

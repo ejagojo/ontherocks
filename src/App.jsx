@@ -9,6 +9,7 @@ import Loyalty from "./pages/Loyalty";
 import UserProfile from "./components/UserProfile";
 import Profile from "./pages/Profile";
 import StoreDetails from "./pages/StoreDetails";
+import UserCart from "./pages/UserCart";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/loyalty" element={<Loyalty />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/store/:storeId" element={<StoreDetails />} />
+        <Route path="/cart" element={<UserCart />} />
       </Routes>
     </Router>
   );
