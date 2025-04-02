@@ -13,6 +13,7 @@ import {
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import LoadingSpinner from "../components/LoadingSpinner";
+import BackArrow from "../components/BackArrow";
 
 const UserCart = () => {
   const auth = getAuth();
@@ -86,6 +87,12 @@ const UserCart = () => {
     return `#ORD-${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, "0")}-${Math.floor(Math.random() * 9000 + 1000)}`;
   };
 
+  const removeItemFromCart = async (itemId) => {
+    const user = auth.currentUser;
+    if (!user) return;
+    await deleteDoc(doc(db, "users", user.uid, "AddToCartItems", itemId));
+  };
+
   const handleCheckout = async () => {
     const user = auth.currentUser;
     if (!selectedTime) {
@@ -143,6 +150,7 @@ const UserCart = () => {
   return (
     <div className="min-h-screen bg-gray-50 text-black relative">
       <Header />
+      <BackArrow />
       {showSuccess && orderDetails && (
         <div className="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center">
           <div className="bg-white p-6 rounded-lg shadow-xl max-w-md w-full relative">
@@ -216,6 +224,15 @@ const UserCart = () => {
                       <p className="font-medium text-sm">{item.name}</p>
                       <p className="text-xs text-gray-600">${item.price.toFixed(2)}</p>
                       <p className="text-xs text-gray-500">→ {item.type || "Alcohol"}</p>
+                    </div>
+                    <div className="flex flex-col items-end">
+                        <p className="text-sm font-semibold">Qty: {item.quantity || 1}</p>
+                        <button
+                            onClick={() => removeItemFromCart(item.id)}
+                            className="text-red-500 text-xs hover:underline mt-1"
+                        >
+                            Remove
+                        </button>
                     </div>
                     <div className="text-sm font-semibold text-right">
                       Qty: {item.quantity || 1}
