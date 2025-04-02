@@ -102,7 +102,7 @@ const UserProfile = () => {
 
   return (
     <div className="bg-white text-white flex items-center justify-center">
-      <div className="mx-10 w-full bg-[#1e1e1e] rounded-2xl shadow-2xl p-14 h-auto min-h-[80vh]">
+      <div className="mx-10 mt-32 md:w-2/3 bg-[#1e1e1e] rounded-2xl shadow-2xl p-14 h-auto min-h-[80vh]">
         <ProfileTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <hr className="border-gray-600 mb-6" />
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
