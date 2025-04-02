@@ -1,5 +1,3 @@
-// File: /src/components/UserProfile.jsx
-
 import React, { useEffect, useState } from "react";
 import ProfileTabs from "./ProfileTabs.jsx";
 import OrderHistory from "./OrderHistory";
@@ -11,33 +9,16 @@ import { auth, db } from "../services/firebase";
 import { doc, getDoc, collection, onSnapshot, deleteDoc } from "firebase/firestore";
 import ProfilePage from "./ProfilePage";
 
-const orderData = [
-  {
-    id: "#ORD-2025-1234",
-    product: "Plastic Bottle Vodka 1L",
-    status: "PENDING",
-    total: "$15",
-    image: PlasticBottle,
-  },
-  {
-    id: "#ORD-2025-5678",
-    product: "Batanga Tequila Blanco 750ml",
-    status: "PICKED UP",
-    total: "$29.99",
-    image: Batanga,
-  },
-  {
-    id: "#ORD-2025-1357",
-    product: "Calumet Farm 15 Year Old Bourbon",
-    status: "CANCELED",
-    total: "$143.99",
-    image: Calumet,
-  },
-];
+const drinkImages = {
+  "Plastic Bottle Vodka 1L": PlasticBottle,
+  "Batanga Tequila Blanco 750ml": Batanga,
+  "Calumet Farm 15 Year Old Bourbon": Calumet,
+};
 
 const UserProfile = () => {
   const [activeTab, setActiveTab] = useState("profile");
   const [paymentMethods, setPaymentMethods] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [showAddCardForm, setShowAddCardForm] = useState(false);
   const [newCard, setNewCard] = useState({
     type: "",
@@ -51,13 +32,13 @@ const UserProfile = () => {
   const [photoURL, setPhotoURL] = useState("");
 
   useEffect(() => {
-    // Listen for auth state changes
     const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
       if (!user) {
         setPaymentMethods([]);
+        setOrders([]);
         return;
       }
-      // Fetch user doc
+
       const userDocRef = doc(db, "users", user.uid);
       const userDocSnap = await getDoc(userDocRef);
       if (userDocSnap.exists()) {
@@ -65,7 +46,7 @@ const UserProfile = () => {
         setFirstName(data.firstName || "");
         setLastName(data.lastName || "");
       }
-      // Subscribe to paymentMethods subcollection
+
       const paymentRef = collection(db, "users", user.uid, "paymentMethods");
       const unsubscribePayments = onSnapshot(paymentRef, (snapshot) => {
         const cards = [];
@@ -74,10 +55,32 @@ const UserProfile = () => {
         });
         setPaymentMethods(cards);
       });
-      // Clean up
-      return () => unsubscribePayments();
+
+      const ordersRef = collection(db, "users", user.uid, "Orders");
+      const unsubscribeOrders = onSnapshot(ordersRef, (snapshot) => {
+        const fetchedOrders = [];
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          fetchedOrders.push({
+            id: data.id || doc.id,
+            product: data.product,
+            status: data.status,
+            total: data.total,
+            items: data.items || [],
+            image: drinkImages[data.product] || "/assets/default-drink.png",
+            pickupTime: data.pickupTime || '',
+            pickupAddress: data.store?.address || '',
+          });
+        });
+        setOrders(fetchedOrders);
+      });
+
+      return () => {
+        unsubscribePayments();
+        unsubscribeOrders();
+      };
     });
-    // Clean up
+
     return () => unsubscribeAuth();
   }, []);
 
@@ -88,7 +91,11 @@ const UserProfile = () => {
   };
 
   const handleDeleteAccount = () => {
-    if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete your account? This action cannot be undone."
+      )
+    ) {
       window.location.href = "/";
     }
   };
@@ -98,11 +105,10 @@ const UserProfile = () => {
       <div className="mx-10 w-full bg-[#1e1e1e] rounded-2xl shadow-2xl p-14 h-auto min-h-[80vh]">
         <ProfileTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <hr className="border-gray-600 mb-6" />
-
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="md:col-span-3">
             {activeTab === "profile" && <ProfilePage />}
-            {activeTab === "orders" && <OrderHistory orders={orderData} />}
+            {activeTab === "orders" && <OrderHistory orders={orders} />}
             {activeTab === "payment" && (
               <PaymentMethods
                 payments={paymentMethods}
