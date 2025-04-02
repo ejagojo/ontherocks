@@ -1,3 +1,5 @@
+// File: /src/pages/StoreDetails.jsx
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../services/firebase";
@@ -22,6 +24,11 @@ const StoreDetails = () => {
   const [items, setItems] = useState([]);
   const [storeInfo, setStoreInfo] = useState(null);
   const [quantities, setQuantities] = useState({});
+
+  const [selectedTypes, setSelectedTypes] = useState(["Beer", "Wine", "Vodka", "Tequila"]);
+  const [priceRange, setPriceRange] = useState([0, 200]);
+  const [abvRange, setAbvRange] = useState([0, 100]); // More intuitive 0–100% for typical ABV
+
   const auth = getAuth();
 
   useEffect(() => {
@@ -62,11 +69,10 @@ const StoreDetails = () => {
         alert("Please sign in to add items to your cart.");
         return;
       }
-
       const quantity = quantities[item.id] || 1;
-
       const userDocRef = doc(db, "users", user.uid);
       const userDocSnap = await getDoc(userDocRef);
+
       if (!userDocSnap.exists()) {
         await setDoc(userDocRef, { createdAt: new Date().toISOString() });
       }
@@ -102,7 +108,34 @@ const StoreDetails = () => {
     });
   };
 
+  const toggleType = (type) => {
+    setSelectedTypes((prev) =>
+      prev.includes(type)
+        ? prev.filter((t) => t !== type)
+        : [...prev, type]
+    );
+  };
+
+  const applyFilters = () => {
+    return items.filter((item) => {
+      if (!selectedTypes.includes(item.type)) return false;
+      const itemPrice = item.price || 0;
+      if (itemPrice < priceRange[0] || itemPrice > priceRange[1]) return false;
+      const itemAbv = item.abv || 0;
+      if (itemAbv < abvRange[0] || itemAbv > abvRange[1]) return false;
+      return true;
+    });
+  };
+
+  const resetFilters = () => {
+    setSelectedTypes(["Beer", "Wine", "Vodka", "Tequila"]);
+    setPriceRange([0, 200]);
+    setAbvRange([0, 100]);
+  };
+
   if (loading) return <LoadingSpinner />;
+
+  const filteredItems = applyFilters();
 
   return (
     <div className="relative w-full min-h-screen text-black bg-gray-50">
@@ -142,58 +175,173 @@ const StoreDetails = () => {
           </div>
         )}
 
-        <h3 className="text-2xl font-semibold mb-4">Items in this store</h3>
-        {items.length === 0 ? (
-          <div className="bg-white shadow-md rounded-md p-6 text-center">
-            No items found for this store.
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
-            {items.map((item) => (
-              <div
-                key={item.id}
-                className="bg-white border rounded-md shadow-md p-4 transform transition-transform duration-300 ease-in-out hover:scale-105"
-              >
-                <img
-                  src={item.image_url}
-                  alt={item.name}
-                  className="w-full h-48 object-cover rounded-md mb-3"
-                />
-                <h3 className="text-lg font-semibold mb-1">{item.name}</h3>
-                <p className="text-sm text-gray-600">{item.brand}</p>
-                <p className="text-sm text-gray-600 capitalize">{item.type}</p>
-                <p className="text-gray-700 font-medium mt-2">
-                  ${item.price.toFixed(2)}
-                </p>
-                <div className="flex items-center justify-between mt-3">
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => updateQuantity(item.id, -1)}
-                      className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black"
-                    >
-                      −
-                    </button>
-                    <span className="text-lg font-semibold w-6 text-center">
-                      {quantities[item.id] || 1}
-                    </span>
-                    <button
-                      onClick={() => updateQuantity(item.id, 1)}
-                      className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black"
-                    >
-                      +
-                    </button>
-                  </div>
-                  <button
-                    onClick={() => handleAddToCart(item)}
-                    className="bg-[#2F2F2F] text-white text-sm font-medium py-2 px-4 rounded hover:bg-[#404040] transition-colors duration-200"
-                  >
-                    Add to Cart
-                  </button>
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          {/* Filter Sidebar */}
+          <div className="bg-white rounded-md shadow-md p-4 h-fit lg:col-span-1">
+            <h3 className="text-xl font-semibold mb-4">Refine Results</h3>
+
+            <button
+              onClick={resetFilters}
+              className="bg-blue-100 text-blue-700 text-sm font-semibold px-3 py-1.5 rounded-lg mb-4 hover:bg-blue-200 block ml-auto"
+            >
+              Reset Filters
+            </button>
+
+            {/* Type checkboxes */}
+            <div className="mb-5">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Type
+              </label>
+              <div className="flex flex-col space-y-2 text-sm">
+                {["Beer", "Wine", "Vodka", "Tequila"].map((type) => (
+                  <label key={type} className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={selectedTypes.includes(type)}
+                      onChange={() => toggleType(type)}
+                    />
+                    <span>{type}</span>
+                  </label>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* Shop by Price */}
+            <div className="mb-5">
+              <p className="block text-sm font-medium text-gray-700 mb-1">
+                Shop by Price
+              </p>
+              <div className="flex flex-col space-y-2 text-sm">
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={priceRange[0] === 25 && priceRange[1] === 50}
+                    onChange={() => setPriceRange([25, 50])}
+                  />
+                  <span>$25 - $50</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={priceRange[0] === 50 && priceRange[1] === 100}
+                    onChange={() => setPriceRange([50, 100])}
+                  />
+                  <span>$50 - $100</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={priceRange[0] === 100 && priceRange[1] === 150}
+                    onChange={() => setPriceRange([100, 150])}
+                  />
+                  <span>$100 - $150</span>
+                </label>
+                <label className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    checked={priceRange[0] === 150 && priceRange[1] === 1000}
+                    onChange={() => setPriceRange([150, 1000])}
+                  />
+                  <span>Over $150</span>
+                </label>
+              </div>
+            </div>
+
+            {/* ABV Range */}
+            <div className="mb-5">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                ABV Range
+              </label>
+              <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+                <span>{abvRange[0]}%</span>
+                <span>{abvRange[1]}%</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={abvRange[0]}
+                  onChange={(e) =>
+                    setAbvRange([Number(e.target.value), abvRange[1]])
+                  }
+                  className="border rounded px-2 py-1 w-full text-sm"
+                />
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={abvRange[1]}
+                  onChange={(e) =>
+                    setAbvRange([abvRange[0], Number(e.target.value)])
+                  }
+                  className="border rounded px-2 py-1 w-full text-sm"
+                />
+              </div>
+            </div>
           </div>
-        )}
+
+          {/* Items Grid */}
+          <div className="lg:col-span-3">
+            <h3 className="text-2xl font-semibold mb-4">Items in this store</h3>
+            {filteredItems.length === 0 ? (
+              <div className="bg-white shadow-md rounded-md p-6 text-center">
+                No items found for this store with the chosen filters.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
+                {filteredItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="bg-white border rounded-md shadow-md p-4 transform transition-transform duration-300 ease-in-out hover:scale-105"
+                  >
+                    <img
+                      src={item.image_url}
+                      alt={item.name}
+                      className="w-full h-48 object-cover rounded-md mb-3"
+                    />
+                    <h3 className="text-lg font-semibold mb-1">{item.name}</h3>
+                    <p className="text-sm text-gray-600">{item.brand}</p>
+                    <p className="text-sm text-gray-600 capitalize">
+                      {item.type}
+                    </p>
+                    <p className="text-gray-700 font-medium mt-2">
+                      ${item.price.toFixed(2)}
+                    </p>
+                    <div className="text-xs text-gray-500 mt-1">
+                      ABV: {item.abv || 0}%
+                    </div>
+                    <div className="flex items-center justify-between mt-3">
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => updateQuantity(item.id, -1)}
+                          className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black"
+                        >
+                          −
+                        </button>
+                        <span className="text-lg font-semibold w-6 text-center">
+                          {quantities[item.id] || 1}
+                        </span>
+                        <button
+                          onClick={() => updateQuantity(item.id, 1)}
+                          className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black"
+                        >
+                          +
+                        </button>
+                      </div>
+                      <button
+                        onClick={() => handleAddToCart(item)}
+                        className="bg-[#2F2F2F] text-white text-sm font-medium py-2 px-4 rounded hover:bg-[#404040] transition-colors duration-200"
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
       <Footer />
     </div>
