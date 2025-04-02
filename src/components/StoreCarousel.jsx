@@ -1,75 +1,34 @@
-import React, { useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { db } from "../services/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 const StoreCarousel = () => {
+  const [stores, setStores] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const containerRef = useRef(null);
+  const navigate = useNavigate();
 
-  const stores = [
-    {
-      id: 1,
-      name: "Total Wine",
-      distance: "5 miles away",
-      rating: 4,
-      image: "/assets/stores/store6.webp",
-    },
-    {
-      id: 2,
-      name: "The Liquor Store",
-      distance: "2.3 miles away",
-      rating: 4,
-      image: "/assets/stores/store2.webp",
-    },
-    {
-      id: 3,
-      name: "Discount Liquors",
-      distance: "3 miles away",
-      rating: 3,
-      image: "/assets/stores/store3.jpg",
-    },
-    {
-      id: 4,
-      name: "Discount Liquors",
-      distance: "3 miles away",
-      rating: 3,
-      image: "/assets/stores/store5.jpg",
-    },
-    {
-      id: 5,
-      name: "Discount Liquors",
-      distance: "3 miles away",
-      rating: 3,
-      image: "/assets/stores/store6.webp",
-    },
-    {
-      id: 6,
-      name: "Aums Liquors",
-      distance: "27 miles away",
-      rating: 3,
-      image: "/assets/stores/store8.jpg",
-    },
-    {
-      id: 7,
-      name: "Mena's Liquors",
-      distance: "18 miles away",
-      rating: 3,
-      image: "/assets/stores/store7.jpeg",
-    },
-    {
-      id: 8,
-      name: "Jake's Liquors",
-      distance: "12 miles away",
-      rating: 3,
-      image: "/assets/stores/store9.png",
-    },
-    {
-      id: 9,
-      name: "Pak's Liquors",
-      distance: "12 miles away",
-      rating: 5,
-      image: "/assets/stores/store6.webp",
-    },
-  ];
+  useEffect(() => {
+    const fetchStores = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "stores"));
+        const fetchedStores = [];
+        snapshot.forEach((doc) => {
+          fetchedStores.push({ id: doc.id, ...doc.data() });
+        });
+        setStores(fetchedStores);
+      } catch (error) {
+        console.error("Error fetching stores:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStores();
+  }, []);
 
-  const getStars = (rating) => {
+  const getStars = (rating = 0) => {
     const stars = [];
     for (let i = 0; i < 5; i++) {
       stars.push(
@@ -89,6 +48,15 @@ const StoreCarousel = () => {
     containerRef.current.scrollLeft += 300;
   };
 
+  const handleStoreClick = (storeId) => {
+    navigate(`/store/${storeId}`);
+  };
+
+  if (loading) {
+    // You can display a spinner or a skeleton here if you want
+    return <div className="text-center py-8">Loading stores...</div>;
+  }
+
   return (
     <div className="mx-auto w-4/5 my-8 relative">
       <button
@@ -105,7 +73,8 @@ const StoreCarousel = () => {
         {stores.map((store) => (
           <div
             key={store.id}
-            className="w-64 h-56 bg-white rounded-lg shadow-md p-3 flex-shrink-0 transform transition-transform duration-300 ease-in-out hover:scale-105"
+            onClick={() => handleStoreClick(store.id)}
+            className="w-64 h-56 bg-white rounded-lg shadow-md p-3 flex-shrink-0 transform transition-transform duration-300 ease-in-out hover:scale-105 cursor-pointer"
           >
             <img
               src={store.image}

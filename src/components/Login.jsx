@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { signInWithGoogle, loginWithEmail } from "../services/firebase";
 import { FcGoogle } from "react-icons/fc";
 import LoadingSpinner from "./LoadingSpinner";
+import { seedInventory } from "../services/seedInventory";
+import { seedStores } from "../services/seedStore";
 
 const LoginForm = ({ toggleForm }) => {
   const navigate = useNavigate();
@@ -14,15 +16,29 @@ const LoginForm = ({ toggleForm }) => {
   const handleLogin = () => {
     setLoading(true);
     loginWithEmail(email, password, navigate)
-      .catch(() => setLoading(false))
+      .catch((err) => {
+        console.error("Email/Password Login Error:", err);
+        setLoading(false);
+      })
       .finally(() => setLoading(false));
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     setLoading(true);
-    signInWithGoogle(navigate)
-      .catch(() => setLoading(false))
-      .finally(() => setLoading(false));
+    try {
+      console.log("Seeding inventory...");
+      // await seedStores();
+      // await seedInventory(); // Wait for seeding to complete or fail
+      console.log("Inventory seeded!");
+
+      await signInWithGoogle(navigate);
+      console.log("Google Sign-In success!");
+    } catch (error) {
+      console.error("handleGoogleLogin Error:", error);
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
