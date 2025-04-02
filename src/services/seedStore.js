@@ -70,7 +70,7 @@ export const seedStores = async () => {
   try {
     for (const store of storeData) {
       const docRef = doc(collection(db, "stores"), store.id);
-      await setDoc(docRef, store);
+      await setDoc(docRef, store, { merge: true });
     }
     console.log("Store data seeded successfully!");
   } catch (error) {

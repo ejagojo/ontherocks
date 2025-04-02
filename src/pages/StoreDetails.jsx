@@ -11,6 +11,7 @@ import Header from "../components/Header";
 import SubNav from "../components/SubNav";
 import LoadingSpinner from "../components/LoadingSpinner";
 import BackArrow from "../components/BackArrow";
+import Footer from "../components/Footer";
 
 const StoreDetails = () => {
   const { storeId } = useParams();
@@ -119,6 +120,7 @@ const StoreDetails = () => {
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

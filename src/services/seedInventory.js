@@ -1628,11 +1628,8 @@ const inventoryData = [
 export const seedInventory = async () => {
   try {
     for (const item of inventoryData) {
-      // The path is: /stores/{storeId}/items/{itemId}
-      // e.g. /stores/store-002/items/beer-002
       const subcollectionRef = collection(db, "stores", item.store_id, "items");
       const itemDocRef = doc(subcollectionRef, item.id);
-
       await setDoc(itemDocRef, {
         name: item.name,
         brand: item.brand,
@@ -1646,8 +1643,7 @@ export const seedInventory = async () => {
         image_url: item.image_url,
         tags: item.tags,
         rating: item.rating
-      });
-
+      }, { merge: true });
       console.log(`Seeded item ${item.id} into store ${item.store_id}!`);
     }
     console.log("Inventory data seeded successfully into store subcollections!");
