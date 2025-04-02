@@ -4,9 +4,15 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail, // 1. Import
 } from "firebase/auth";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc
+} from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -35,8 +41,8 @@ const createOrUpdateUserDoc = async (uid, data) => {
   const userRef = doc(db, "users", uid);
   const snapshot = await getDoc(userRef);
 
-  // If the doc doesn't exist, set it. If it does, you could merge if desired.
   if (!snapshot.exists()) {
+    // If the doc doesn't exist, create it
     await setDoc(userRef, {
       ...data,
       createdAt: new Date().toISOString(),
@@ -53,7 +59,7 @@ const signInWithGoogle = async (navigate) => {
     const result = await signInWithPopup(auth, googleProvider);
     const user = result.user;
 
-    // Create or update user doc in Firestore
+    // Create/update user doc in Firestore
     await createOrUpdateUserDoc(user.uid, {
       displayName: user.displayName || "",
       email: user.email || "",
@@ -67,7 +73,7 @@ const signInWithGoogle = async (navigate) => {
   }
 };
 
-// Email & Password Login Function
+// Email & Password Login
 const loginWithEmail = async (email, password, navigate) => {
   try {
     await signInWithEmailAndPassword(auth, email, password);
@@ -78,8 +84,8 @@ const loginWithEmail = async (email, password, navigate) => {
   }
 };
 
-// Email & Password Signup Function
-// Accept extra fields (firstName, lastName, dob) so we can store them in Firestore
+// Email & Password Signup
+// Accept extra fields (firstName, lastName, dob) for Firestore
 const signUpWithEmail = async (email, password, navigate, firstName, lastName, dob) => {
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -100,6 +106,18 @@ const signUpWithEmail = async (email, password, navigate, firstName, lastName, d
   }
 };
 
+// 2.  function to handle sending a password-reset email
+const resetPasswordEmail = async (email) => {
+  try {
+    // By default, the user will be taken to a Firebase-hosted page to reset their password.
+    await sendPasswordResetEmail(auth, email);
+    console.log("Password reset email sent!");
+  } catch (error) {
+    console.error("Error sending password reset email:", error);
+    throw error;
+  }
+};
+
 export {
   app,
   auth,
@@ -108,5 +126,6 @@ export {
   analytics,
   signInWithGoogle,
   loginWithEmail,
-  signUpWithEmail
+  signUpWithEmail,
+  resetPasswordEmail, 
 };
