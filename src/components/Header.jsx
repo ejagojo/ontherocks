@@ -106,15 +106,15 @@ const Header = ({ theme = "light" }) => {
 
   return (
     <>
-      <header className="w-full sticky top-0 bg-white z-50 py-2">
+      <header className="w-full fixed top-0 bg-white z-50 py-2">
         <div className="flex items-center justify-between h-24 md:h-16 px-4 gap-2 relative">
           <Link to="/" className="shrink-0">
             <img src={logo} alt="logo" className=" h-40 w-auto" />
           </Link>
 
-          <div className="flex flex-col md:flex-row items-end md:items-center justify-end gap-2 ml-4 my-4">
+          <div className="flex flex-col md:flex-row items-end md:items-center justify-end gap-2 my-4">
             <div className="flex-1 flex md:flex-row items-end md:items-center justify-end gap-2 ml-4">
-              <div className="w-[280px] h-10 relative flex items-center justify-between px-4 py-2 bg-gray-200 rounded-full text-black font-medium hover:bg-gray-300">
+              <div className="w-full md:w-[280px] h-10 relative flex items-center justify-between px-4 py-2 bg-gray-200 rounded-full text-black font-medium hover:bg-gray-300">
                 {isEditing ? (
                   <form onSubmit={handleSearchSubmit} className="w-full">
                     <input
@@ -170,7 +170,7 @@ const Header = ({ theme = "light" }) => {
                 <CartPreviewPopup cartItems={cartItems} onClose={toggleCartPreview} />
               )}
 
-              <Link to="/profile" className="flex items-center gap-2 ml-2">
+              <Link to="/profile" className="flex items-center gap-2 ml-px">
                 <img
                   src={profile}
                   alt="profile"

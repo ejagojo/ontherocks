@@ -6,8 +6,8 @@ const SubNav = () => {
   const [active, setActive] = useState(categories[0]);
 
   return (
-    <div className="w-full flex items-center justify-center border-b border-gray-300">
-      <div className="relative flex space-x-20">
+    <div className="w-full mt-32 md:mt-20 flex items-center justify-center border-b border-gray-300">
+      <div className="relative flex space-x-15 md:space-x-20">
         {categories.map((item) => (
           <button
             key={item}
