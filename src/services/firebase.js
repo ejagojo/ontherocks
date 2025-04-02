@@ -1,5 +1,12 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword
+} from "firebase/auth";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
@@ -14,18 +21,49 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
 const analytics = getAnalytics(app);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
+
+/**
+ * Create or update a user's document in Firestore.
+ * @param {string} uid - Firebase Auth user UID
+ * @param {object} data - Additional user data to store
+ */
+const createOrUpdateUserDoc = async (uid, data) => {
+  const userRef = doc(db, "users", uid);
+  const snapshot = await getDoc(userRef);
+
+  // If the doc doesn't exist, set it. If it does, you could merge if desired.
+  if (!snapshot.exists()) {
+    await setDoc(userRef, {
+      ...data,
+      createdAt: new Date().toISOString(),
+    });
+  } else {
+    // Optionally merge if you want to keep existing fields
+    // await setDoc(userRef, data, { merge: true });
+  }
+};
 
 // Google Sign-In Function
 const signInWithGoogle = async (navigate) => {
   try {
     const result = await signInWithPopup(auth, googleProvider);
-    console.log("Google Sign-In Success:", result.user);
+    const user = result.user;
+
+    // Create or update user doc in Firestore
+    await createOrUpdateUserDoc(user.uid, {
+      displayName: user.displayName || "",
+      email: user.email || "",
+    });
+
+    console.log("Google Sign-In Success:", user);
     navigate("/order"); // Redirect after successful login
   } catch (error) {
     console.error("Google Sign-In Error:", error);
+    throw error;
   }
 };
 
@@ -36,17 +74,39 @@ const loginWithEmail = async (email, password, navigate) => {
     navigate("/order"); // Redirect after successful login
   } catch (error) {
     console.error("Login Error:", error.message);
+    throw error;
   }
 };
 
 // Email & Password Signup Function
-const signUpWithEmail = async (email, password, navigate) => {
+// Accept extra fields (firstName, lastName, dob) so we can store them in Firestore
+const signUpWithEmail = async (email, password, navigate, firstName, lastName, dob) => {
   try {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const newUser = userCredential.user;
+
+    // Create a doc in Firestore with user details
+    await createOrUpdateUserDoc(newUser.uid, {
+      firstName,
+      lastName,
+      dob,
+      email,
+    });
+
     navigate("/order"); // Redirect after successful signup
   } catch (error) {
     console.error("Signup Error:", error.message);
+    throw error;
   }
 };
 
-export { app, auth, googleProvider, analytics, signInWithGoogle, loginWithEmail, signUpWithEmail };
+export {
+  app,
+  auth,
+  db,
+  googleProvider,
+  analytics,
+  signInWithGoogle,
+  loginWithEmail,
+  signUpWithEmail
+};

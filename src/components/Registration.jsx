@@ -27,7 +27,7 @@ const SignUpForm = ({ toggleForm }) => {
       return;
     }
     setLoading(true);
-    signUpWithEmail(email, password, navigate)
+    signUpWithEmail(email, password, navigate, firstName, lastName, dob)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
   };
