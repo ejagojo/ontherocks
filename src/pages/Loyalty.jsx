@@ -1,13 +1,14 @@
 import React from "react";
 import Header from "../components/Header";
 import LoyaltyBar from "../components/LoyaltyBar";
-import banana from "../assets/drinks/99-bananas-50ml.png";
-import bacardi from "../assets/drinks/bacardi_raspberry_50ml.png"
-import fireball from "../assets/drinks/fireball_50ml.png"
-import absolut from "../assets/drinks/absolut_vodka50ml.webp"
-import heritage from "../assets/drinks/Heritage_brown_sugar50ml.jpg"
-import tito from "../assets/drinks/tito50ml.jpg"
-import smirnoff from "../assets/drinks/smirnoff_root_beer50ml.png"
+
+const banana = "/assets/drinks/99-bananas-50ml.png";
+const bacardi = "/assets/drinks/bacardi_raspberry_50ml.png";
+const fireball = "/assets/drinks/fireball_50ml.png";
+const absolut = "/assets/drinks/absolut_vodka50ml.webp";
+const heritage = "/assets/drinks/Heritage_brown_sugar50ml.jpg";
+const tito = "/assets/drinks/tito50ml.jpg";
+const smirnoff = "/assets/drinks/smirnoff_root_beer50ml.png";
 
 const Loyalty = () => {
   return (
@@ -76,7 +77,7 @@ const Loyalty = () => {
       <button className="absolute left-2 top-[95%] -translate-y-1/2 z-10 h-12 w-10 flex items-center justify-center bg-white bg-opacity-80 text-black rounded-r-md hover:bg-opacity-100">
         ◀
       </button>
-      <div className="bg-white rounded-2xl shadow-lg p-6 w-60 h-60">
+      <div className="bg-white rounded-2xl shadow-lg p-6 w-60 h-60 -mt-2">
         <div className="flex items-center ml-2">
           <img src={smirnoff} className="w-24 h-40 -ml-6 mt-4 object-contain" alt="Fireball bottle" />
           <div className="ml-2 mt-4">
@@ -88,7 +89,7 @@ const Loyalty = () => {
           </div>
         </div>
       </div>
-      <div className="bg-white rounded-2xl shadow-lg p-6 w-60 h-60">
+      <div className="bg-white rounded-2xl shadow-lg p-6 w-60 h-60 -mt-2">
         <div className="flex items-center ml-2">
           <img src={fireball} className="w-24 h-40 -ml-8 mt-4 object-contain" alt="Fireball bottle" />
           <div className="ml-2 mt-4">
@@ -100,7 +101,7 @@ const Loyalty = () => {
           </div>
         </div>
       </div>
-      <div className="bg-white rounded-2xl shadow-lg p-6 w-60 h-60">
+      <div className="bg-white rounded-2xl shadow-lg p-6 w-60 h-60 -mt-2">
         <div className="flex items-center ml-2">
           <img src={tito} className="w-24 h-40 -ml-8 mt-4 object-contain" alt="Fireball bottle" />
           <div className="ml-2 mt-4">
@@ -112,7 +113,7 @@ const Loyalty = () => {
           </div>
         </div>
       </div>
-      <div className="bg-white rounded-2xl shadow-lg p-6 w-60 h-60">
+      <div className="bg-white rounded-2xl shadow-lg p-6 w-60 h-60 -mt-2">
         <div className="flex items-center ml-2">
           <img src={absolut} className="w-30 h-45 -ml-8 mt-4 object-contain" alt="Fireball bottle" />
           <div className="ml-2 mt-4">
