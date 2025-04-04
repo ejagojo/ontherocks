@@ -1,5 +1,3 @@
-// File: /src/pages/StoreDetails.jsx
-
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { db } from "../services/firebase";
@@ -9,7 +7,8 @@ import {
   doc,
   getDoc,
   setDoc,
-  updateDoc
+  updateDoc,
+  deleteDoc
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import Header from "../components/Header";
@@ -24,10 +23,9 @@ const StoreDetails = () => {
   const [items, setItems] = useState([]);
   const [storeInfo, setStoreInfo] = useState(null);
   const [quantities, setQuantities] = useState({});
-
   const [selectedTypes, setSelectedTypes] = useState(["Beer", "Wine", "Vodka", "Tequila"]);
   const [priceRange, setPriceRange] = useState([0, 200]);
-  const [abvRange, setAbvRange] = useState([0, 100]); // More intuitive 0–100% for typical ABV
+  const [abvRange, setAbvRange] = useState([0, 100]);
 
   const auth = getAuth();
 
@@ -39,8 +37,6 @@ const StoreDetails = () => {
 
         if (storeSnap.exists()) {
           setStoreInfo({ id: storeSnap.id, ...storeSnap.data() });
-        } else {
-          console.warn("Store not found in Firestore:", storeId);
         }
 
         const itemsRef = collection(db, "stores", storeId, "items");
@@ -69,7 +65,22 @@ const StoreDetails = () => {
         alert("Please sign in to add items to your cart.");
         return;
       }
+
+      const cartRef = collection(db, "users", user.uid, "AddToCartItems");
+      const cartSnap = await getDocs(cartRef);
       const quantity = quantities[item.id] || 1;
+
+      let existingStoreId = null;
+      cartSnap.forEach((doc) => {
+        const data = doc.data();
+        if (!existingStoreId) existingStoreId = data.storeId;
+      });
+
+      if (existingStoreId && existingStoreId !== storeId) {
+        alert("You can only add items from one store at a time. Please clear your cart first.");
+        return;
+      }
+
       const userDocRef = doc(db, "users", user.uid);
       const userDocSnap = await getDoc(userDocRef);
 
@@ -176,18 +187,14 @@ const StoreDetails = () => {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Filter Sidebar */}
           <div className="bg-white rounded-md shadow-md p-4 h-fit lg:col-span-1">
             <h3 className="text-xl font-semibold mb-4">Refine Results</h3>
-
             <button
               onClick={resetFilters}
               className="bg-blue-100 text-blue-700 text-sm font-semibold px-3 py-1.5 rounded-lg mb-4 hover:bg-blue-200 block ml-auto"
             >
               Reset Filters
             </button>
-
-            {/* Type checkboxes */}
             <div className="mb-5">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 Type
@@ -206,7 +213,6 @@ const StoreDetails = () => {
               </div>
             </div>
 
-            {/* Shop by Price */}
             <div className="mb-5">
               <p className="block text-sm font-medium text-gray-700 mb-1">
                 Shop by Price
@@ -247,7 +253,6 @@ const StoreDetails = () => {
               </div>
             </div>
 
-            {/* ABV Range */}
             <div className="mb-5">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 ABV Range
@@ -281,7 +286,6 @@ const StoreDetails = () => {
             </div>
           </div>
 
-          {/* Items Grid */}
           <div className="lg:col-span-3">
             <h3 className="text-2xl font-semibold mb-4">Items in this store</h3>
             {filteredItems.length === 0 ? (
