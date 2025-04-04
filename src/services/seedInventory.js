@@ -15,7 +15,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Crisp, golden Mexican lager with a smooth finish.",
-        "image_url": "https://placehold.co/200x400?text=Modelo+Especial",
+        "image_url": "https://147704842.cdn6.editmysite.com/uploads/1/4/7/7/147704842/HFSDR4GRRAHSFX6I5QAS7RIV.png",
         "tags": [
             "Mexican",
             "Pilsner",
@@ -35,7 +35,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Light, refreshing lager best served with lime.",
-        "image_url": "https://placehold.co/200x400?text=Corona+Extra",
+        "image_url": "https://beverages2u.com/wp-content/uploads/2020/05/corona-extra-bottles.jpg",
         "tags": [
             "Mexican",
             "Light",
@@ -55,7 +55,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Smooth amber lager with a balanced malt profile.",
-        "image_url": "https://placehold.co/200x400?text=Dos+Equis+Lager",
+        "image_url": "https://i5.walmartimages.com/asr/df4a16a5-5868-4501-a591-cf96f3adf094.1381899012b0477e06507cc58954120b.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF",
         "tags": [
             "Mexican",
             "Amber",
@@ -75,7 +75,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Classic American light beer with low calories.",
-        "image_url": "https://placehold.co/200x400?text=Miller+Lite",
+        "image_url": "https://www.colonialspirits.com/wp-content/uploads/2016/01/Miller-Lite-Single-Can.jpg",
         "tags": [
             "Light",
             "Low-Calorie",
@@ -95,7 +95,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Easy-drinking light beer with a clean finish.",
-        "image_url": "https://placehold.co/200x400?text=Bud+Light",
+        "image_url": "https://beverages2u.com/wp-content/uploads/2020/12/bud-light-bottle.jpeg",
         "tags": [
             "Light",
             "American",
@@ -115,7 +115,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Japanese rice lager with a crisp, clean taste.",
-        "image_url": "https://placehold.co/200x400?text=Sapporo+Premium",
+        "image_url": "https://target.scene7.com/is/image/Target/GUEST_8ad9307f-00d4-40a4-b28a-3e88b341a3b4?wid=1200&hei=1200&qlt=80&fmt=webp",
         "tags": [
             "Japanese",
             "Rice Lager",
@@ -135,7 +135,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "The 'King of Beers' with a balanced malt-hop flavor.",
-        "image_url": "https://placehold.co/200x400?text=Budweiser",
+        "image_url": "https://beverages2u.com/wp-content/uploads/2020/12/budweiser-lager.jpg",
         "tags": [
             "American",
             "Classic",
@@ -155,7 +155,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Creamy Irish stout with notes of coffee and chocolate.",
-        "image_url": "https://placehold.co/200x400?text=Guinness+Draught",
+        "image_url": "https://i5.walmartimages.com/asr/5cf90163-219b-449d-8fd8-bb5b08138a3c.0c9abe985d33f2d8b8dba638be80a745.jpeg?odnHeight=768&odnWidth=768&odnBg=FFFFFF",
         "tags": [
             "Irish",
             "Stout",
@@ -175,7 +175,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Dutch pilsner with a slightly bitter, refreshing taste.",
-        "image_url": "https://placehold.co/200x400?text=Heineken+Lager",
+        "image_url": "https://images.albertsons-media.com/is/image/ABS/960085410-C1N1?$ng-ecom-pdp-mobile$&defaultImage=Not_Available",
         "tags": [
             "Dutch",
             "Pilsner",
@@ -195,7 +195,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Caramel malt sweetness with noble hop bitterness.",
-        "image_url": "https://placehold.co/200x400?text=Samuel+Adams+Lager",
+        "image_url": "https://images.albertsons-media.com/is/image/ABS/970119556-ECOM?$ng-ecom-pdp-mobile$&defaultImage=Not_Available",
         "tags": [
             "Craft",
             "Amber",
@@ -215,7 +215,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Juicy, tropical hops with a smooth finish.",
-        "image_url": "/images/beers/sierra-nevada-hazy.jpg",
+        "image_url": "https://beercellar.co.nz/cdn/shop/files/Sierra_Nevada_Pale_Ale_355ml.webp?v=1740613304",
         "tags": [
             "IPA",
             "Hazy",
@@ -225,7 +225,7 @@ const inventoryData = [
     },
     {
         "id": "beer-002",
-        "name": "Chocolate Stout",
+        "name": "Breakfast Stout",
         "brand": "Founders",
         "type": "Beer",
         "subtype": "Stout",
@@ -235,7 +235,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Rich dark chocolate and coffee flavors.",
-        "image_url": "/images/beers/founders-stout.jpg",
+        "image_url": "https://static.specsonline.com/wp-content/uploads/2018/11/064286020052.jpg",
         "tags": [
             "Stout",
             "Dark",
@@ -255,7 +255,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Crisp, golden, and perfectly balanced.",
-        "image_url": "/images/beers/pilsner-urquell.jpg",
+        "image_url": "https://produits.bienmanger.com/5874-0w600h600_Pilsner_Urquell_Czech_Beer.jpg",
         "tags": [
             "Pilsner",
             "Czech",
@@ -275,7 +275,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Piney, resinous hops with a bitter finish.",
-        "image_url": "/images/beers/lagunitas-ipa.jpg",
+        "image_url": "https://lagunitas.com/wp-content/uploads/2021/05/lagunitas-beer-can-template-v2_IPA_CAN_9.24-675x1024.png",
         "tags": [
             "IPA",
             "West Coast",
@@ -295,7 +295,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Refreshing with coriander and orange peel.",
-        "image_url": "/images/beers/hoegaarden.jpg",
+        "image_url": "https://belgianstyleales.com/cdn/shop/files/item7135_860x860_2721465e-2253-4dcf-a227-0e8fc6243ad5.jpg?v=1721848872&width=640",
         "tags": [
             "Wheat",
             "Belgian",
@@ -306,7 +306,7 @@ const inventoryData = [
     {
         "id": "beer-006",
         "name": "Amber Ale",
-        "brand": "New Belgium",
+        "brand": "Fat Tire",
         "type": "Beer",
         "subtype": "Ale",
         "abv": 5.3,
@@ -315,7 +315,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Caramel malt sweetness with a hoppy balance.",
-        "image_url": "/images/beers/new-belgium-amber.jpg",
+        "image_url": "https://beverages2u.com/wp-content/uploads/2021/03/new-belgium-fat-tire-cans.jpg",
         "tags": [
             "Amber",
             "Malty",
@@ -335,7 +335,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Tart, fruity, and oak-aged.",
-        "image_url": "/images/beers/rodenbach.jpg",
+        "image_url": "https://belgianstyleales.com/cdn/shop/files/item7282_860x860_f32f19bb-1d5c-450a-b707-4040b90a2017.jpg?v=1721840928",
         "tags": [
             "Sour",
             "Belgian",
@@ -345,7 +345,7 @@ const inventoryData = [
     },
     {
         "id": "beer-008",
-        "name": "Session IPA",
+        "name": "Delicious IPA",
         "brand": "Stone Brewing",
         "type": "Beer",
         "subtype": "IPA",
@@ -355,7 +355,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Light-bodied but packed with hop flavor.",
-        "image_url": "/images/beers/stone-session.jpg",
+        "image_url": "https://saucey.com/cdn-cgi/image/width=500,f=auto,q=90/https://cdn.saucey.com/staging/products/BE-S51255-22OZ/image_large.jpg",
         "tags": [
             "IPA",
             "Session",
@@ -375,7 +375,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Roasty, chocolatey, and smooth.",
-        "image_url": "/images/beers/anchor-porter.jpg",
+        "image_url": "https://highaltitudehomebrew.com/cdn/shop/products/93bc51787747aecdb3d06e800467c554_400x.jpg?v=1617313579",
         "tags": [
             "Porter",
             "Dark",
@@ -395,7 +395,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Banana and clove notes with a cloudy appearance.",
-        "image_url": "/images/beers/weihenstephaner.jpg",
+        "image_url": "https://halftimebeverage.com/media/catalog/product/cache/5a9ece781d558937ae51db0fc99c94f4/4/4/4419.png",
         "tags": [
             "Hefeweizen",
             "German",
@@ -415,7 +415,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Napa Valley classic with dark fruit, cocoa, and velvety tannins.",
-        "image_url": "https://placehold.co/200x400?text=Caymus+Cabernet",
+        "image_url": "https://spiritedgifts.com/cdn-cgi/image/q=80,format=auto,onerror=redirect,metadata=none/media/catalog/product/cache/46c431383be94871dec6f32997c07165/T/L/TL2299-base.jpg",
         "tags": [
             "Napa",
             "Full-Bodied",
@@ -436,7 +436,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Creamy California Chardonnay with apple and vanilla notes.",
-        "image_url": "https://placehold.co/200x400?text=KJ+Chardonnay",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/h00/h76/29660274229278.png",
         "tags": [
             "Oaked",
             "Buttery",
@@ -457,7 +457,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Italian sparkling wine with green apple and honeysuckle flavors.",
-        "image_url": "https://placehold.co/200x400?text=La+Marca+Prosecco",
+        "image_url": "https://www.totalwine.com/dynamic/x1000,sq/media/sys_master/twmmedia/h73/h4d/16402471616542.png",
         "tags": [
             "Sparkling",
             "Italy",
@@ -478,7 +478,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "California Pinot with cherry, raspberry, and baking spice.",
-        "image_url": "https://placehold.co/200x400?text=Belle+Glos+Pinot",
+        "image_url": "https://www.totalwine.com/dynamic/x1000,sq/media/sys_master/twmmedia/h68/h37/13213275553822.png",
         "tags": [
             "Pinot Noir",
             "Fruit-Forward",
@@ -499,7 +499,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "New Zealand Sauv Blanc with zesty citrus and tropical fruit.",
-        "image_url": "https://placehold.co/200x400?text=Cloudy+Bay+Sauv",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/h48/h9f/17503300943902.png",
         "tags": [
             "Crisp",
             "New Zealand",
@@ -520,7 +520,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Iconic French Champagne with brioche, pear, and almond notes.",
-        "image_url": "https://placehold.co/200x400?text=Veuve+Clicquot",
+        "image_url": "https://www.oldvinewineomaha.com/wp-content/uploads/2024/12/Veuve-Clicquot.png",
         "tags": [
             "Champagne",
             "France",
@@ -541,7 +541,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Argentinian Malbec with plum, violet, and mocha flavors.",
-        "image_url": "https://placehold.co/200x400?text=Catena+Malbec",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/h20/h4a/30185819471902.png",
         "tags": [
             "Argentina",
             "Bold",
@@ -562,7 +562,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Provence rosé with strawberry, citrus, and mineral notes.",
-        "image_url": "https://placehold.co/200x400?text=Whispering+Angel",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/h00/h88/12262836305950.png",
         "tags": [
             "Provence",
             "Dry",
@@ -583,7 +583,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "California Zin with blackberry, pepper, and smoky oak.",
-        "image_url": "https://placehold.co/200x400?text=Ridge+Zinfandel",
+        "image_url": "https://cdn11.bigcommerce.com/s-e8559/images/stencil/800x800/products/13712/14041/ridge-vineyards-three-valley-sonoma-county-zinfandel-2022__65358.1732382553.jpg?c=2",
         "tags": [
             "Zinfandel",
             "Spicy",
@@ -604,7 +604,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "German Riesling with peach, apricot, and bright acidity.",
-        "image_url": "https://placehold.co/200x400?text=Dr+Loosen+Riesling",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/hcd/h0d/28064572243998.png",
         "tags": [
             "Germany",
             "Off-Dry",
@@ -615,17 +615,17 @@ const inventoryData = [
     },
     {
         "id": "wine-011",
-        "name": "Syrah",
+        "name": "Koonunga Hill",
         "brand": "Penfolds",
         "type": "Wine",
-        "subtype": "Red",
+        "subtype": "Shiraz",
         "abv": 14,
         "volume_ml": 750,
         "price": 29.99,
         "in_stock": true,
         "store_id": "store-002",
         "description": "Australian Syrah with black cherry, licorice, and pepper.",
-        "image_url": "https://placehold.co/200x400?text=Penfolds+Syrah",
+        "image_url": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSqrUY5V19ilERSKc3cHwdiX5iAhm0Ny5m0BM_b6yZyT5gg5LQWAwjkAvXz9P1RoFSiGcC3IGfXXyRpIL9X4QhC8yLx_Z7n-WMNx3ffqRB7mD5wIoRX3D3X",
         "tags": [
             "Australia",
             "Peppery",
@@ -646,7 +646,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Italian Pinot Grigio with citrus, pear, and almond finish.",
-        "image_url": "https://placehold.co/200x400?text=Santa+Margherita",
+        "image_url": "https://static.specsonline.com/wp-content/uploads/2023/11/063298720020.jpg",
         "tags": [
             "Italy",
             "Crisp",
@@ -667,7 +667,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Napa Merlot with black cherry, cocoa, and silky tannins.",
-        "image_url": "https://placehold.co/200x400?text=Duckhorn+Merlot",
+        "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMvvcY1mRuIDyOvOeX7g1YhYTgzj4rCzj0lQ&s",
         "tags": [
             "Napa",
             "Soft Tannins",
@@ -688,7 +688,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Sweet and fizzy with peach, orange blossom, and honey.",
-        "image_url": "https://placehold.co/200x400?text=Barefoot+Moscato",
+        "image_url": "https://wineonsale.com/cdn/shop/products/barefoot_moscato_2_800x.png?v=1601487412",
         "tags": [
             "Sweet",
             "Fizzy",
@@ -709,7 +709,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "French Rhône blend with raspberry, garrigue, and earth.",
-        "image_url": "https://placehold.co/200x400?text=Beaucastel+Grenache",
+        "image_url": "https://www.lagunacellar.com/media/catalog/product/b/e/beaucastel_2018.jpg?optimize=high&bg-color=255,255,255&fit=bounds&height=&width=",
         "tags": [
             "Rhône",
             "Earthy",
@@ -730,7 +730,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "South African Chenin with apple, quince, and wet stone.",
-        "image_url": "https://placehold.co/200x400?text=Raats+Chenin",
+        "image_url": "https://www.winetransit.com/media/catalog/product/cache/f8d2cb12a17084a7445beefcce31e97a/r/a/raats_original_chenin_22_750.jpg",
         "tags": [
             "South Africa",
             "Dry",
@@ -742,7 +742,7 @@ const inventoryData = [
     {
         "id": "wine-017",
         "name": "Sangiovese",
-        "brand": "Antinori",
+        "brand": "Villa Antinori",
         "type": "Wine",
         "subtype": "Red",
         "abv": 13.5,
@@ -751,7 +751,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Italian Chianti with cherry, leather, and herbal notes.",
-        "image_url": "https://placehold.co/200x400?text=Antinori+Sangiovese",
+        "image_url": "https://www.instacart.com/assets/domains/product-image/file/large_92273afc-3b25-4773-b55b-6256090da4ef.jpg",
         "tags": [
             "Chianti",
             "Italy",
@@ -772,7 +772,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Australian Viognier with peach, honeysuckle, and spice.",
-        "image_url": "https://placehold.co/200x400?text=Yalumba+Viognier",
+        "image_url": "https://assets.wine.com/winecom/image/upload/w_600,h_600,dpr_2.0,c_fit,q_auto:good,fl_progressive/j8dxcf898dkkklkev46h.jpg",
         "tags": [
             "Australia",
             "Aromatic",
@@ -783,7 +783,7 @@ const inventoryData = [
     },
     {
         "id": "wine-019",
-        "name": "Tempranillo",
+        "name": "Unico",
         "brand": "Vega Sicilia",
         "type": "Wine",
         "subtype": "Red",
@@ -793,7 +793,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Spanish icon with blackberry, tobacco, and cedar aging.",
-        "image_url": "https://placehold.co/200x400?text=Vega+Sicilia",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/h43/h88/10737624154142.png",
         "tags": [
             "Spain",
             "Aged",
@@ -814,7 +814,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Alsace Gewürz with lychee, rose petal, and ginger spice.",
-        "image_url": "https://placehold.co/200x400?text=Trimbach+Gewurz",
+        "image_url": "https://www.decantalo.com/gr/71043-large_default/trimbach-gewurztraminer.jpg",
         "tags": [
             "Alsace",
             "Exotic",
@@ -835,7 +835,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Triple-distiled, 10x filtered for crisp purity. The world's #1 vodka.",
-        "image_url": "https://placehold.co/200x400?text=Smirnoff+No.21",
+        "image_url": "https://target.scene7.com/is/image/Target/GUEST_c0c0eac1-4af0-452c-a42a-b782188c46f6",
         "tags": [
             "Classic",
             "Smooth",
@@ -855,7 +855,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Bold raspberry flavor with a sweet finish. Perfect for cocktails.",
-        "image_url": "https://placehold.co/200x400?text=Smirnoff+Raspberry",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/h67/ha7/14404601053214.png",
         "tags": [
             "Flavored",
             "Fruity",
@@ -875,7 +875,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Creamy vanilla notes. Ideal for espresso martinis or dessert drinks.",
-        "image_url": "https://placehold.co/200x400?text=Smirnoff+Vanilla",
+        "image_url": "https://target.scene7.com/is/image/Target/GUEST_b8a6ac9e-b1a4-48d4-aff8-745147681e12",
         "tags": [
             "Flavored",
             "Dessert",
@@ -895,7 +895,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Tart green apple flavor. Great with soda or in a sour cocktail.",
-        "image_url": "https://placehold.co/200x400?text=Smirnoff+Green+Apple",
+        "image_url": "https://www.totalwine.com/dynamic/x1000,sq/media/sys_master/twmmedia/h6f/h33/31592829091870.png",
         "tags": [
             "Flavored",
             "Tart",
@@ -915,7 +915,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "French wheat vodka with a silky texture and subtle sweetness.",
-        "image_url": "https://placehold.co/200x400?text=Grey+Goose",
+        "image_url": "https://www.winetransit.com/media/catalog/product/cache/f8d2cb12a17084a7445beefcce31e97a/g/r/grey_goose_vodka_nv_750.png",
         "tags": [
             "Premium",
             "French",
@@ -935,7 +935,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Corn-based vodka distilled 6x. Gluten-free with a clean finish.",
-        "image_url": "https://placehold.co/200x400?text=Titos+Vodka",
+        "image_url": "https://applejack.com/site/images/Titos-Vodka-750-ml_1.png",
         "tags": [
             "Craft",
             "Gluten-Free",
@@ -955,7 +955,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Swedish vodka made from winter wheat. Neutral with a hint of grain.",
-        "image_url": "https://placehold.co/200x400?text=Absolut+Original",
+        "image_url": "https://cityhive-prod-cdn.cityhive.net/products/5d409ded1327e6141e17e7d8/large.png",
         "tags": [
             "Classic",
             "Swedish",
@@ -975,7 +975,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Affordable 5x distilled vodka with a clean, crisp profile.",
-        "image_url": "https://placehold.co/200x400?text=New+Amsterdam",
+        "image_url": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTEv5dkVyo5943UzoMPxqvh_PjVoZdvUkOmmW5rXFTRQ38cQzh3wZdg6TdUzEYnoTIjpA11CXIDQtDR0fB14JYKcgE-pqB-UQAeRkb5iYQD_tNz7AAY85Kq",
         "tags": [
             "Budget",
             "Smooth",
@@ -995,7 +995,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "French vodka made from grapes. Exceptionally smooth with a fruity note.",
-        "image_url": "https://placehold.co/200x400?text=Ciroc+Vodka",
+        "image_url": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSRYOxzGAiHI4Ecla8FSwoWzmDZ5Sentwgu_RVRg4eVMOFYKintdSg_R1iEWvpZ4VNL2IV13n3Os31-rn0YgNgHAIf0jIGxLJg_1W1Fuws",
         "tags": [
             "Premium",
             "French",
@@ -1015,7 +1015,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Japanese rice vodka with a delicate, slightly sweet finish.",
-        "image_url": "https://placehold.co/200x400?text=Haku+Vodka",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/h80/h51/28664434884638.png",
         "tags": [
             "Japanese",
             "Rice-Based",
@@ -1035,7 +1035,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Polish rye vodka with a creamy texture and hints of vanilla.",
-        "image_url": "https://placehold.co/200x400?text=Belvedere+Heritage",
+        "image_url": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRJg6FM-DjBeQ2zICO9stRkdHWgfY4JdGKg1ctPdCKoRQMdMoNzjiyOK2DYZeZmlVFulM79iYCD9Nd7tT1PZtvZv6DF5bvzm49YtgHuu4B1wbFoTNo6_zqfwQ",
         "tags": [
             "Polish",
             "Rye",
@@ -1055,7 +1055,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Naturally infused with fruits and botanicals. Lower ABV for easy sipping.",
-        "image_url": "https://placehold.co/200x400?text=Ketel+Botanical",
+        "image_url": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQKxcYgFr9vpynQiIEmkpzyGzvhmgDotKeq1JVIkAlLg2beKUWLEmV1-n9GdETMJeOenS_PaL9tz35WTvmNskqmQ2Im--3KVKlyLh5ptw",
         "tags": [
             "Infused",
             "Low-ABV",
@@ -1065,7 +1065,7 @@ const inventoryData = [
     },
     {
         "id": "vodka-013",
-        "name": "Chopin Potato",
+        "name": "Chopin",
         "brand": "Chopin",
         "type": "Vodka",
         "subtype": "Potato",
@@ -1075,7 +1075,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Polish potato vodka with a rich, earthy character.",
-        "image_url": "https://placehold.co/200x400?text=Chopin+Potato",
+        "image_url": "https://www.totalwine.com/dynamic/x1000,sq/media/sys_master/twmmedia/h13/hde/13607825408030.png",
         "tags": [
             "Potato",
             "Craft",
@@ -1095,7 +1095,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Russian vodka filtered through quartz sand and charcoal.",
-        "image_url": "https://placehold.co/200x400?text=Stoli+Elit",
+        "image_url": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSsM8nOWlDvtTxOMkZuGZwpdNl9Qg5qtPTNTCnuRo6RGwJx7phqvIiPLeG9rUFG7b1hsY6-b2oiHw6SVHZ_BqDmn2v5xGgdXXPE1eJyyou_XEe0CZ_Bxctk",
         "tags": [
             "Russian",
             "Ultra-Premium",
@@ -1115,7 +1115,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Distilled with Icelandic glacial water and filtered through lava rocks.",
-        "image_url": "https://placehold.co/200x400?text=Reyka",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/h6e/h60/15170989817886.png",
         "tags": [
             "Icelandic",
             "Glacial",
@@ -1135,7 +1135,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Blend of wheat and grape vodkas. Crisp with a floral nose.",
-        "image_url": "https://placehold.co/200x400?text=Hangar+1",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/he9/ha8/12244737753118.png",
         "tags": [
             "Craft",
             "Small-Batch",
@@ -1155,7 +1155,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Polish vodka infused with bison grass for a herbal, slightly sweet profile.",
-        "image_url": "https://placehold.co/200x400?text=Zubrowka",
+        "image_url": "https://www.totalwine.com/dynamic/x1000,sq/media/sys_master/twmmedia/h44/h23/14883262332958.png",
         "tags": [
             "Herbal",
             "Polish",
@@ -1175,7 +1175,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "English vodka made from milk whey. Exceptionally creamy.",
-        "image_url": "https://placehold.co/200x400?text=Black+Cow",
+        "image_url": "https://www.totalwine.com/dynamic/x1000,sq/media/sys_master/twmmedia/hf1/hb4/13025490698270.png",
         "tags": [
             "Milk",
             "Creamy",
@@ -1195,7 +1195,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Nepalese vodka made with Himalayan spring water and organic grains.",
-        "image_url": "https://placehold.co/200x400?text=Snow+Leopard",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/h7c/h19/12291736567838.png",
         "tags": [
             "Himalayan",
             "Organic",
@@ -1215,7 +1215,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Hawaiian vodka filtered through coral and blended with deep ocean water.",
-        "image_url": "https://placehold.co/200x400?text=Ocean+Vodka",
+        "image_url": "https://cdn11.bigcommerce.com/s-t5ovgcn8tc/images/stencil/1280x1280/products/40525/59943/33a06a21c563fce9de12ab136d168afcdb6276e3__16539.1727208003.jpg?c=1&imbypass=on",
         "tags": [
             "Sustainable",
             "Hawaiian",
@@ -1235,7 +1235,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Ultra-premium blanco with crisp agave and citrus notes.",
-        "image_url": "https://placehold.co/200x400?text=Patrón+Silver",
+        "image_url": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTqrA_XZA7H_eOUt7KVXe3wm-A-s20LsO7g-nOCQsL2eWG_zZxZ8bELE9qlfv44JtJTWUNo7CXSohkBCi6_C83aD-Ni28YC",
         "tags": [
             "Blanco",
             "Premium",
@@ -1255,7 +1255,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Aged 2.5 years in American oak. Caramel and vanilla flavors.",
-        "image_url": "https://placehold.co/200x400?text=Don+Julio+1942",
+        "image_url": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTC75AoaEtXWWL1i1HgaYxxc9IoseeXJblcqFz1sSVkqgt5n_3M-11kHXKw8W3W1ENhWl_G0aAnW9YjFvuQ0P8nhTxbe6wNEVftSxWp5Q",
         "tags": [
             "Añejo",
             "Luxury",
@@ -1275,7 +1275,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Aged 6 months. Balanced oak and agave with a spicy finish.",
-        "image_url": "https://placehold.co/200x400?text=Espolòn+Reposado",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/h68/h52/30904365842462.png",
         "tags": [
             "Reposado",
             "Value",
@@ -1295,7 +1295,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Smooth with hints of vanilla and agave. Founded by George Clooney.",
-        "image_url": "https://placehold.co/200x400?text=Casamigos+Blanco",
+        "image_url": "https://www.totalwine.com/dynamic/x1000,sq/media/sys_master/twmmedia/h24/h94/10940880879646.png",
         "tags": [
             "Blanco",
             "Celebrity",
@@ -1315,7 +1315,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Estate-grown agave with a peppery finish.",
-        "image_url": "https://placehold.co/200x400?text=Herradura+Silver",
+        "image_url": "https://cdn11.bigcommerce.com/s-iuzua3aqk6/images/stencil/1280x1280/products/5370/3630782/26468__16103.1639693558.jpg?c=2",
         "tags": [
             "Blanco",
             "Peppery",
@@ -1335,7 +1335,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Aged 8 months in oak. Sweet cooked agave and cinnamon notes.",
-        "image_url": "https://placehold.co/200x400?text=Clase+Azul+Reposado",
+        "image_url": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTv6cT7z_XMvuDtbVxkaxU6hWa8bKMtA0l3lw1n1SEMXGdECeesceFTGrT-KgFQ0CZBvXBuYy_TahBdHkAQLsv8dCiWIh7ksyRvZMX7EOLknl8B5na9XKyvEQ",
         "tags": [
             "Reposado",
             "Artisanal",
@@ -1355,7 +1355,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Classic 100% agave tequila with earthy flavors.",
-        "image_url": "https://placehold.co/200x400?text=Cuervo+Tradicional",
+        "image_url": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRTLysh7zNIsoRKFH38MgdJTHaD_N0LJ_8fBvzYtwcVyY4CEeUMZysPsXquA97kBQPx0No-yoOa6xz_nO4_JqISpOHZCdSRFMR80IfuTFIj",
         "tags": [
             "Blanco",
             "Budget",
@@ -1375,7 +1375,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Aged 44 months. Rich caramel, oak, and dark chocolate notes.",
-        "image_url": "https://placehold.co/200x400?text=Avion+44",
+        "image_url": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRfGm-IBYmpWjsc7pjyf9fqid6mcfDyB3BZeXNnW3Y2Bqr-s7yeN-ttzYhTEOyhPbIcM4nA6_NQ-i9vdf1hJNR4WORPbf9EyyjoOZb9Tks1CpNm904-kltZEw",
         "tags": [
             "Extra Añejo",
             "Ultra-Premium",
@@ -1395,7 +1395,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Dwayne 'The Rock' Johnson's tequila. Smooth with citrus and pepper.",
-        "image_url": "https://placehold.co/200x400?text=Teremana+Blanco",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/he6/hea/27340706054174.png",
         "tags": [
             "Blanco",
             "Celebrity",
@@ -1415,7 +1415,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Blanco tequila infused with natural coconut flavor.",
-        "image_url": "https://placehold.co/200x400?text=1800+Coconut",
+        "image_url": "https://qualityliquorstore.com/cdn/shop/files/1800-coconut-tequila__65036.jpg?v=1687162376",
         "tags": [
             "Flavored",
             "Tropical",
@@ -1435,7 +1435,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Traditional stone oven-cooked agave with a bold, earthy profile.",
-        "image_url": "https://placehold.co/200x400?text=Fortaleza+Blanco",
+        "image_url": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSaCYR-Xm5GJlNJ6DTuMMNC0LUbZgfe0PeW9O73j284MC8EKVA-sbfmX19wvPBTnTY9LVIsNYBuY6PFbm1CVidLSa-H50xuFrq_YqwlB6OxD8jcNnpmyTdRYSc",
         "tags": [
             "Artisanal",
             "Stone Oven",
@@ -1455,7 +1455,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Aged 6 months in ex-bourbon barrels. Butterscotch and toasted oak notes.",
-        "image_url": "https://placehold.co/200x400?text=G4+Reposado",
+        "image_url": "https://www.kuinak.com/system/base_product_images/images/000/009/773/detail/tequila-g4-reposado-3.jpg?1528902869",
         "tags": [
             "Small-Batch",
             "Bourbon Barrel",
@@ -1475,7 +1475,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Aged 5+ years. Complex flavors of tobacco, dark chocolate, and leather.",
-        "image_url": "https://placehold.co/200x400?text=Siete+Leguas+D'Antaño",
+        "image_url": "https://www.missionliquor.com/cdn/shop/files/Siete-7-Leguas-D_Antano-Extra-Anejo-750ml.jpg?v=1697753941",
         "tags": [
             "Extra Añejo",
             "Aged",
@@ -1495,7 +1495,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Single-estate agave with terroir-driven citrus and minerality.",
-        "image_url": "https://placehold.co/200x400?text=Ocho+Plata",
+        "image_url": "https://siptequila.com/cdn/shop/files/Plata.jpg?crop=center&height=1200&v=1729528309&width=1200",
         "tags": [
             "Single-Estate",
             "Terroir",
@@ -1515,7 +1515,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Añejo filtered to remove color while retaining oak complexity.",
-        "image_url": "https://placehold.co/200x400?text=Volcán+Cristalino",
+        "image_url": "https://www.totalwine.com/dynamic/490x/media/sys_master/twmmedia/h83/h3c/29572515430430.png",
         "tags": [
             "Cristalino",
             "Aged",
@@ -1535,7 +1535,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Aged 5 years in cognac casks. Dried fruit and baking spice flavors.",
-        "image_url": "https://placehold.co/200x400?text=El+Tesoro+Paradiso",
+        "image_url": "https://siptequila.com/cdn/shop/products/2048-ElTesoro_Blanco2.jpg?v=1677501797",
         "tags": [
             "Cognac Cask",
             "Luxury",
@@ -1555,7 +1555,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Unaged with vibrant agave, pepper, and tropical fruit notes.",
-        "image_url": "https://placehold.co/200x400?text=Pasote+Blanco",
+        "image_url": "https://www.pasotetequila.com/wp-content/uploads/sites/5/2022/09/Blanco_bottleshot_spirit2.png",
         "tags": [
             "Unaged",
             "Tropical",
@@ -1575,7 +1575,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-002",
         "description": "Traditional tahona-crushed agave with a robust, herbaceous profile.",
-        "image_url": "https://placehold.co/200x400?text=Cascahuín+Tahona",
+        "image_url": "https://raretequilas.com/cdn/shop/products/cascahuin-tahona-blanco-white-bg.png?v=1664911250",
         "tags": [
             "Tahona",
             "Herbaceous",
@@ -1595,7 +1595,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-003",
         "description": "Aged 8 months in American oak. Bold caramel and cinnamon spice.",
-        "image_url": "https://placehold.co/200x400?text=ArteNOM+1414",
+        "image_url": "https://siptequila.com/cdn/shop/products/ArteNom1414_grande.jpg?v=1665252450",
         "tags": [
             "Single Barrel",
             "Cinnamon",
@@ -1615,7 +1615,7 @@ const inventoryData = [
         "in_stock": true,
         "store_id": "store-001",
         "description": "Organic agave with a creamy texture and floral-citrus notes.",
-        "image_url": "https://placehold.co/200x400?text=Wild+Common",
+        "image_url": "https://seelbachs.com/cdn/shop/files/WildCommon_Bottle_750ml_Blanco-AndyBardon_1024x1024.jpg?v=1689778142",
         "tags": [
             "Organic",
             "Floral",
