@@ -45,18 +45,31 @@ const UserCart = () => {
     const unsubCart = onSnapshot(cartRef, async (snapshot) => {
       const items = [];
       let firstStoreId = null;
-      snapshot.forEach((docSnap) => {
-        const itemData = { id: docSnap.id, ...docSnap.data() };
-        if (!firstStoreId) firstStoreId = itemData.storeId;
-        items.push(itemData);
-      });
+
+      for (const docSnap of snapshot.docs) {
+        const baseData = docSnap.data();
+        if (!firstStoreId) firstStoreId = baseData.storeId;
+
+        const itemRef = doc(db, "stores", baseData.storeId, "items", docSnap.id);
+        const itemSnap = await getDoc(itemRef);
+        const fullItemData = itemSnap.exists() ? itemSnap.data() : {};
+
+        items.push({
+          id: docSnap.id,
+          ...fullItemData,
+          ...baseData
+        });
+      }
+
       setCartItems(items);
+
       if (firstStoreId) {
         const storeDoc = await getDoc(doc(db, "stores", firstStoreId));
         if (storeDoc.exists()) {
           setStoreInfo({ id: storeDoc.id, ...storeDoc.data() });
         }
       }
+
       setLoading(false);
     });
 
@@ -226,7 +239,7 @@ const UserCart = () => {
                       <p className="text-xs text-gray-500">→ {item.type || "Alcohol"}</p>
                     </div>
                     <div className="flex flex-col items-end">
-                        <p className="text-sm font-semibold">Qty: {item.quantity || 1}</p>
+                        {/* <p className="text-sm font-semibold">Qty: {item.quantity || 1}</p> */}
                         <button
                             onClick={() => removeItemFromCart(item.id)}
                             className="text-red-500 text-xs hover:underline mt-1"

@@ -1,16 +1,58 @@
-// File: /src/components/CartPreviewPopup.jsx
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { getAuth } from "firebase/auth";
+import { db } from "../services/firebase";
+import {
+  doc,
+  deleteDoc,
+  getDoc
+} from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-const CartPreviewPopup = ({ cartItems, onClose }) => {
+const CartPreviewPopup = ({ cartItems: initialCartItems, onClose }) => {
+  const [cartItems, setCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const auth = getAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const enrichItems = async () => {
+      const enriched = [];
+      for (const item of initialCartItems) {
+        const itemRef = doc(db, "stores", item.storeId, "items", item.id);
+        const fullSnap = await getDoc(itemRef);
+        const fullData = fullSnap.exists() ? fullSnap.data() : {};
+        enriched.push({
+          ...fullData,
+          ...item
+        });
+      }
+      setCartItems(enriched);
+      setLoading(false);
+    };
+
+    enrichItems();
+  }, [initialCartItems]);
+
   const total = cartItems.reduce(
     (sum, item) => sum + (item.quantity || 1) * item.price,
     0
   );
 
-  const navigate = useNavigate();
+  const removeItemFromCart = async (itemId) => {
+    const user = auth.currentUser;
+    if (!user) return;
+    await deleteDoc(doc(db, "users", user.uid, "AddToCartItems", itemId));
+  };
+
+  if (loading) {
+    return (
+      <div className="absolute top-14 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-50 w-80 max-h-96 overflow-y-auto">
+        <div className="p-4 text-center text-sm text-gray-500">Loading cart...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="absolute top-14 right-0 bg-white border border-gray-300 rounded-lg shadow-lg z-50 w-80 max-h-96 overflow-y-auto">
@@ -43,6 +85,12 @@ const CartPreviewPopup = ({ cartItems, onClose }) => {
                 <div className="text-sm font-semibold text-right">
                   ${(item.price * (item.quantity || 1)).toFixed(2)}
                 </div>
+                <button
+                  onClick={() => removeItemFromCart(item.id)}
+                  className="text-red-500 text-xs hover:underline mt-1"
+                >
+                  Remove
+                </button>
               </li>
             ))}
           </ul>
@@ -75,7 +123,8 @@ CartPreviewPopup.propTypes = {
       name: PropTypes.string.isRequired,
       brand: PropTypes.string,
       price: PropTypes.number.isRequired,
-      quantity: PropTypes.number
+      quantity: PropTypes.number,
+      storeId: PropTypes.string
     })
   ).isRequired,
   onClose: PropTypes.func.isRequired
