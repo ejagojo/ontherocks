@@ -7,6 +7,7 @@ import Batanga from "/assets/drinks/Batanga-Tequila.png";
 import Calumet from "/assets/drinks/Calumet-Farm.png";
 import { auth, db } from "../services/firebase";
 import { doc, getDoc, collection, onSnapshot, deleteDoc } from "firebase/firestore";
+import { deleteUser, signOut } from "firebase/auth";
 import ProfilePage from "./ProfilePage";
 
 const drinkImages = {
@@ -30,14 +31,18 @@ const UserProfile = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [photoURL, setPhotoURL] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
       if (!user) {
         setPaymentMethods([]);
         setOrders([]);
+        setIsLoggedIn(false);
         return;
       }
+
+      setIsLoggedIn(true);
 
       const userDocRef = doc(db, "users", user.uid);
       const userDocSnap = await getDoc(userDocRef);
@@ -90,13 +95,27 @@ const UserProfile = () => {
     await deleteDoc(doc(db, "users", user.uid, "paymentMethods", id));
   };
 
-  const handleDeleteAccount = () => {
-    if (
-      window.confirm(
-        "Are you sure you want to delete your account? This action cannot be undone."
-      )
-    ) {
+  const handleDeleteAccount = async () => {
+    const user = auth.currentUser;
+    if (!user) return;
+    const confirmed = window.confirm("Are you sure you want to delete your account? This action cannot be undone.");
+    if (!confirmed) return;
+    try {
+      await deleteDoc(doc(db, "users", user.uid));
+      await deleteUser(user);
       window.location.href = "/";
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      alert("Failed to delete account. Please re-authenticate and try again.");
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Error signing out:", error);
     }
   };
 
@@ -132,17 +151,22 @@ const UserProfile = () => {
               <h3 className="text-xl font-semibold">
                 {firstName || lastName ? `${firstName} ${lastName}`.trim() : "Anonymous User"}
               </h3>
-              <button
-                className="bg-red-700 hover:bg-red-800 text-white rounded-full py-2 px-4 w-full mt-4"
-                onClick={handleDeleteAccount}
-              >
-                Delete Account
-              </button>
-              <a href="/">
-                <button className="bg-gray-900 hover:bg-gray-800 text-white rounded-full py-2 px-4 w-full mt-2">
-                  Sign out
-                </button>
-              </a>
+              {isLoggedIn && (
+                <>
+                  <button
+                    className="bg-red-700 hover:bg-red-800 text-white rounded-full py-2 px-4 w-full mt-4"
+                    onClick={handleDeleteAccount}
+                  >
+                    Delete Account
+                  </button>
+                  <button
+                    onClick={handleSignOut}
+                    className="bg-gray-900 hover:bg-gray-800 text-white rounded-full py-2 px-4 w-full mt-2"
+                  >
+                    Sign out
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>

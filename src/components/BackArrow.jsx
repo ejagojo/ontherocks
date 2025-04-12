@@ -12,9 +12,9 @@ const BackArrow = ({ to = "/" }) => {
                     e.preventDefault();
                     navigate(-1);
                 }}
-                className="fixed top-1/7 left-4 md:left-16 z-50 bg-white rounded-full p-2 shadow-lg hover:bg-gray-100 transition"
+                className="fixed top-1/7 left-4 md:left-16 z-50 bg-white/80 backdrop-blur border border-gray-300 rounded-full p-2 shadow-2xl hover:bg-white transition"
             >
-                <BiArrowBack className="text-black text-xl" />
+                <BiArrowBack className="text-black text-2xl" />
             </Link>
         </div>
     );

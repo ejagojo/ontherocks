@@ -7,8 +7,8 @@ import LoadingSpinner from "./LoadingSpinner";
 
 const SignUpForm = ({ toggleForm }) => {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -18,17 +18,38 @@ const SignUpForm = ({ toggleForm }) => {
 
   const handleSignUp = () => {
     setError("");
+
     if (password.length < 6) {
       setError("Password must be at least 6 characters.");
       return;
     }
+
     if (password !== password2) {
       setError("Passwords do not match.");
       return;
     }
+
+    if (new Date(dob) > new Date()) {
+      setError("Date of birth cannot be in the future.");
+      setLoading(false);
+      return;
+    }
+
+    if (new Date(dob).getFullYear() >= 2004) {
+      setError("You must be 21 or older to register.");
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     signUpWithEmail(email, password, navigate, firstName, lastName, dob)
-      .catch((err) => setError(err.message))
+      .catch((err) => {
+        if (err.code === "auth/email-already-in-use") {
+          setError("Email already in use. Please log in or use a different email.");
+        } else {
+          setError(err.message);
+        }
+      })
       .finally(() => setLoading(false));
   };
 
