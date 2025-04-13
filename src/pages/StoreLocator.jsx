@@ -3,29 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { FaArrowRight } from "react-icons/fa";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { db } from "../services/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
-const stores = [
-  { id: 1, name: "Lowell Liquor Store", lat: 42.6334, lng: -71.3162 },
-  { id: 2, name: "Mill City Spirits", lat: 42.6427, lng: -71.3096 },
-  { id: 3, name: "Andover Wine & Spirits", lat: 42.6584, lng: -71.137 },
-  { id: 4, name: "Main Street Liquors", lat: 42.6536, lng: -71.1352 },
-  { id: 5, name: "Back Bay Liquors", lat: 42.3496, lng: -71.0783 },
-  { id: 6, name: "Beacon Hill Wine", lat: 42.3588, lng: -71.0708 },
-  { id: 7, name: "Fenway Spirits", lat: 42.343, lng: -71.1003 },
-  { id: 8, name: "Harvard Wine Cellar", lat: 42.3736, lng: -71.1097 },
-  { id: 9, name: "Cambridge Liquors", lat: 42.3728, lng: -71.113 },
-  { id: 10, name: "Union Square Spirits", lat: 42.3793, lng: -71.0966 },
-  { id: 11, name: "Downtown Spirits", lat: 40.7128, lng: -74.006 },
-  { id: 12, name: "City Wine Cellar", lat: 40.715, lng: -74.01 },
-  { id: 13, name: "Uptown Liquor", lat: 40.72, lng: -73.99 },
-  { id: 14, name: "Metro Booze", lat: 40.725, lng: -74.002 },
-  { id: 15, name: "East Side Whiskey", lat: 40.73, lng: -73.98 },
-  { id: 16, name: "Bay Spirits", lat: 37.7749, lng: -122.4194 },
-  { id: 17, name: "Golden Gate Liquor", lat: 37.779, lng: -122.414 },
-  { id: 18, name: "Mission Wines", lat: 37.76, lng: -122.42 },
-  { id: 19, name: "Castro Liquors", lat: 37.76, lng: -122.435 },
-  { id: 20, name: "Oceanview Booze", lat: 37.73, lng: -122.48 },
-];
+// REMOVED THE FAKE STORES ARRAY HERE
 
 const StoreLocator = ({ adrs }) => {
   const [userLocation, setUserLocation] = useState(null);
@@ -33,6 +14,7 @@ const StoreLocator = ({ adrs }) => {
   const [address, setAddress] = useState(adrs || "");
   const [suggestions, setSuggestions] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [stores, setStores] = useState([]); 
   const mapRef = useRef(null);
   const mapInstance = useRef(null);
   const markerGroup = useRef(null);
@@ -79,35 +61,40 @@ const StoreLocator = ({ adrs }) => {
       const url = `https://corsproxy.io/?https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(address)}`;
       const res = await fetch(url);
       const data = await res.json();
-      if (data.length === 0) return;
       location = {
         ...data[0],
-        formatted_name: data[0].display_name,
+        formatted_name: data[0]?.display_name,
       };
     }
 
-    if (!location) return;
+    const coords = location?.lat && location?.lon
+      ? { lat: parseFloat(location.lat), lng: parseFloat(location.lon) }
+      : undefined;
 
-    const coords = { lat: parseFloat(location.lat), lng: parseFloat(location.lon) };
-    setUserLocation(coords);
-
-    let customAddress = location.formatted_name || location.display_name;
-    if (location.address) {
-      let { house_number, road, city, town, village, state, postcode } = location.address;
-      if (house_number && house_number.includes(";")) {
-        const nums = house_number.split(";").map((n) => n.trim());
-        house_number = nums[nums.length - 1];
-      }
-      const line = [house_number, road].filter(Boolean).join(" ");
-      const area = city || town || village || "";
-      customAddress = [line, area, state, postcode].filter(Boolean).join(", ");
+    if (coords) {
+      setUserLocation(coords);
     }
 
-    setAddress(customAddress);
-    navigate(`/order?address=${encodeURIComponent(customAddress)}`);
+    if (location?.formatted_name || location?.display_name) {
+      let customAddress = location.formatted_name || location.display_name;
+      if (location.address) {
+        let { house_number, road, city, town, village, state, postcode } = location.address;
+        if (house_number && house_number.includes(";")) {
+          const nums = house_number.split(";").map((n) => n.trim());
+          house_number = nums[nums.length - 1];
+        }
+        const line = [house_number, road].filter(Boolean).join(" ");
+        const area = city || town || village || "";
+        customAddress = [line, area, state, postcode].filter(Boolean).join(", ");
+      }
+      setAddress(customAddress);
+      navigate(`/order?address=${encodeURIComponent(customAddress)}`);
+    }
 
     if (mapInstance.current) {
-      mapInstance.current.setView(coords, 13);
+      if (coords) {
+        mapInstance.current.setView(coords, 13);
+      }
       updateMarkers(coords);
     }
   };
@@ -125,16 +112,24 @@ const StoreLocator = ({ adrs }) => {
   };
 
   const updateMarkers = (coords) => {
-    if (!mapInstance.current || !coords) return;
+    if (!mapInstance.current) return;
     markerGroup.current.clearLayers();
 
-    const userMarker = L.marker(coords).bindPopup("Your Location");
-    markerGroup.current.addLayer(userMarker);
+    if (coords) {
+      const userMarker = L.marker(coords).bindPopup("Your Location");
+      markerGroup.current.addLayer(userMarker);
+    }
 
-    const distances = stores.map((store) => ({
-      ...store,
-      distance: calculateDistance(coords.lat, coords.lng, store.lat, store.lng),
-    }));
+    const distances = stores.map((store) => {
+      let dist = 0;
+      if (coords) {
+        dist = calculateDistance(coords.lat, coords.lng, store.lat, store.lng);
+      }
+      return {
+        ...store,
+        distance: dist
+      };
+    });
 
     distances.sort((a, b) => a.distance - b.distance);
     setNearbyStores(distances.slice(0, 5));
@@ -163,6 +158,31 @@ const StoreLocator = ({ adrs }) => {
       fetchSuggestions(adrs);
     }
   }, [adrs]);
+
+  useEffect(() => {
+    const fetchFirestoreStores = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "stores"));
+        const storeList = [];
+        querySnapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          if (data.lat && data.lng) {
+            storeList.push({
+              id: docSnap.id,
+              name: data.name || "Unnamed Store",
+              lat: data.lat,
+              lng: data.lng,
+            });
+          }
+        });
+        setStores(storeList);
+        updateMarkers();
+      } catch (error) {
+        console.error("Error fetching stores from Firestore:", error);
+      }
+    };
+    fetchFirestoreStores();
+  }, []);
 
   return (
     <div className="p-6 space-y-6">
