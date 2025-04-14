@@ -10,11 +10,11 @@ const ProfilePage = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  
-  // Reference to the form container
+
+  // Reference to the form container for click-outside detection
   const formRef = useRef(null);
 
-  // Fetch user's data from Firestore when component mounts
+  // Fetch user's data from Firestore
   useEffect(() => {
     const currentUser = auth.currentUser;
     if (!currentUser) return; // Not logged in
@@ -42,19 +42,25 @@ const ProfilePage = () => {
     });
   }, []);
 
+  // Validate email: must not exceed total 254 characters, local part <= 64, and have a valid TLD.
+  const validateEmail = (emailAddress) => {
+    const emailRegex = /^(?=.{1,254}$)(?=.{1,64}@)[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
+    return emailRegex.test(emailAddress.trim());
+  };
+
+  // Validate US phone number: must have area and exchange codes starting with 2-9.
+  const validatePhone = (phone) => {
+    const usPhoneRegex = /^(?:\+1[-.\s]?)?\(?([2-9]\d{2})\)?[-.\s]?([2-9]\d{2})[-.\s]?(\d{4})$/;
+    return usPhoneRegex.test(phone.trim());
+  };
+
   // Save updates to Firestore after performing validations
   const handleSave = async () => {
-    // Validate email using a robust regex:
-    // - Overall length <= 254, local part <= 64, must include at least one dot in the domain (TLD)
-    const emailRegex = /^(?=.{1,254}$)(?=.{1,64}@)[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[A-Za-z0-9!#$%&'*+/=?^_`{|}~-]+)*@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)+$/;
-    if (!emailRegex.test(email.trim())) {
+    if (!validateEmail(email)) {
       alert("Please enter a valid email address (e.g., john.doe@example.com).");
       return;
     }
-    
-    // Validate phone number using US phone number rules (area and exchange codes must start with 2-9)
-    const usPhoneRegex = /^(?:\+1[-.\s]?)?\(?([2-9]\d{2})\)?[-.\s]?([2-9]\d{2})[-.\s]?(\d{4})$/;
-    if (!usPhoneRegex.test(phoneNumber.trim())) {
+    if (!validatePhone(phoneNumber)) {
       alert("Please enter a valid US phone number (e.g., 212-555-1212).");
       return;
     }
@@ -76,7 +82,7 @@ const ProfilePage = () => {
         { merge: true }
       );
       alert("Profile updated successfully!");
-      // Update originalData so further cancellations revert to the new saved values.
+      // Update originalData to the new saved values.
       setOriginalData({
         firstName: firstName.trim(),
         lastName: lastName.trim(),
@@ -116,23 +122,15 @@ const ProfilePage = () => {
     }
   };
 
-  // Toggle edit/save behavior: if in editing mode, save changes; otherwise, activate editing.
-  const handleEditSaveClick = () => {
-    if (isEditing) {
-      handleSave();
-    } else {
-      setIsEditing(true);
-    }
+  // Toggle edit mode
+  const handleToggleEdit = () => {
+    setIsEditing(!isEditing);
   };
 
-  // If editing and user clicks outside the form, cancel editing (revert changes)
+  // If editing and user clicks outside the form, cancel editing
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        isEditing &&
-        formRef.current &&
-        !formRef.current.contains(event.target)
-      ) {
+      if (isEditing && formRef.current && !formRef.current.contains(event.target)) {
         handleCancel();
       }
     };
@@ -197,13 +195,23 @@ const ProfilePage = () => {
           </div>
           {/* Buttons */}
           <div className="flex items-center justify-between mt-6">
-            <button
-              type="button"
-              onClick={handleEditSaveClick}
-              className="bg-black text-white rounded-full py-2 px-6 hover:bg-slate-600"
-            >
-              {isEditing ? "Save" : "Edit"}
-            </button>
+            {!isEditing ? (
+              <button
+                type="button"
+                onClick={handleToggleEdit}
+                className="bg-black text-white rounded-full py-2 px-6 hover:bg-slate-600"
+              >
+                Edit
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleSave}
+                className="bg-black text-white rounded-full py-2 px-6 hover:bg-slate-600"
+              >
+                Save
+              </button>
+            )}
             <button
               type="button"
               onClick={handleResetPassword}
