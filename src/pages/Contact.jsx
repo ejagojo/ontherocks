@@ -1,22 +1,52 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import Navbar from "../components/Navbar";
 import backgroundImage from '/assets/landing-page/background.jpg';
 import LoadingSpinner from "../components/LoadingSpinner";
 
 const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    subject: "",
+    message: ""
+  });
+  const [success, setSuccess] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setFormData((prev) => ({ ...prev, [id]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
+    setSuccess(false);
+
+    try {
+      const response = await fetch("https://formspree.io/f/xovelwal", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setSuccess(true);
+        setFormData({ email: "", subject: "", message: "" });
+      } else {
+        alert("There was a problem submitting your message.");
+      }
+    } catch (error) {
+      console.error("Submit failed:", error);
+      alert("There was an error. Please try again later.");
+    } finally {
       setIsSubmitting(false);
-    }, 2000);
+    }
   };
+
   return (
     <div className="relative w-full min-h-screen">
-      {/* Background Image */}
       <div
         className="fixed inset-0 bg-cover bg-center -z-10"
         style={{
@@ -29,10 +59,15 @@ const Contact = () => {
 
       {isSubmitting && <LoadingSpinner />}
 
-      {/* Main Content Area */}
       <section className="relative z-10 flex justify-center items-center min-h-[calc(100vh-4rem)] pt-16 pb-8 px-4">
         <div className="w-full max-w-4xl bg-gray-800/90 backdrop-blur-sm rounded-xl shadow-2xl p-6 sm:p-8 md:p-10">
           <h2 className="mb-6 text-3xl font-bold text-center text-amber-400">Contact Us</h2>
+
+          {success && (
+            <p className="mb-4 text-green-400 text-center">
+              Your message has been sent successfully!
+            </p>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
@@ -42,6 +77,8 @@ const Contact = () => {
               <input
                 type="email"
                 id="email"
+                value={formData.email}
+                onChange={handleChange}
                 className="w-full p-3 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
                 placeholder="name@example.com"
                 required
@@ -55,6 +92,8 @@ const Contact = () => {
               <input
                 type="text"
                 id="subject"
+                value={formData.subject}
+                onChange={handleChange}
                 className="w-full p-3 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
                 placeholder="How can we help you?"
                 required
@@ -67,9 +106,12 @@ const Contact = () => {
               </label>
               <textarea
                 id="message"
+                value={formData.message}
+                onChange={handleChange}
                 rows="5"
                 className="w-full p-3 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-amber-400"
                 placeholder="Tell us about your project or inquiry..."
+                required
               ></textarea>
             </div>
 

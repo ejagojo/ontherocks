@@ -6,18 +6,22 @@ import { FcGoogle } from "react-icons/fc";
 import LoadingSpinner from "./LoadingSpinner";
 import { seedInventory } from "../services/seedInventory";
 import { seedStores } from "../services/seedStore";
+import { seedCocktailRecipes } from "../services/seedDrinks";
 
 const LoginForm = ({ toggleForm }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleLogin = () => {
     setLoading(true);
+    setError(null);
     loginWithEmail(email, password, navigate)
       .catch((err) => {
         console.error("Email/Password Login Error:", err);
+        setError("Invalid email or password. Please try again.");
         setLoading(false);
       })
       .finally(() => setLoading(false));
@@ -25,16 +29,19 @@ const LoginForm = ({ toggleForm }) => {
 
   const handleGoogleLogin = async () => {
     setLoading(true);
+    setError(null);
     try {
       console.log("Seeding inventory...");
       // await seedStores();
-      // await seedInventory(); // Wait for seeding to complete or fail
+      // await seedInventory();
+      // await seedCocktailRecipes();
       console.log("Inventory seeded!");
 
       await signInWithGoogle(navigate);
       console.log("Google Sign-In success!");
     } catch (error) {
       console.error("handleGoogleLogin Error:", error);
+      setError("Google sign-in failed. Please try again later.");
       setLoading(false);
     } finally {
       setLoading(false);
@@ -46,6 +53,7 @@ const LoginForm = ({ toggleForm }) => {
       {loading && <LoadingSpinner />}
       <div className="w-full max-w-[320px] md:max-w-[400px] p-4 border border-white rounded-lg bg-opacity-0 backdrop-blur-xs">
         <h2 className="text-lg font-semibold mb-4 text-center">Login</h2>
+        {error && <p className="text-sm text-red-500 mb-3 text-center">{error}</p>}
         <div className="mb-3">
           <label className="block text-xs mb-1">Email</label>
           <input

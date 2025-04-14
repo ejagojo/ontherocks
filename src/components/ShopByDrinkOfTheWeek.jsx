@@ -1,47 +1,34 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { db } from "../services/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
-const ShopByBrandCarousel = () => {
+const DrinksOfTheWeekCarousel = () => {
   const carouselRef = useRef(null);
+  const [drinks, setDrinks] = useState([]);
 
-  const brands = [
-    {
-      id: 1,
-      name: "Modelo",
-      description: "The classic Mexican beer",
-      image: "/assets/brands/brand1.jpg",
-    },
-    {
-      id: 2,
-      name: "Dos Equis",
-      description: "A refreshing lager for any occasion",
-      image: "/assets/brands/brand2.jpg",
-    },
-    {
-      id: 3,
-      name: "Miller Lite",
-      description: "A true American pilsner",
-      image: "/assets/brands/brand3.jpg",
-    },
-    {
-      id: 4,
-      name: "Budlight BudlightYuhhh",
-      description: "Budlight",
-      image: "/assets/brands/brand4.jpg",
-    },
-    {
-      id: 5,
-      name: "Sapporo",
-      description: "Sapporo Yummy",
-      image: "/assets/brands/brand5.webp",
-    },
-  ];
+  useEffect(() => {
+    const fetchDrinks = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "cocktailRecipes"));
+        const drinkList = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setDrinks(drinkList);
+      } catch (error) {
+        console.error("Failed to fetch drinks of the week:", error);
+      }
+    };
+    fetchDrinks();
+  }, []);
 
   const scrollLeft = () => {
-    carouselRef.current.scrollLeft -= 300;
+    if (carouselRef.current) {
+      carouselRef.current.scrollLeft -= 300;
+    }
   };
 
   const scrollRight = () => {
-    carouselRef.current.scrollLeft += 300;
+    if (carouselRef.current) {
+      carouselRef.current.scrollLeft += 300;
+    }
   };
 
   return (
@@ -57,21 +44,24 @@ const ShopByBrandCarousel = () => {
         ref={carouselRef}
         className="flex overflow-x-auto gap-4 py-2 scroll-smooth"
       >
-        {brands.map((brand) => (
-          <div
-            key={brand.id}
+        {drinks.map((drink) => (
+          <a
+            key={drink.id}
+            href={drink.recipe_url}
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-64 h-56 bg-white rounded-lg shadow-md p-3 flex-shrink-0 transform transition-transform duration-300 ease-in-out hover:scale-105"
           >
             <img
-              src={brand.image}
-              alt={brand.name}
+              src={drink.image_url}
+              alt={drink.name}
               className="w-full h-32 object-cover rounded-md"
             />
             <div className="mt-3">
-              <h3 className="text-lg font-semibold">{brand.name}</h3>
-              <p className="text-sm text-gray-500">{brand.description}</p>
+              <h3 className="text-lg font-semibold">{drink.name}</h3>
+              <p className="text-sm text-gray-500">{drink.alcohol_type}</p>
             </div>
-          </div>
+          </a>
         ))}
       </div>
       <button
@@ -85,4 +75,4 @@ const ShopByBrandCarousel = () => {
   );
 };
 
-export default ShopByBrandCarousel;
+export default DrinksOfTheWeekCarousel;

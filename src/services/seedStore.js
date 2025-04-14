@@ -1,6 +1,5 @@
-// /src/services/seedStores.js
 import { db } from "./firebase";
-import { collection, doc, setDoc } from "firebase/firestore";
+import { collection, doc, setDoc, getDocs } from "firebase/firestore";
 
 const storeData = [
   {
@@ -94,5 +93,18 @@ export const seedStores = async () => {
     console.log("Store data seeded successfully!");
   } catch (error) {
     console.error("Error seeding stores:", error);
+  }
+};
+
+export const fetchStores = async () => {
+  try {
+    const snapshot = await getDocs(collection(db, "stores"));
+    return snapshot.docs.map((docSnap) => ({
+      id: docSnap.id,
+      ...docSnap.data()
+    }));
+  } catch (error) {
+    console.error("Error fetching stores:", error);
+    return [];
   }
 };

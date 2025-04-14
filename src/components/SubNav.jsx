@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const SubNav = () => {
-  const categories = ["Beer", "Wine", "Vodka", "Tequila"];
+  const categories = [];
   const [active, setActive] = useState(categories[0]);
 
   return (

@@ -34,6 +34,10 @@ const UserCart = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [orderDetails, setOrderDetails] = useState(null);
 
+  // Additional local states for separated date/time inputs
+  const [selectedDateOnly, setSelectedDateOnly] = useState("");
+  const [selectedTimeOnly, setSelectedTimeOnly] = useState("");
+
   useEffect(() => {
     const user = auth.currentUser;
     if (!user) {
@@ -106,12 +110,71 @@ const UserCart = () => {
     await deleteDoc(doc(db, "users", user.uid, "AddToCartItems", itemId));
   };
 
+  // Helpers for store hours parsing
+  const parseStoreHours = (hoursStr) => {
+    if (!hoursStr) return null;
+    const cleaned = hoursStr.replace(/[\u2013\u2014]/g, "-");
+    const parts = cleaned.split("-").map((p) => p.trim());
+    if (parts.length !== 2) {
+      return null;
+    }
+    return { open: parts[0], close: parts[1] };
+  };
+
+  const convertTo24Hour = (timeStr) => {
+    if (!timeStr) return null;
+    const [time, ampm] = timeStr.split(" ");
+    const [hh, mm] = time.split(":");
+    let hours = parseInt(hh, 10);
+    const minutes = parseInt(mm, 10) || 0;
+    if (ampm?.toUpperCase() === "PM" && hours < 12) {
+      hours += 12;
+    }
+    if (ampm?.toUpperCase() === "AM" && hours === 12) {
+      hours = 0;
+    }
+    return { hours, minutes };
+  };
+
+  const isWithinOpenHours = (selectedDateTime, openTime, closeTime) => {
+    if (!openTime || !closeTime) return true;
+    const userHours = selectedDateTime.getHours();
+    const userMinutes = selectedDateTime.getMinutes();
+
+    const openMinutesTotal = openTime.hours * 60 + openTime.minutes;
+    const closeMinutesTotal = closeTime.hours * 60 + closeTime.minutes;
+    const userMinutesTotal = userHours * 60 + userMinutes;
+
+    return userMinutesTotal >= openMinutesTotal && userMinutesTotal <= closeMinutesTotal;
+  };
+
   const handleCheckout = async () => {
     const user = auth.currentUser;
     if (!selectedTime) {
-      alert("Please select a pickup time first.");
+      alert("Please select a valid pickup time.");
       return;
     }
+    const combinedPickedTime = new Date(selectedTime);
+    if (combinedPickedTime < new Date()) {
+      alert("Pickup time cannot be in the past.");
+      return;
+    }
+
+    // Check store hours
+    if (storeInfo && storeInfo.hours) {
+      const hoursParsed = parseStoreHours(storeInfo.hours);
+      if (hoursParsed) {
+        const openTime = convertTo24Hour(hoursParsed.open);
+        const closeTime = convertTo24Hour(hoursParsed.close);
+        if (openTime && closeTime) {
+          if (!isWithinOpenHours(combinedPickedTime, openTime, closeTime)) {
+            alert(`The time you chose is out of the operating hours for this store, which are ${storeInfo.hours}.`);
+            return;
+          }
+        }
+      }
+    }
+
     if (!selectedPaymentId && !showNewCardForm) {
       alert("Please select a card or add a new one.");
       return;
@@ -239,13 +302,12 @@ const UserCart = () => {
                       <p className="text-xs text-gray-500">→ {item.type || "Alcohol"}</p>
                     </div>
                     <div className="flex flex-col items-end">
-                        {/* <p className="text-sm font-semibold">Qty: {item.quantity || 1}</p> */}
-                        <button
-                            onClick={() => removeItemFromCart(item.id)}
-                            className="text-red-500 text-xs hover:underline mt-1"
-                        >
-                            Remove
-                        </button>
+                      <button
+                        onClick={() => removeItemFromCart(item.id)}
+                        className="text-red-500 text-xs hover:underline mt-1"
+                      >
+                        Remove
+                      </button>
                     </div>
                     <div className="text-sm font-semibold text-right">
                       Qty: {item.quantity || 1}
@@ -288,12 +350,41 @@ const UserCart = () => {
 
             <div className="bg-white rounded-md shadow-md p-5">
               <h2 className="text-lg font-bold mb-3">Select Pickup Time</h2>
-              <input
-                type="datetime-local"
-                value={selectedTime}
-                onChange={(e) => setSelectedTime(e.target.value)}
-                className="w-full border rounded px-3 py-2 text-sm text-gray-700 outline-none"
-              />
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex-1">
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    Pickup Date
+                  </label>
+                  <input
+                    type="date"
+                    min={new Date().toISOString().split("T")[0]}
+                    value={selectedDateOnly}
+                    onChange={(e) => {
+                      setSelectedDateOnly(e.target.value);
+                      if (e.target.value && selectedTimeOnly) {
+                        setSelectedTime(`${e.target.value}T${selectedTimeOnly}`);
+                      }
+                    }}
+                    className="w-full border rounded px-3 py-2 text-sm text-gray-700 outline-none"
+                  />
+                </div>
+                <div className="flex-1">
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">
+                    Pickup Time
+                  </label>
+                  <input
+                    type="time"
+                    value={selectedTimeOnly}
+                    onChange={(e) => {
+                      setSelectedTimeOnly(e.target.value);
+                      if (selectedDateOnly && e.target.value) {
+                        setSelectedTime(`${selectedDateOnly}T${e.target.value}`);
+                      }
+                    }}
+                    className="w-full border rounded px-3 py-2 text-sm text-gray-700 outline-none"
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="bg-white rounded-md shadow-md p-5">

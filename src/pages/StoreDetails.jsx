@@ -156,7 +156,15 @@ const StoreDetails = () => {
       <div className="mx-auto w-11/12 sm:w-4/5 my-10">
         {storeInfo ? (
           <div className="bg-white shadow-lg rounded-md p-6 mb-8 transition-transform duration-300 ease-in-out hover:shadow-xl">
-            <h2 className="text-3xl font-bold mb-1">{storeInfo.name}</h2>
+            <div className="flex items-center gap-2 mb-1">
+              <h2 className="text-3xl font-bold">{storeInfo.name}</h2>
+              <div className="relative group">
+                <div className="w-5 h-5 rounded-full bg-gray-300 text-xs text-center leading-5 cursor-pointer">i</div>
+                <div className="absolute left-6 top-0 w-64 text-xs bg-white text-gray-800 border border-gray-300 rounded p-2 shadow-lg hidden group-hover:block z-50">
+                  Images shown here were manually sourced from the internet across various platforms for demo purposes. Not all images are consistent in quality or size. Upon official launch, we will work directly with store owners to ensure image consistency.
+                </div>
+              </div>
+            </div>
             <p className="text-gray-600 text-sm mb-3">
               {storeInfo.distance} &middot; Rating: {storeInfo.rating} / 5
             </p>
@@ -164,7 +172,7 @@ const StoreDetails = () => {
               <img
                 src={storeInfo.image}
                 alt={storeInfo.name}
-                className="w-full sm:w-1/2 h-64 object-cover rounded-md"
+                className="w-full sm:w-1/2 h-64 object-cover object-center rounded-md"
               />
               <div className="flex-1">
                 <p className="text-gray-700 leading-relaxed mb-2">
@@ -302,7 +310,7 @@ const StoreDetails = () => {
                     <img
                       src={item.image_url}
                       alt={item.name}
-                      className="w-full h-48 object-cover rounded-md mb-3"
+                      className="w-full aspect-square object-cover object-center rounded-md mb-3"
                     />
                     <h3 className="text-lg font-semibold mb-1">{item.name}</h3>
                     <p className="text-sm text-gray-600">{item.brand}</p>
