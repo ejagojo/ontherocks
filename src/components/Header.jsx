@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
+import { FaLocationDot } from "react-icons/fa6";
 import { FaSearch } from "react-icons/fa";
+import { FaAward } from "react-icons/fa6";
 import logo from "/assets/logo/Logo.png";
 import profile from "/assets/Profile-icon/profile.jpg";
 import StoreSearchPopup from "../pages/StoreSearchPopup";
@@ -10,7 +12,7 @@ import { getAuth } from "firebase/auth";
 import { collection, onSnapshot } from "firebase/firestore";
 import CartPreviewPopup from "./CartPreviewPopup";
 
-const Header = ({ theme = "light" }) => {
+const Header = () => {
   const userName = null;
   const [address, setAddress] = useState("123 Lowell St");
   const [isEditing, setIsEditing] = useState(false);
@@ -58,8 +60,14 @@ const Header = ({ theme = "light" }) => {
       const currentCart = items;
       const previousCart = prevCartRef.current;
 
-      const previousCount = previousCart.reduce((sum, item) => sum + (item.quantity || 0), 0);
-      const currentCount = currentCart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+      const previousCount = previousCart.reduce(
+        (sum, item) => sum + (item.quantity || 0),
+        0
+      );
+      const currentCount = currentCart.reduce(
+        (sum, item) => sum + (item.quantity || 0),
+        0
+      );
 
       if (currentCount > previousCount) {
         setShowCartPreview(true);
@@ -114,7 +122,9 @@ const Header = ({ theme = "light" }) => {
 
           <div className="flex flex-col md:flex-row items-end md:items-center justify-end gap-2 my-4">
             <div className="flex-1 flex md:flex-row items-end md:items-center justify-end gap-2 ml-4">
-              <div className="w-full md:w-[280px] h-10 relative flex items-center justify-between px-4 py-2 bg-gray-200 rounded-full text-black font-medium hover:bg-gray-300">
+              <div className="w-full md:w-[280px] h-10 relative flex items-center justify-between px-4 py-2 gap-2 bg-gray-200 rounded-full text-black font-medium hover:bg-gray-300">
+                {/* to signify this is the location input */}
+                <FaLocationDot />
                 {isEditing ? (
                   <form onSubmit={handleSearchSubmit} className="w-full">
                     <input
@@ -134,8 +144,8 @@ const Header = ({ theme = "light" }) => {
                     {address}
                   </span>
                 )}
-                <span className="mx-2 h-6 w-px bg-gray-400"></span>
-                <span className="text-sm md:text-md">Pick Up</span>
+                {/* <span className="mx-2 h-6 w-px bg-gray-400"></span> */}
+                {/* <span className="text-sm md:text-md">Pick Up</span> */}
                 {showSuggestions && suggestions.length > 0 && (
                   <div className="absolute top-12 left-0 w-full bg-white text-black rounded-lg shadow-md z-50 max-h-60 overflow-auto">
                     {suggestions.map((suggestion, idx) => (
@@ -151,33 +161,38 @@ const Header = ({ theme = "light" }) => {
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-1 w-full md:w-auto justify-end relative">
-              <div
-                className="flex items-center px-3 md:px-4 py-2 bg-gray-200 rounded-full cursor-pointer"
-                onClick={toggleCartPreview}
-              >
-                <FaSearch className="md:hidden mr-1" />
-                <input
-                  className="md:block bg-transparent outline-none w-20 md:w-auto"
-                  placeholder="Search"
-                />
-                <span className="mx-2 h-6 w-px bg-gray-400 hidden md:block"></span>
-                <FaShoppingCart className="mr-1" />
-                <span className="font-bold">{cartCount}</span>
+            {/*Grouped: Rewards, Cart and Profile icons  */}
+            <div className="flex items-center w-full md:w-auto justify-end relative">
+              <div className="flex items-center gap-3 md:gap-2">
+                {/* Rewards icon*/}
+                <Link to="/loyalty">
+                  <FaAward className="text-2xl text-yellow-500" />
+                </Link>
+                {/* Cart icon and preview*/}
+                <div
+                  // className="flex items-center gap-1 px-3 md:px-4 py-2 cursor-pointer"
+                  className="flex items-center gap-1 cursor-pointer"
+                  onClick={toggleCartPreview}
+                >
+                  <FaShoppingCart className="text-2xl text-black" />
+                  <span className="font-bold text-black">{cartCount}</span>
+                  {showCartPreview && (
+                    <CartPreviewPopup
+                      cartItems={cartItems}
+                      onClose={toggleCartPreview}
+                    />
+                  )}
+                </div>
+                {/* Profile Icon */}
+                <Link to="/profile" className="flex items-center gap-2 ml-px">
+                  <img
+                    src={profile}
+                    alt="profile"
+                    className="h-10 w-10 rounded-full object-cover"
+                  />
+                  {userName && <span>{userName}</span>}
+                </Link>
               </div>
-
-              {showCartPreview && (
-                <CartPreviewPopup cartItems={cartItems} onClose={toggleCartPreview} />
-              )}
-
-              <Link to="/profile" className="flex items-center gap-2 ml-px">
-                <img
-                  src={profile}
-                  alt="profile"
-                  className="h-10 w-10 rounded-full object-cover"
-                />
-                {userName && <span>{userName}</span>}
-              </Link>
             </div>
           </div>
         </div>
