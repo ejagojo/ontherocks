@@ -1,74 +1,100 @@
-import React from "react";
-
-const drinks = [
-    {
-        id: 1,
-        name: "SmirnoffRootBeer",
-        label: "Smirnoff Rootbeer Vodka 50ml",
-        assets: "/assets/drinks/smirnoff_root_beer50ml.png",
-        cost: 0.50,
-        className: "w-24 h-40 -ml-6 mt-4 object-contain"
-    },
-    {
-        id: 2,
-        name: "FireballWhisky",
-        label: "Fireball Whisky 50ml",
-        assets: "/assets/drinks/fireball_50ml.png",
-        cost: 0.50,
-        className: "w-24 h-40 -ml-8 mt-4 object-contain"
-    },
-    {
-        id: 3,
-        name: "TitoVodka",
-        label: "Tito Vodka 50ml",
-        assets: "/assets/drinks/tito50ml.jpg",
-        cost: 0.50,
-        className: "w-24 h-40 -ml-8 mt-4 object-contain"
-    },
-    {
-        id: 4,
-        name: "AbsolutVodka",
-        label: "Absolut Vodka 50ml",
-        assets: "/assets/drinks/absolut_vodka50ml.webp",
-        cost: 0.50,
-        className: "w-30 h-45 -ml-8 mt-4 object-contain"
-    },
-]
-
+import React, { useEffect, useState, useRef } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../services/firebase";
 
 const LoyaltyDeals = () => {
+  const [deals, setDeals] = useState([]);
+  const containerRef = useRef(null);
 
-    return (
-        <div className="flex flex-col md:flex-row gap-6 md:gap-38 mt-4 ml-0 justify-center px-2">
-            <button className="hidden md:flex absolute left-2 top-[90%] -translate-y-1/2 z-10 h-12 w-10 items-center justify-center bg-white bg-opacity-80 text-black rounded-r-md hover:bg-opacity-100">
-                ◀
-            </button>
-    
-            {drinks.map((drink) => (
-                <div
-                    key={drink.id}
-                    className="bg-white rounded-2xl shadow-lg p-6 w-full md:w-60 h-60">
-                    <div className="flex items-center ml-2">
-                        <img
-                            src={drink.assets}
-                            className={drink.className}
-                            alt={`${drink.label} bottle`}
-                        />
-                        <div className="ml-2 mt-4">
-                            <h1 className="font-bold knewave-font">{drink.label}</h1>
-                            <button className="mt-6 px-6 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300">
-                                ${drink.cost.toFixed(2)} 
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            ))}
-    
-            <button className="hidden md:flex absolute right-2 top-[90%] -translate-y-1/2 z-10 h-12 w-10 items-center justify-center bg-white bg-opacity-80 text-black rounded-r-md hover:bg-opacity-100">
-                ▶
-            </button>
-        </div>
-    );
+  useEffect(() => {
+    const fetchDeals = async () => {
+      try {
+        const querySnapshot = await getDocs(
+          collection(db, "stores", "store-001", "items")
+        );
+        const allDeals = [];
+
+        querySnapshot.forEach((doc) => {
+          if (doc.id.startsWith("beer-")) {
+            const data = doc.data();
+            allDeals.push({
+              id: doc.id,
+              label: data.name,
+              assets: data.image_url,
+              cost: data.price,
+              className: "w-24 h-36 -ml-6 mt-4 object-contain"
+            });
+          }
+        });
+
+        setDeals(allDeals);
+      } catch (error) {
+        console.error("Error fetching deals:", error);
+      }
+    };
+
+    fetchDeals();
+  }, []);
+
+  const scrollLeft = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft -= 300;
+    }
+  };
+
+  const scrollRight = () => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft += 300;
+    }
+  };
+
+  return (
+    <div className="mx-auto w-4/5 my-8 relative">
+      <button
+        onClick={scrollLeft}
+        className="absolute z-10 h-56 flex items-center justify-center bg-white bg-opacity-80 rounded-r-md px-2 focus:outline-none hover:bg-opacity-100"
+        style={{ top: "50%", left: "-2rem", transform: "translateY(-50%)" }}
+      >
+        ◀
+      </button>
+
+      <div
+        ref={containerRef}
+        className="flex overflow-x-auto gap-4 py-2 scroll-smooth"
+      >
+        {deals.map((deal) => (
+          <div
+            key={deal.id}
+            className="bg-white rounded-2xl shadow-lg p-6 w-60 flex-shrink-0 h-60"
+          >
+            <div className="flex items-center ml-2">
+              <img
+                src={deal.assets}
+                className={deal.className}
+                alt={`${deal.label} bottle`}
+              />
+              <div className="ml-2 mt-4">
+                <h1 className="font-bold knewave-font">{deal.label}</h1>
+                <button
+                  className="mt-6 px-6 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300"
+                >
+                  ${deal.cost?.toFixed(2)}
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <button
+        onClick={scrollRight}
+        className="absolute z-10 h-56 flex items-center justify-center bg-white bg-opacity-80 rounded-l-md px-2 focus:outline-none hover:bg-opacity-100"
+        style={{ top: "50%", right: "-2rem", transform: "translateY(-50%)" }}
+      >
+        ▶
+      </button>
+    </div>
+  );
 };
 
 export default LoyaltyDeals;

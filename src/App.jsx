@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import { seedInventory } from "./services/seedInventory";
+import { useEffect } from "react";
 import Order from "./pages/Order";
 import Contact from "./pages/Contact";
 import About from "./pages/About";
@@ -12,6 +14,10 @@ import StoreDetails from "./pages/StoreDetails";
 import UserCart from "./pages/UserCart";
 
 const App = () => {
+  useEffect(() => {
+    seedInventory(); // only runs once on initial load
+  }, []);
+  
   return (
     <Router>
       <Routes>

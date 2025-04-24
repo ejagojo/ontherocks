@@ -90,6 +90,7 @@ const signUpWithEmail = async (email, password, navigate, firstName, lastName, d
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const newUser = userCredential.user;
+    const loyaltyPoints = 100;
 
     // Create a doc in Firestore with user details
     await createOrUpdateUserDoc(newUser.uid, {
@@ -97,6 +98,7 @@ const signUpWithEmail = async (email, password, navigate, firstName, lastName, d
       lastName,
       dob,
       email,
+      loyaltyPoints
     });
 
     navigate("/order"); // Redirect after successful signup

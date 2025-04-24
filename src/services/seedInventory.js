@@ -1605,13 +1605,14 @@ const inventoryData = [
     },
     {
         "id": "tequila-020",
-        "name": "Wild Common Blanco",
+        "name": "Wile Common Blanco",
         "brand": "Wild Common",
         "type": "Tequila",
         "subtype": "Blanco",
         "abv": 40,
         "volume_ml": 750,
         "price": 74.99,
+        "points": 200,
         "in_stock": true,
         "store_id": "store-001",
         "description": "Organic agave with a creamy texture and floral-citrus notes.",
@@ -1622,7 +1623,133 @@ const inventoryData = [
             "Creamy"
         ],
         "rating": 4.6
-    }
+    },
+    {
+        "id": "loyalty-001",
+        "name": "99Banana",
+        "brand": "99 Brand Party",
+        "type": "Vodka",
+        "subtype": "Blanco",
+        "abv": 33,
+        "volume_ml": 50,
+        "price": 2.00,
+        "points": 25,
+        "in_stock": true,
+        "store_id": "store-001",
+        "description": "Organic agave with a creamy texture and floral-citrus notes.",
+        "image_url": "/assets/drinks/99-bananas-50ml.png",
+        "tags": [
+            "Organic",
+            "Floral",
+            "Creamy"
+        ],
+        "rating": 4.9
+    },
+    {
+        "id": "loyalty-002",
+        "name": "Bacardi Raspberry",
+        "brand": "Bacardi",
+        "type": "White Rum",
+        "subtype": "Blanco",
+        "abv": 40,
+        "volume_ml": 50,
+        "price": 2.00,
+        "points": 25,
+        "in_stock": true,
+        "store_id": "store-001",
+        "description": "Organic agave with a creamy texture and floral-citrus notes.",
+        "image_url": "/assets/drinks/bacardi_raspberry_50ml.png",
+        "tags": [
+            "Organic",
+            "Floral",
+            "Creamy"
+        ],
+        "rating": 4.9
+    },
+    {
+        "id": "loyalty-003",
+        "name": "Fireball Whisky",
+        "brand": "Fireball",
+        "type": "Whisky",
+        "subtype": "Blanco",
+        "abv": 40,
+        "volume_ml": 50,
+        "price": 2.00,
+        "points": 25,
+        "in_stock": true,
+        "store_id": "store-001",
+        "description": "Organic agave with a creamy texture and floral-citrus notes.",
+        "image_url": "/assets/drinks/fireball_50ml.png",
+        "tags": [
+            "Organic",
+            "Floral",
+            "Creamy"
+        ],
+        "rating": 5.0
+    },
+    {
+        "id": "loyalty-004",
+        "name": "Smirnoff Rootbeer Vodka",
+        "brand": "Smirnoff",
+        "type": "Vodka",
+        "subtype": "Blanco",
+        "abv": 50,
+        "volume_ml": 50,
+        "price": 2.00,
+        "points": 25,
+        "in_stock": true,
+        "store_id": "store-001",
+        "description": "Organic agave with a creamy texture and floral-citrus notes.",
+        "image_url": "/assets/drinks/smirnoff_root_beer50ml.png",
+        "tags": [
+            "Organic",
+            "Floral",
+            "Creamy"
+        ],
+        "rating": 3.9
+    },
+    {
+        "id": "loyalty-005",
+        "name": "Tito's Vodka",
+        "brand": "Tito's",
+        "type": "Vodka",
+        "subtype": "Blanco",
+        "abv": 40,
+        "volume_ml": 50,
+        "price": 2.00,
+        "points": 25,
+        "in_stock": true,
+        "store_id": "store-001",
+        "description": "Organic agave with a creamy texture and floral-citrus notes.",
+        "image_url": "/assets/drinks/tito50ml.jpg",
+        "tags": [
+            "Organic",
+            "Floral",
+            "Creamy"
+        ],
+        "rating": 4.2
+    },
+    {
+        "id": "loyalty-006",
+        "name": "Heritage Brown Sugar",
+        "brand": "Heritage",
+        "type": "Bourbon",
+        "subtype": "Blanco",
+        "abv": 40,
+        "volume_ml": 50,
+        "price": 2.00,
+        "points": 25,
+        "in_stock": true,
+        "store_id": "store-001",
+        "description": "Organic agave with a creamy texture and floral-citrus notes.",
+        "image_url": "/assets/drinks/Heritage_brown_sugar50ml.jpg",
+        "tags": [
+            "Organic",
+            "Floral",
+            "Creamy"
+        ],
+        "rating": 4.6
+    },
 ];
 
 export const seedInventory = async () => {
@@ -1642,7 +1769,8 @@ export const seedInventory = async () => {
         description: item.description,
         image_url: item.image_url,
         tags: item.tags,
-        rating: item.rating
+        rating: item.rating,
+        ...(item.points !== undefined && { points: item.points })
       }, { merge: true });
       console.log(`Seeded item ${item.id} into store ${item.store_id}!`);
     }
