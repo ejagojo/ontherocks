@@ -18,6 +18,20 @@ const PaymentMethods = ({
   // Track if the user has attempted to submit
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
+  // only letters, at least two words (e.g. "John Doe")
+  const nameRegex = /^[A-Za-z]+(?:\s+[A-Za-z]+)+$/;
+
+  const blankCard = {type: "", number: "", expires: "", name: "", cvc: ""};
+
+  const handleCancelClick = () => {
+    // Clear out the form fields
+    setNewCard(blankCard);
+    // Rest any validation state
+    setSubmitAttempted(false);
+    // Hide form 
+    onCancel();
+  }
+  
   const addCardToFirestore = async () => {
     // Mark that submission was attempted so error messages are shown
     setSubmitAttempted(true);
@@ -58,6 +72,12 @@ const PaymentMethods = ({
     // Validate CVC: must be exactly 3 digits
     if (!/^\d{3}$/.test(cvc)) {
       alert("CVC must be exactly 3 digits (e.g., 123).");
+      return;
+    }
+
+    // Validate Name
+    if (!nameRegex.test(name.trim())) {
+      alert("Please input a valid name (e.g., John Doe).");
       return;
     }
 
@@ -149,8 +169,17 @@ const PaymentMethods = ({
                 }
               />
               {submitAttempted && !newCard.number && (
-                <span className="text-red-500 text-xs">Please enter your card number.</span>
+                <span className="text-red-500 text-xs">
+                  Please enter your card number.
+                </span>
               )}
+              {submitAttempted &&
+                newCard.number &&
+                !/^\d{13,19}$/.test(newCard.number.replace(/\s+/g, "")) && (
+                  <span className="text-red-500 text-xs">
+                    Card number must be 13-19 digits.
+                  </span>
+                )}
             </div>
 
             {/* Expiry Date and CVC */}
@@ -169,8 +198,17 @@ const PaymentMethods = ({
                   }
                 />
                 {submitAttempted && !newCard.expires && (
-                  <span className="text-red-500 text-xs">Please fill out the expiry date.</span>
+                  <span className="text-red-500 text-xs">
+                    Please fill out the expiry date.
+                  </span>
                 )}
+                {submitAttempted &&
+                  newCard.expires &&
+                  !/^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(newCard.expires) && (
+                    <span className="text-red-500 text-xs">
+                      Expiry must be in MM/YY format.
+                    </span>
+                  )}
               </div>
 
               <div>
@@ -187,8 +225,17 @@ const PaymentMethods = ({
                   }
                 />
                 {submitAttempted && !newCard.cvc && (
-                  <span className="text-red-500 text-xs">Please enter the CVC.</span>
+                  <span className="text-red-500 text-xs">
+                    Please enter the CVC.
+                  </span>
                 )}
+                {submitAttempted &&
+                  newCard.cvc &&
+                  !/^\d{3}$/.test(newCard.cvc) && (
+                    <span className="text-red-500 text-xs">
+                      CVC must be exactly 3 digits.
+                    </span>
+                  )}
               </div>
             </div>
 
@@ -207,14 +254,23 @@ const PaymentMethods = ({
                 }
               />
               {submitAttempted && !newCard.name && (
-                <span className="text-red-500 text-xs">Please enter the name on card.</span>
+                <span className="text-red-500 text-xs">
+                  Please enter the name on card.
+                </span>
               )}
+              {submitAttempted &&
+                newCard.name &&
+                !nameRegex.test(newCard.name.trim()) && (
+                  <span className="text-red-500 text-xs">
+                    Please enter a valid full name (e.g., John Doe).
+                  </span>
+                )}
             </div>
 
             {/* Form buttons */}
             <div className="flex justify-end space-x-3 mt-4">
               <button
-                onClick={onCancel}
+                onClick={handleCancelClick}
                 className="px-4 py-2 bg-gray-600 hover:bg-gray-700 rounded-md text-white"
               >
                 Cancel
