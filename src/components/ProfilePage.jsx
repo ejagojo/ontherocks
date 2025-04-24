@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { auth, db } from "../services/firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { sendPasswordResetEmail } from "firebase/auth";
+import { sendPasswordResetEmail, onAuthStateChanged } from "firebase/auth";
 
 const ProfilePage = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -14,32 +14,34 @@ const ProfilePage = () => {
   // Reference to the form container for click-outside detection
   const formRef = useRef(null);
 
-  // Fetch user's data from Firestore
+  // Listen for auth state changes, then fetch the Firestore profile
   useEffect(() => {
-    const currentUser = auth.currentUser;
-    if (!currentUser) return; // Not logged in
-
-    const docRef = doc(db, "users", currentUser.uid);
-    getDoc(docRef).then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.data();
-        const fName = data.firstName || "";
-        const lName = data.lastName || "";
-        const userEmail = data.email || "";
-        const phone = data.phoneNumber || "";
-        setFirstName(fName);
-        setLastName(lName);
-        setEmail(userEmail);
-        setPhoneNumber(phone);
-        // Store original values for cancellation purposes
-        setOriginalData({
-          firstName: fName,
-          lastName: lName,
-          email: userEmail,
-          phoneNumber: phone,
-        });
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (!user) return;
+      try {
+        const snap = await getDoc(doc(db, "users", user.uid));
+        if (snap.exists()) {
+          const data = snap.data();
+          const fName = data.firstName || "";
+          const lName = data.lastName || "";
+          const userEmail = data.email || "";
+          const phone = data.phoneNumber || "";
+          setFirstName(fName);
+          setLastName(lName);
+          setEmail(userEmail);
+          setPhoneNumber(phone);
+          setOriginalData({
+            firstName: fName,
+            lastName: lName,
+            email: userEmail,
+            phoneNumber: phone,
+          });
+        }
+      } catch (err) {
+        console.error("Failed to load profile:", err);
       }
     });
+    return unsubscribe;
   }, []);
 
   // Validate email: must not exceed total 254 characters, local part <= 64, and have a valid TLD.

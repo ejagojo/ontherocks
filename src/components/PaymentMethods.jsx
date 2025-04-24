@@ -18,22 +18,6 @@ const PaymentMethods = ({
   // Track if the user has attempted to submit
   const [submitAttempted, setSubmitAttempted] = useState(false);
 
-  // Luhn algorithm implementation
-  const luhnCheck = (num) => {
-    let sum = 0;
-    let shouldDouble = false;
-    for (let i = num.length - 1; i >= 0; i--) {
-      let digit = parseInt(num.charAt(i), 10);
-      if (shouldDouble) {
-        digit *= 2;
-        if (digit > 9) digit -= 9;
-      }
-      sum += digit;
-      shouldDouble = !shouldDouble;
-    }
-    return sum % 10 === 0;
-  };
-
   const addCardToFirestore = async () => {
     // Mark that submission was attempted so error messages are shown
     setSubmitAttempted(true);
@@ -50,12 +34,6 @@ const PaymentMethods = ({
     // Validate card number length: 13-19 digits
     if (!/^\d{13,19}$/.test(cardNumber)) {
       alert("Please enter a valid card number with 13 to 19 digits.");
-      return;
-    }
-
-    // Luhn check for valid card
-    if (!luhnCheck(cardNumber)) {
-      alert("Invalid card number (failed Luhn check).");
       return;
     }
 
