@@ -63,6 +63,7 @@ const signInWithGoogle = async (navigate) => {
     await createOrUpdateUserDoc(user.uid, {
       displayName: user.displayName || "",
       email: user.email || "",
+      points: 100,
     });
 
     console.log("Google Sign-In Success:", user);
