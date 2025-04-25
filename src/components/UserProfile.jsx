@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ProfileTabs from "./ProfileTabs.jsx";
 import OrderHistory from "./OrderHistory";
 import PaymentMethods from "./PaymentMethods";
@@ -9,6 +10,8 @@ import { auth, db } from "../services/firebase";
 import { doc, getDoc, collection, onSnapshot, deleteDoc } from "firebase/firestore";
 import { deleteUser, signOut } from "firebase/auth";
 import ProfilePage from "./ProfilePage";
+import LoginForm from "./Login";
+import SignUpForm from "./Registration";
 
 const drinkImages = {
   "Plastic Bottle Vodka 1L": PlasticBottle,
@@ -17,6 +20,7 @@ const drinkImages = {
 };
 
 const UserProfile = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("profile");
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [orders, setOrders] = useState([]);
@@ -32,6 +36,8 @@ const UserProfile = () => {
   const [lastName, setLastName] = useState("");
   const [photoURL, setPhotoURL] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showLoginPopup, setShowLoginPopup] = useState(false);
+  const [showRegisterPopup, setShowRegisterPopup] = useState(false);
 
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged(async (user) => {
@@ -121,7 +127,7 @@ const UserProfile = () => {
 
   return (
     <div className="bg-white text-white flex items-center justify-center">
-      <div className="mx-10 mt-32 md:w-2/3 bg-[#1e1e1e] rounded-2xl shadow-2xl p-14 h-auto min-h-[80vh]">
+      <div className="mx-4 md:mx-10 mt-32 md:w-2/3 bg-[#1e1e1e] rounded-2xl shadow-2xl p-6 md:p-14 h-auto min-h-[80vh]">
         <ProfileTabs activeTab={activeTab} setActiveTab={setActiveTab} />
         <hr className="border-gray-600 mb-6" />
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -151,7 +157,7 @@ const UserProfile = () => {
               <h3 className="text-xl font-semibold">
                 {firstName || lastName ? `${firstName} ${lastName}`.trim() : "Anonymous User"}
               </h3>
-              {isLoggedIn && (
+              {isLoggedIn ? (
                 <>
                   <button
                     className="bg-red-700 hover:bg-red-800 text-white rounded-full py-2 px-4 w-full mt-4"
@@ -166,11 +172,60 @@ const UserProfile = () => {
                     Sign out
                   </button>
                 </>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setShowLoginPopup(true)}
+                    className="bg-green-700 hover:bg-green-800 text-white rounded-full py-2 px-4 w-full mt-4"
+                  >
+                    Login
+                  </button>
+                  <button
+                    onClick={() => setShowRegisterPopup(true)}
+                    className="bg-gray-900 hover:bg-gray-800 text-white rounded-full py-2 px-4 w-full mt-2"
+                  >
+                    Register
+                  </button>
+                </>
               )}
             </div>
           </div>
         </div>
       </div>
+
+      {showLoginPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4">
+          <div className="relative bg-[#1e1e1e] p-6 rounded-xl shadow-lg w-full max-w-md">
+            <button
+              onClick={() => setShowLoginPopup(false)}
+              className="absolute top-2 right-2 text-gray-400 hover:text-white text-xl"
+            >
+              &times;
+            </button>
+            <LoginForm toggleForm={() => {
+              setShowLoginPopup(false);
+              setShowRegisterPopup(true);
+            }} />
+          </div>
+        </div>
+      )}
+
+      {showRegisterPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="relative bg-[#1e1e1e] p-6 rounded-xl shadow-lg w-full max-w-[400px] mx-auto my-auto">
+            <button
+              onClick={() => setShowRegisterPopup(false)}
+              className="absolute top-2 right-2 text-gray-400 hover:text-white text-xl"
+            >
+              &times;
+            </button>
+            <SignUpForm toggleForm={() => {
+              setShowRegisterPopup(false);
+              setShowLoginPopup(true);
+            }} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
