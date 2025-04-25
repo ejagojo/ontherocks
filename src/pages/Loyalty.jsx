@@ -7,10 +7,17 @@ import LoyaltyBar from "../components/LoyaltyBar";
 import BackArrow from "../components/BackArrow";
 import LoyaltyRewards from "../components/LoyaltyRewards";
 import LoyaltyDeals from "../components/LoyaltyDeals";
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const Loyalty = () => {
   const [points, setPoints] = useState(null);
   const [userName, setUserName] = useState("")
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
   useEffect(() => {
     const getLoyaltyPoints = async () => {
@@ -33,6 +40,8 @@ const Loyalty = () => {
 
     getLoyaltyPoints();
   }, []);
+
+  if (loading) return <LoadingSpinner />;
 
     return (
       <div className="relative w-full h-auto md:h-screen min-h-screen text-black overflow-y-auto">

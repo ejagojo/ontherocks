@@ -14,9 +14,6 @@ import StoreDetails from "./pages/StoreDetails";
 import UserCart from "./pages/UserCart";
 
 const App = () => {
-  useEffect(() => {
-    seedInventory(); // only runs once on initial load
-  }, []);
   
   return (
     <Router>
