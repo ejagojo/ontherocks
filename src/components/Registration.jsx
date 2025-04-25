@@ -63,7 +63,7 @@ const SignUpForm = ({ toggleForm }) => {
   return (
     <>
       {loading && <LoadingSpinner />}
-      <div className="w-full max-w-[320px] md:max-w-[600px] p-4 border border-white rounded-lg bg-opacity-0 backdrop-blur-xs">
+      <div className="w-full max-w-[320px] md:max-w-[400px] p-4 border border-white rounded-lg bg-opacity-0 backdrop-blur-xs">
         <h2 className="text-lg font-semibold mb-4 text-center">Sign Up</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
@@ -86,7 +86,7 @@ const SignUpForm = ({ toggleForm }) => {
               placeholder="Last Name"
             />
           </div>
-          <div>
+          <div className="md:col-span-2">
             <label className="block text-xs mb-1">Email</label>
             <input
               type="email"
@@ -115,7 +115,7 @@ const SignUpForm = ({ toggleForm }) => {
               placeholder="Password"
             />
           </div>
-          <div>
+          <div className="md:col-span-2">
             <label className="block text-xs mb-1">Re-Type Password</label>
             <input
               type="password"
