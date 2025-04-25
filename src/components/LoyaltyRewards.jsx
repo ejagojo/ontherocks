@@ -23,7 +23,7 @@ const LoyaltyRewards = ({ points, setPoints }) => {
               assets: data.image_url,
               volume: data.volume_ml + "ml",
               points: data.points,
-              className: "w-24 h-36 -ml-6 mt-4 object-contain"
+              className: "w-full aspect-square object-cover object-center rounded-md mb-3"
             });
           }
         });
@@ -59,6 +59,7 @@ const LoyaltyRewards = ({ points, setPoints }) => {
 
   return (
     <div className="mx-auto w-4/5 my-8 relative">
+
       <button
         onClick={scrollLeft}
         className="absolute z-10 h-56 flex items-center justify-center bg-white bg-opacity-80 rounded-r-md px-2 focus:outline-none hover:bg-opacity-100"
@@ -74,26 +75,21 @@ const LoyaltyRewards = ({ points, setPoints }) => {
         {drinks.map((drink) => (
           <div
             key={drink.id}
-            className="bg-white rounded-2xl shadow-lg p-6 w-60 flex-shrink-0 h-60"
+            className="bg-white border rounded-md shadow-md p-4 transform transition-transform duration-300 ease-in-out hover:scale-105 w-60 flex-shrink-0 h-auto"
           >
-            <div className="flex items-center ml-2">
-              <img
-                src={drink.assets}
-                className={drink.className}
-                alt={`${drink.label} bottle`}
-              />
-              <div className="ml-2 mt-4">
-                <h1 className="font-bold knewave-font">{drink.label}</h1>
-                <h1 className="font-bold knewave-font">{drink.volume}</h1>
-                <button
-                  onClick={() => {
-                    handleRedeem(drink.points)}}
-                  className="mt-6 px-6 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300"
-                >
-                  {drink.points} Points
-                </button>
-              </div>
-            </div>
+            <img
+              src={drink.assets}
+              className={drink.className}
+              alt={`${drink.label} bottle`}
+            />
+            <h1 className="text-lg font-semibold mb-1 knewave-font">{drink.label}</h1>
+            <h1 className="text-sm text-gray-600 knewave-font">{drink.volume}</h1>
+            <button
+              onClick={() => handleRedeem(drink.points)}
+              className="mt-3 px-4 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300"
+            >
+              {drink.points} Points
+            </button>
           </div>
         ))}
       </div>

@@ -21,8 +21,9 @@ const LoyaltyDeals = () => {
               id: doc.id,
               label: data.name,
               assets: data.image_url,
+              volume: data.volume_ml,
               cost: data.price,
-              className: "w-24 h-36 -ml-6 mt-4 object-contain"
+              className: "w-full aspect-square object-cover object-center rounded-md mb-3"
             });
           }
         });
@@ -65,23 +66,20 @@ const LoyaltyDeals = () => {
         {deals.map((deal) => (
           <div
             key={deal.id}
-            className="bg-white rounded-2xl shadow-lg p-6 w-60 flex-shrink-0 h-60"
+            className="bg-white border rounded-md shadow-md p-4 transform transition-transform duration-300 ease-in-out hover:scale-105 w-60 flex-shrink-0 h-auto"
           >
-            <div className="flex items-center ml-2">
-              <img
-                src={deal.assets}
-                className={deal.className}
-                alt={`${deal.label} bottle`}
-              />
-              <div className="ml-2 mt-4">
-                <h1 className="font-bold knewave-font">{deal.label}</h1>
-                <button
-                  className="mt-6 px-6 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300"
-                >
-                  ${deal.cost?.toFixed(2)}
-                </button>
-              </div>
-            </div>
+            <img
+              src={deal.assets}
+              className="w-full aspect-square object-cover object-center rounded-md mb-3"
+              alt={`${deal.label} bottle`}
+            />
+            <h1 className="text-lg font-semibold mb-1 knewave-font">{deal.label}</h1>
+            <h1 className="text-sm text-gray-600 knewave-font">{deal.volume}ml</h1>
+            <button
+              className="mt-3 px-4 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300"
+            >
+              ${deal.cost?.toFixed(2)}
+            </button>
           </div>
         ))}
       </div>
