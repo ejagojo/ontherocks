@@ -35,7 +35,7 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div className="hidden md:flex gap-8">
+      <div className="absolute left-1/2 transform -translate-x-1/2 hidden md:flex gap-8">
         <Link
           to="/order"
           className="text-white poppins-font text-lg relative transition-transform duration-300 ease-in-out hover:scale-110 hover:text-white
@@ -68,15 +68,6 @@ const Navbar = () => {
         >
           Partner
         </Link>
-      </div>
-
-      <div className="hidden md:block relative">
-        <input
-          type="text"
-          placeholder="Search..."
-          className="px-4 py-2 rounded-lg bg-white text-black focus:outline-none"
-        />
-        <FaSearch className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600" />
       </div>
 
       <button

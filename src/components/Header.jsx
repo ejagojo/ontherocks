@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
-import { FaSearch } from "react-icons/fa";
 import { FaAward } from "react-icons/fa6";
 import logo from "/assets/logo/Logo.png";
 import profile from "/assets/Profile-icon/profile.jpg";
@@ -144,8 +143,8 @@ const Header = () => {
                     {address}
                   </span>
                 )}
-                {/* <span className="mx-2 h-6 w-px bg-gray-400"></span> */}
-                {/* <span className="text-sm md:text-md">Pick Up</span> */}
+                <span className="mx-2 h-6 w-px bg-gray-400"></span>
+                <span className="text-sm md:text-md whitespace-nowrap">Pick Up</span>
                 {showSuggestions && suggestions.length > 0 && (
                   <div className="absolute top-12 left-0 w-full bg-white text-black rounded-lg shadow-md z-50 max-h-60 overflow-auto">
                     {suggestions.map((suggestion, idx) => (
