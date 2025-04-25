@@ -38,7 +38,7 @@ const Loyalty = () => {
       <div className="relative w-full h-auto md:h-screen min-h-screen text-black overflow-y-auto">
         <Header />
         <BackArrow to="/order" />
-        <div className="px-4 mt-30 text-left">
+        <div className="mx-auto w-4/5 mt-30 text-left">
           <h1 className="text-4xl font-bold knewave-font mb-6">
             Welcome back {userName}!
           </h1>
@@ -48,14 +48,14 @@ const Loyalty = () => {
         </div>
 
         <div className="mx-auto w-4/5 my-8 relative">
-          <h1 className="text-2xl font-semibold font-sans mb-6 mt-4">My Rewards</h1>
-          <hr className="w-full border-t border-grey mb-4" />
+          <h1 className="text-xl font-semibold font-sans mb-6 mt-4">My Rewards</h1>
+          <hr className="w-full border-t border-gray-300 mb-4" />
           <LoyaltyRewards points={points} setPoints={setPoints} />
         </div>
 
         <div className="mx-auto w-4/5 my-8 relative">
-          <h1 className="text-2xl font-semibold font-sans mb-6 mt-4">My Deals</h1>
-          <hr className="w-full border-t border-grey mb-4" />
+          <h1 className="text-xl font-semibold font-sans mb-6 mt-4">My Deals</h1>
+          <hr className="w-full border-t border-gray-300 mb-4" />
           <LoyaltyDeals />
         </div>
         <Footer />

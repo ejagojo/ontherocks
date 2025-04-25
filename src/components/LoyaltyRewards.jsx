@@ -86,7 +86,8 @@ const LoyaltyRewards = ({ points, setPoints }) => {
                 <h1 className="font-bold knewave-font">{drink.label}</h1>
                 <h1 className="font-bold knewave-font">{drink.volume}</h1>
                 <button
-                  onClick={() => handleRedeem(drink.points)}
+                  onClick={() => {
+                    handleRedeem(drink.points)}}
                   className="mt-6 px-6 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300"
                 >
                   {drink.points} Points

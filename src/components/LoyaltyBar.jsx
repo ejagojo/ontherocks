@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 const LoyaltyBar = ({points}) => {
 
     const progressBar = Math.min((points / 500) * 100, 100);
+    const dots = [10, 30, 50, 70];
 
     return (
         <div className="max-w-xl mx-auto mt-30 px-4">
@@ -18,16 +19,21 @@ const LoyaltyBar = ({points}) => {
 
             <div className="relative h-5 bg-gray-300 rounded-full">
 
-            <div
-                className="absolute left-0 top-0 h-full bg-red-500 rounded-full"
-                style={{ width: `${progressBar}%` }}>
-            </div>
+                <div
+                    className="absolute left-0 top-0 h-full bg-red-500 rounded-full"
+                    style={{ width: `${progressBar}%` }}>
+                </div>
 
-                <div className="absolute top-1/2 left-[10%] w-2 h-2 bg-gray-500 rounded-full -translate-y-1/2"></div>
-                <div className="absolute top-1/2 left-[30%] w-2 h-2 bg-gray-500 rounded-full -translate-y-1/2"></div>
-                <div className="absolute top-1/2 left-[50%] w-2 h-2 bg-gray-500 rounded-full -translate-y-1/2"></div>
-                <div className="absolute top-1/2 left-[70%] w-2 h-2 bg-gray-500 rounded-full -translate-y-1/2"></div>
-            </div>
+                {dots.map((percent, index) => (
+                    <div
+                        key={index}
+                        className="absolute top-1/2 w-2 h-2 rounded-full -translate-y-1/2"
+                        style={{
+                        left: `${percent}%`,
+                        backgroundColor: progressBar >= percent ? 'white' : '#6B7280',}} // Tailwind gray-500 hex 
+                    ></div>
+                ))}
+                </div>
         </div>
     )
 }

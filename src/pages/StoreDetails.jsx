@@ -58,7 +58,7 @@ const StoreDetails = () => {
     fetchData();
   }, [storeId]);
 
-  const handleAddToCart = async (item) => {
+ const handleAddToCart = async (item) => {
     try {
       const user = auth.currentUser;
       if (!user) {
