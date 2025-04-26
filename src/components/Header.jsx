@@ -68,9 +68,9 @@ const Header = () => {
         0
       );
 
-      if (currentCount > previousCount) {
-        setShowCartPreview(true);
-      }
+      // if (currentCount > previousCount) {
+      //   setShowCartPreview(true);
+      // }
 
       prevCartRef.current = currentCart;
       setCartItems(currentCart);
@@ -122,7 +122,6 @@ const Header = () => {
           <div className="flex flex-col md:flex-row items-end md:items-center justify-end gap-2 my-4">
             <div className="flex-1 flex md:flex-row items-end md:items-center justify-end gap-2 ml-4">
               <div className="w-full md:w-[280px] h-10 relative flex items-center justify-between px-4 py-2 gap-2 bg-gray-200 rounded-full text-black font-medium hover:bg-gray-300">
-                {/* to signify this is the location input */}
                 <FaLocationDot />
                 {isEditing ? (
                   <form onSubmit={handleSearchSubmit} className="w-full">
@@ -160,20 +159,18 @@ const Header = () => {
                 )}
               </div>
             </div>
-            {/*Grouped: Rewards, Cart and Profile icons  */}
+
             <div className="flex items-center w-full md:w-auto justify-end relative">
               <div className="flex items-center gap-3 md:gap-2">
-                {/* Rewards icon*/}
                 <Link to="/loyalty">
-                  <FaAward className="text-2xl text-yellow-500" />
+                  <FaAward className="text-2xl text-yellow-500 transition-transform duration-200 hover:scale-110 hover:text-yellow-600" />
                 </Link>
-                {/* Cart icon and preview*/}
+
                 <div
-                  // className="flex items-center gap-1 px-3 md:px-4 py-2 cursor-pointer"
                   className="flex items-center gap-1 cursor-pointer"
                   onClick={toggleCartPreview}
                 >
-                  <FaShoppingCart className="text-2xl text-black" />
+                  <FaShoppingCart className="text-2xl text-black transition-transform duration-200 hover:scale-110 hover:text-gray-700" />
                   <span className="font-bold text-black">{cartCount}</span>
                   {showCartPreview && (
                     <CartPreviewPopup
@@ -182,12 +179,12 @@ const Header = () => {
                     />
                   )}
                 </div>
-                {/* Profile Icon */}
+
                 <Link to="/profile" className="flex items-center gap-2 ml-px">
                   <img
                     src={profile}
                     alt="profile"
-                    className="h-10 w-10 rounded-full object-cover"
+                    className="h-10 w-10 rounded-full object-cover transition-transform duration-200 hover:scale-105"
                   />
                   {userName && <span>{userName}</span>}
                 </Link>
