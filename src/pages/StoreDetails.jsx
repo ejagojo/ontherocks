@@ -175,9 +175,12 @@ const StoreDetails = () => {
                 </div>
               </div>
             </div>
-            <p className="text-gray-600 text-sm mb-3">
+            <p className="text-gray-600 text-sm">
               {storeInfo.distance} &middot; Rating: {storeInfo.rating} / 5
             </p>
+            {storeInfo.hours && (
+              <p className="text-gray-600 text-sm mb-3">Hours: {storeInfo.hours}</p>
+            )}
             <div className="flex flex-col sm:flex-row items-center gap-6">
               <img
                 src={storeInfo.image}
