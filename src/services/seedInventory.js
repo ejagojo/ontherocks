@@ -1755,27 +1755,27 @@ const inventoryData = [
 export const seedInventory = async () => {
   try {
     for (const item of inventoryData) {
-      const subcollectionRef = collection(db, "stores", item.store_id, "items");
-      const itemDocRef = doc(subcollectionRef, item.id);
-      await setDoc(itemDocRef, {
-        name: item.name,
-        brand: item.brand,
-        type: item.type,
-        subtype: item.subtype,
-        abv: item.abv,
-        volume_ml: item.volume_ml,
-        price: item.price,
-        in_stock: item.in_stock,
-        description: item.description,
-        image_url: item.image_url,
-        tags: item.tags,
-        rating: item.rating,
-        ...(item.points !== undefined && { points: item.points })
-      }, { merge: true });
-      console.log(`Seeded item ${item.id} into store ${item.store_id}!`);
+        const subcollectionRef = collection(db, "stores", item.store_id, "items");
+        const itemDocRef = doc(subcollectionRef, item.id);
+        await setDoc(itemDocRef, {
+            name: item.name,
+            brand: item.brand,
+            type: item.type,
+            subtype: item.subtype,
+            abv: item.abv,
+            volume_ml: item.volume_ml,
+            price: item.price,
+            in_stock: item.in_stock,
+            description: item.description,
+            image_url: item.image_url,
+            tags: item.tags,
+            rating: item.rating,
+            ...(item.points !== undefined && { points: item.points })
+        }, { merge: true });
+        console.log(`Seeded item ${item.id} into store ${item.store_id}!`);
+        }
+        console.log("Inventory data seeded successfully into store subcollections!");
+    } catch (error) {
+        console.error("Error seeding inventory:", error);
     }
-    console.log("Inventory data seeded successfully into store subcollections!");
-  } catch (error) {
-    console.error("Error seeding inventory:", error);
-  }
 };

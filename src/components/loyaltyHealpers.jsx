@@ -34,10 +34,18 @@ export const redeemLoyaltyReward = async ({ item, cost, total, userPoints, setPo
     setPoints(newPoints);
 
     const rewardRef = doc(db, "users", user.uid, "AddToCartItems", item.id);
+    const rewardSnap = await getDoc(rewardRef);
+
+    let existingQuantity = 0;
+    if (rewardSnap.exists()) {
+      const rewardData = rewardSnap.data();
+      existingQuantity = rewardData.quantity || 0;
+    }
+
     await setDoc(rewardRef, {
       name: item.label,
       price: 0.00,
-      quantity: total,
+      quantity: total + existingQuantity,
       storeId: "loyalty-rewards",
       isLoyaltyReward: true,
       image_url: item.assets

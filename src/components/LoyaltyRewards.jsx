@@ -133,16 +133,16 @@ const LoyaltyRewards = ({ points, setPoints }) => {
 
             <button
               onClick={() => updateQuantity(drink.id, -1)}
-              className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black"
+              className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black mx-1"
               >
-              −
+              -
             </button>
             <span className="text-lg font-semibold w-6 text-center">
               {counter[drink.id] || 1}
             </span>
             <button
               onClick={() => updateQuantity(drink.id, 1)}
-              className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black"
+              className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black mx-1"
               >
               +
             </button>
