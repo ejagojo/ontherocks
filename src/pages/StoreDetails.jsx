@@ -8,7 +8,7 @@ import {
   getDoc,
   setDoc,
   updateDoc,
-  deleteDoc
+  deleteDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import Header from "../components/Header";
@@ -23,7 +23,12 @@ const StoreDetails = () => {
   const [items, setItems] = useState([]);
   const [storeInfo, setStoreInfo] = useState(null);
   const [quantities, setQuantities] = useState({});
-  const [selectedTypes, setSelectedTypes] = useState(["Beer", "Wine", "Vodka", "Tequila"]);
+  const [selectedTypes, setSelectedTypes] = useState([
+    "Beer",
+    "Wine",
+    "Vodka",
+    "Tequila",
+  ]);
   const [priceRange, setPriceRange] = useState([0, 200]);
   const [abvRange, setAbvRange] = useState([0, 100]);
 
@@ -58,7 +63,7 @@ const StoreDetails = () => {
     fetchData();
   }, [storeId]);
 
- const handleAddToCart = async (item) => {
+  const handleAddToCart = async (item) => {
     try {
       const user = auth.currentUser;
       if (!user) {
@@ -77,7 +82,9 @@ const StoreDetails = () => {
       });
 
       if (existingStoreId && existingStoreId !== storeId) {
-        alert("You can only add items from one store at a time. Please clear your cart first.");
+        alert(
+          "You can only add items from one store at a time. Please clear your cart first."
+        );
         return;
       }
 
@@ -94,7 +101,7 @@ const StoreDetails = () => {
       if (cartItemSnap.exists()) {
         const prevQty = cartItemSnap.data()?.quantity || 0;
         await updateDoc(cartItemRef, {
-          quantity: prevQty + quantity
+          quantity: prevQty + quantity,
         });
       } else {
         await setDoc(cartItemRef, {
@@ -102,7 +109,7 @@ const StoreDetails = () => {
           brand: item.brand,
           price: item.price,
           storeId,
-          quantity
+          quantity,
         });
       }
 
@@ -121,9 +128,7 @@ const StoreDetails = () => {
 
   const toggleType = (type) => {
     setSelectedTypes((prev) =>
-      prev.includes(type)
-        ? prev.filter((t) => t !== type)
-        : [...prev, type]
+      prev.includes(type) ? prev.filter((t) => t !== type) : [...prev, type]
     );
   };
 
@@ -159,9 +164,14 @@ const StoreDetails = () => {
             <div className="flex items-center gap-2 mb-1">
               <h2 className="text-3xl font-bold">{storeInfo.name}</h2>
               <div className="relative group">
-                <div className="w-5 h-5 rounded-full bg-gray-300 text-xs text-center leading-5 cursor-pointer">i</div>
+                <div className="w-5 h-5 rounded-full bg-gray-300 text-xs text-center leading-5 cursor-pointer">
+                  i
+                </div>
                 <div className="absolute left-6 top-0 w-64 text-xs bg-white text-gray-800 border border-gray-300 rounded p-2 shadow-lg hidden group-hover:block z-50">
-                  Images shown here were manually sourced from the internet across various platforms for demo purposes. Not all images are consistent in quality or size. Upon official launch, we will work directly with store owners to ensure image consistency.
+                  Images shown here were manually sourced from the internet
+                  across various platforms for demo purposes. Not all images are
+                  consistent in quality or size. Upon official launch, we will
+                  work directly with store owners to ensure image consistency.
                 </div>
               </div>
             </div>
@@ -178,12 +188,13 @@ const StoreDetails = () => {
                 <p className="text-gray-700 leading-relaxed mb-2">
                   Explore the finest selection of beverages, all curated with
                   the highest standards. Whether you're looking for a refreshing
-                  lager, a smooth spirit, or an exclusive vintage, {storeInfo.name}{" "}
-                  offers an array of products to suit every taste.
+                  lager, a smooth spirit, or an exclusive vintage,{" "}
+                  {storeInfo.name} offers an array of products to suit every
+                  taste.
                 </p>
                 <p className="text-gray-700 leading-relaxed">
-                  Discover the perfect choice for your occasion and enjoy
-                  a modern, convenient shopping experience.
+                  Discover the perfect choice for your occasion and enjoy a
+                  modern, convenient shopping experience.
                 </p>
               </div>
             </div>
@@ -193,9 +204,10 @@ const StoreDetails = () => {
             Store not found or missing data.
           </div>
         )}
-
+        {/* start */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          <div className="bg-white rounded-md shadow-md p-4 h-fit lg:col-span-1">
+          {/* filter */}
+          <div className=" bg-white rounded-md shadow-md p-4 h-fit lg:col-span-1 mb-10">
             <h3 className="text-xl font-semibold mb-4">Refine Results</h3>
             <button
               onClick={resetFilters}
@@ -260,7 +272,6 @@ const StoreDetails = () => {
                 </label>
               </div>
             </div>
-
             <div className="mb-5">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 ABV Range
@@ -301,7 +312,7 @@ const StoreDetails = () => {
                 No items found for this store with the chosen filters.
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
+              <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-8">
                 {filteredItems.map((item) => (
                   <div
                     key={item.id}
@@ -323,7 +334,7 @@ const StoreDetails = () => {
                     <div className="text-xs text-gray-500 mt-1">
                       ABV: {item.abv || 0}%
                     </div>
-                    <div className="flex items-center justify-between mt-3">
+                    <div className="flex flex-col gap-3 items-center justify-between mt-3">
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => updateQuantity(item.id, -1)}
