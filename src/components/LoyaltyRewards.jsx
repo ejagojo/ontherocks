@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../services/firebase";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
+import { auth, db } from "../services/firebase";
+import { redeemLoyaltyReward } from "./loyaltyHealpers"
 
 const LoyaltyRewards = ({ points, setPoints }) => {
   const [drinks, setDrinks] = useState([]);
+  const [counter, setCounter] = useState({});
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -37,12 +39,38 @@ const LoyaltyRewards = ({ points, setPoints }) => {
     fetchDrinks();
   }, []);
 
-  const handleRedeem = (cost) => {
+  const handleRedeem = async (cost) => {
     if (points >= cost) {
-      setPoints((prev) => prev - cost);
+      const newPoints = points - cost;
+      setPoints(newPoints);
+  
+      try {
+        const user = auth.currentUser;
+        if (!user) {
+          alert("You must be logged in to redeem points.");
+          return;
+        }
+  
+        const userDocRef = doc(db, "users", user.uid);
+        await updateDoc(userDocRef, {
+          loyaltyPoints: newPoints
+        });
+  
+        console.log("Points updated in Firestore!");
+      } catch (error) {
+        console.error("Error updating points:", error);
+        alert("Failed to redeem points, please try again.");
+      }
     } else {
       alert("Not Enough Points!");
     }
+  };
+
+  const updateQuantity = (itemId, delta) => {
+    setCounter((prev) => {
+      const newQty = Math.max(1, (prev[itemId] || 1) + delta);
+      return { ...prev, [itemId]: newQty };
+    });
   };
 
   const scrollLeft = () => {
@@ -85,10 +113,38 @@ const LoyaltyRewards = ({ points, setPoints }) => {
             <h1 className="text-lg font-semibold mb-1 knewave-font">{drink.label}</h1>
             <h1 className="text-sm text-gray-600 knewave-font">{drink.volume}</h1>
             <button
-              onClick={() => handleRedeem(drink.points)}
+              onClick={() => {
+                const quantity = counter[drink.id] || 1;
+                const totalCost = drink.points * quantity;
+
+                handleRedeem(totalCost);
+                redeemLoyaltyReward({ 
+                  item: drink, 
+                  cost: totalCost,
+                  total: quantity,
+                  userPoints: points, 
+                  setPoints 
+                });
+              }}
               className="mt-3 px-4 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300"
             >
-              {drink.points} Points
+              {(drink.points * (counter[drink.id] || 1))} Points
+            </button>
+
+            <button
+              onClick={() => updateQuantity(drink.id, -1)}
+              className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black"
+              >
+              −
+            </button>
+            <span className="text-lg font-semibold w-6 text-center">
+              {counter[drink.id] || 1}
+            </span>
+            <button
+              onClick={() => updateQuantity(drink.id, 1)}
+              className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black"
+              >
+              +
             </button>
           </div>
         ))}
