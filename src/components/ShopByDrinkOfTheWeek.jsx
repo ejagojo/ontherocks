@@ -11,7 +11,7 @@ const DrinksOfTheWeekCarousel = () => {
       try {
         const snapshot = await getDocs(collection(db, "cocktailRecipes"));
         const drinkList = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        setDrinks(drinkList);
+        setDrinks(drinkList.slice(0, 5)); // limit to 5 per week
       } catch (error) {
         console.error("Failed to fetch drinks of the week:", error);
       }
@@ -32,17 +32,10 @@ const DrinksOfTheWeekCarousel = () => {
   };
 
   return (
-    <div className="mx-auto w-4/5 my-8 relative">
-      <button
-        onClick={scrollLeft}
-        className="absolute z-10 h-56 flex items-center justify-center bg-white bg-opacity-80 rounded-r-md px-2 focus:outline-none hover:bg-opacity-100"
-        style={{ top: "50%", left: "-2rem", transform: "translateY(-50%)" }}
-      >
-        ◀
-      </button>
+    <div className="mx-auto w-4/5 my-8">
       <div
         ref={carouselRef}
-        className="flex overflow-x-auto gap-4 py-2 scroll-smooth"
+        className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4"
       >
         {drinks.map((drink) => (
           <a
@@ -50,7 +43,7 @@ const DrinksOfTheWeekCarousel = () => {
             href={drink.recipe_url}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-64 h-56 bg-white rounded-lg shadow-md p-3 flex-shrink-0 transform transition-transform duration-300 ease-in-out hover:scale-105"
+            className="bg-white rounded-lg shadow-md p-3 transform transition-transform duration-300 ease-in-out hover:scale-105"
           >
             <img
               src={drink.image_url}
@@ -64,13 +57,6 @@ const DrinksOfTheWeekCarousel = () => {
           </a>
         ))}
       </div>
-      <button
-        onClick={scrollRight}
-        className="absolute z-10 h-56 flex items-center justify-center bg-white bg-opacity-80 rounded-l-md px-2 focus:outline-none hover:bg-opacity-100"
-        style={{ top: "50%", right: "-2rem", transform: "translateY(-50%)" }}
-      >
-        ▶
-      </button>
     </div>
   );
 };

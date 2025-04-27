@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../services/firebase";
-import { redeemLoyaltyReward } from "./loyaltyHealpers"
+import { redeemLoyaltyReward } from "./loyaltyHealpers";
 
 const LoyaltyRewards = ({ points, setPoints }) => {
   const [drinks, setDrinks] = useState([]);
@@ -24,8 +24,7 @@ const LoyaltyRewards = ({ points, setPoints }) => {
               label: data.name,
               assets: data.image_url,
               volume: data.volume_ml + "ml",
-              points: data.points,
-              className: "w-full aspect-square object-cover object-center rounded-md mb-3"
+              points: data.points
             });
           }
         });
@@ -43,19 +42,19 @@ const LoyaltyRewards = ({ points, setPoints }) => {
     if (points >= cost) {
       const newPoints = points - cost;
       setPoints(newPoints);
-  
+
       try {
         const user = auth.currentUser;
         if (!user) {
           alert("You must be logged in to redeem points.");
           return;
         }
-  
+
         const userDocRef = doc(db, "users", user.uid);
         await updateDoc(userDocRef, {
           loyaltyPoints: newPoints
         });
-  
+
         console.log("Points updated in Firestore!");
       } catch (error) {
         console.error("Error updating points:", error);
@@ -87,7 +86,6 @@ const LoyaltyRewards = ({ points, setPoints }) => {
 
   return (
     <div className="mx-auto w-4/5 my-8 relative">
-
       <button
         onClick={scrollLeft}
         className="absolute z-10 h-56 flex items-center justify-center bg-white bg-opacity-80 rounded-r-md px-2 focus:outline-none hover:bg-opacity-100"
@@ -103,48 +101,51 @@ const LoyaltyRewards = ({ points, setPoints }) => {
         {drinks.map((drink) => (
           <div
             key={drink.id}
-            className="bg-white border rounded-md shadow-md p-4 transform transition-transform duration-300 ease-in-out hover:scale-105 w-60 flex-shrink-0 h-auto"
+            className="flex flex-col bg-white rounded-lg shadow-md p-4 transform transition-transform duration-300 ease-in-out hover:scale-105 w-60 flex-shrink-0 h-auto"
           >
             <img
               src={drink.assets}
-              className={drink.className}
+              className="w-full aspect-square object-cover object-center rounded-md mb-3"
               alt={`${drink.label} bottle`}
             />
             <h1 className="text-lg font-semibold mb-1 knewave-font">{drink.label}</h1>
             <h1 className="text-sm text-gray-600 knewave-font">{drink.volume}</h1>
+
+            <div className="mt-3 flex items-center justify-center gap-2">
+              <button
+                onClick={() => updateQuantity(drink.id, -1)}
+                className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black"
+              >
+                -
+              </button>
+              <span className="text-lg font-semibold w-6 text-center">
+                {counter[drink.id] || 1}
+              </span>
+              <button
+                onClick={() => updateQuantity(drink.id, 1)}
+                className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black"
+              >
+                +
+              </button>
+            </div>
+
             <button
               onClick={() => {
                 const quantity = counter[drink.id] || 1;
                 const totalCost = drink.points * quantity;
 
                 handleRedeem(totalCost);
-                redeemLoyaltyReward({ 
-                  item: drink, 
+                redeemLoyaltyReward({
+                  item: drink,
                   cost: totalCost,
                   total: quantity,
-                  userPoints: points, 
-                  setPoints 
+                  userPoints: points,
+                  setPoints
                 });
               }}
-              className="mt-3 px-4 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300"
+              className="mt-auto px-4 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300"
             >
               {(drink.points * (counter[drink.id] || 1))} Points
-            </button>
-
-            <button
-              onClick={() => updateQuantity(drink.id, -1)}
-              className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black mx-1"
-              >
-              -
-            </button>
-            <span className="text-lg font-semibold w-6 text-center">
-              {counter[drink.id] || 1}
-            </span>
-            <button
-              onClick={() => updateQuantity(drink.id, 1)}
-              className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-xl font-bold text-black mx-1"
-              >
-              +
             </button>
           </div>
         ))}

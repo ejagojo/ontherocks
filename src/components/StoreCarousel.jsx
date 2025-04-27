@@ -53,7 +53,6 @@ const StoreCarousel = () => {
   };
 
   if (loading) {
-    // You can display a spinner or a skeleton here if you want
     return <div className="text-center py-8">Loading stores...</div>;
   }
 
@@ -61,7 +60,7 @@ const StoreCarousel = () => {
     <div className="mx-auto w-4/5 my-8 relative">
       <button
         onClick={scrollLeft}
-        className="absolute z-10 h-56 flex items-center justify-center bg-white bg-opacity-80 rounded-r-md px-2 focus:outline-none hover:bg-opacity-100"
+        className="absolute z-10 h-56 flex items-center justify-center bg-transparent rounded-r-md px-2 focus:outline-none"
         style={{ top: "50%", left: "-2rem", transform: "translateY(-50%)" }}
       >
         ◀
@@ -91,7 +90,7 @@ const StoreCarousel = () => {
       </div>
       <button
         onClick={scrollRight}
-        className="absolute z-10 h-56 flex items-center justify-center bg-white bg-opacity-80 rounded-l-md px-2 focus:outline-none hover:bg-opacity-100"
+        className="absolute z-10 h-56 flex items-center justify-center bg-transparent rounded-l-md px-2 focus:outline-none"
         style={{ top: "50%", right: "-2rem", transform: "translateY(-50%)" }}
       >
         ▶

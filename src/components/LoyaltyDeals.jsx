@@ -22,8 +22,7 @@ const LoyaltyDeals = () => {
               label: data.name,
               assets: data.image_url,
               volume: data.volume_ml,
-              cost: data.price,
-              className: "w-full aspect-square object-cover object-center rounded-md mb-3"
+              cost: data.price
             });
           }
         });
@@ -66,7 +65,7 @@ const LoyaltyDeals = () => {
         {deals.map((deal) => (
           <div
             key={deal.id}
-            className="bg-white border rounded-md shadow-md p-4 transform transition-transform duration-300 ease-in-out hover:scale-105 w-60 flex-shrink-0 h-auto"
+            className="flex flex-col bg-white rounded-lg shadow-md p-4 transform transition-transform duration-300 ease-in-out hover:scale-105 w-60 flex-shrink-0 h-auto"
           >
             <img
               src={deal.assets}
@@ -76,7 +75,7 @@ const LoyaltyDeals = () => {
             <h1 className="text-lg font-semibold mb-1 knewave-font">{deal.label}</h1>
             <h1 className="text-sm text-gray-600 knewave-font">{deal.volume}ml</h1>
             <button
-              className="mt-3 px-4 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300"
+              className="mt-auto px-4 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300"
             >
               ${deal.cost?.toFixed(2)}
             </button>

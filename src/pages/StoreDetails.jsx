@@ -319,7 +319,7 @@ const StoreDetails = () => {
                 {filteredItems.map((item) => (
                   <div
                     key={item.id}
-                    className="bg-white border rounded-md shadow-md p-4 transform transition-transform duration-300 ease-in-out hover:scale-105"
+                    className="flex flex-col bg-white rounded-lg shadow-md p-4 transform transition-transform duration-300 ease-in-out hover:scale-105"
                   >
                     <img
                       src={item.image_url}
@@ -337,7 +337,7 @@ const StoreDetails = () => {
                     <div className="text-xs text-gray-500 mt-1">
                       ABV: {item.abv || 0}%
                     </div>
-                    <div className="flex flex-col gap-3 items-center justify-between mt-3">
+                    <div className="mt-auto flex flex-col gap-3 items-center">
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => updateQuantity(item.id, -1)}
@@ -357,7 +357,7 @@ const StoreDetails = () => {
                       </div>
                       <button
                         onClick={() => handleAddToCart(item)}
-                        className="bg-[#2F2F2F] text-white text-sm font-medium py-2 px-4 rounded hover:bg-[#404040] transition-colors duration-200"
+                        className="w-full bg-[#2F2F2F] text-white text-sm font-medium py-2 rounded hover:bg-[#404040] transition-colors duration-200"
                       >
                         Add to Cart
                       </button>
