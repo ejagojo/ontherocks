@@ -14,7 +14,6 @@ import StoreDetails from "./pages/StoreDetails";
 import UserCart from "./pages/UserCart";
 
 const App = () => {
-  
   return (
     <Router>
       <Routes>

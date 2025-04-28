@@ -115,7 +115,8 @@ const Header = () => {
     <>
       <header className="w-full fixed top-0 bg-white z-50 py-2">
         <div className="flex items-center justify-between mr-6 h-24 md:h-16 md:gap-2 relative">
-          <Link to="/" className="shrink-0">
+          <Link to="/order" className="shrink-0"> 
+            {/* Users have been getting redirected to the home page unwantedly */}
             <img src={logo} alt="logo" className=" h-35 md:h-40 w-auto" />
           </Link>
 

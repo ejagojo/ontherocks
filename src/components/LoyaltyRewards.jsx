@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { auth, db } from "../services/firebase";
-import { redeemLoyaltyReward } from "./loyaltyHealpers";
+import { redeemLoyaltyReward, removeLoyaltyRewardAndRefund} from "./loyaltyHealpers"
 
 const LoyaltyRewards = ({ points, setPoints }) => {
   const [drinks, setDrinks] = useState([]);
   const [counter, setCounter] = useState({});
+  const [store, setStore] = useState("");
   const containerRef = useRef(null);
 
   useEffect(() => {
@@ -39,6 +40,10 @@ const LoyaltyRewards = ({ points, setPoints }) => {
   }, []);
 
   const handleRedeem = async (cost) => {
+    if (store == "") {
+      alert("You must choose a store.")
+      return;
+    }
     if (points >= cost) {
       const newPoints = points - cost;
       setPoints(newPoints);
@@ -86,6 +91,19 @@ const LoyaltyRewards = ({ points, setPoints }) => {
 
   return (
     <div className="mx-auto w-4/5 my-8 relative">
+      <select 
+        value={store} 
+        onChange={(e) => setStore(e.target.value)} 
+        className="mt-2 px-4 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300 w-40"
+      >
+        <option value="" disabled hidden>
+          Select a Store
+        </option>
+        <option value="store-001">Total Wine</option>
+        <option value="store-002">The Liquor Store</option>
+        <option value="store-003">Discount Liquors</option>
+      </select>
+
       <button
         onClick={scrollLeft}
         className="absolute z-10 h-56 flex items-center justify-center bg-white bg-opacity-80 rounded-r-md px-2 focus:outline-none hover:bg-opacity-100"
@@ -140,7 +158,9 @@ const LoyaltyRewards = ({ points, setPoints }) => {
                   cost: totalCost,
                   total: quantity,
                   userPoints: points,
-                  setPoints
+                  storeId: store,
+                  setPoints 
+
                 });
               }}
               className="mt-auto px-4 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300"

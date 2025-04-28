@@ -235,46 +235,39 @@ const StoreDetails = () => {
                 ))}
               </div>
             </div>
-
+            {/* price range */}
             <div className="mb-5">
-              <p className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Shop by Price
-              </p>
-              <div className="flex flex-col space-y-2 text-sm">
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={priceRange[0] === 25 && priceRange[1] === 50}
-                    onChange={() => setPriceRange([25, 50])}
-                  />
-                  <span>$25 - $50</span>
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={priceRange[0] === 50 && priceRange[1] === 100}
-                    onChange={() => setPriceRange([50, 100])}
-                  />
-                  <span>$50 - $100</span>
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={priceRange[0] === 100 && priceRange[1] === 150}
-                    onChange={() => setPriceRange([100, 150])}
-                  />
-                  <span>$100 - $150</span>
-                </label>
-                <label className="flex items-center gap-2">
-                  <input
-                    type="checkbox"
-                    checked={priceRange[0] === 150 && priceRange[1] === 1000}
-                    onChange={() => setPriceRange([150, 1000])}
-                  />
-                  <span>Over $150</span>
-                </label>
+              </label>
+              <div className="flex items-center justify-between text-xs text-gray-500 mb-1">
+                <span>${priceRange[0]}</span>
+                <span>${priceRange[1]}</span>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={priceRange[0]}
+                  onChange={(e) =>
+                    setPriceRange([Number(e.target.value), priceRange[1]])
+                  }
+                  className="border rounded px-2 py-1 w-full text-sm"
+                />
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={priceRange[1]}
+                  onChange={(e) =>
+                    setPriceRange([priceRange[0], Number(e.target.value)])
+                  }
+                  className="border rounded px-2 py-1 w-full text-sm"
+                />
               </div>
             </div>
+            {/* alcohol range */}
             <div className="mb-5">
               <label className="block text-sm font-medium text-gray-700 mb-1">
                 ABV Range
@@ -370,7 +363,7 @@ const StoreDetails = () => {
         </div>
       </div>
       <Footer />
-    </div>
+    </div >
   );
 };
 
