@@ -6,7 +6,7 @@ import { redeemLoyaltyReward, removeLoyaltyRewardAndRefund} from "./loyaltyHealp
 const LoyaltyRewards = ({ points, setPoints }) => {
   const [drinks, setDrinks] = useState([]);
   const [counter, setCounter] = useState({});
-  const [store, setStore] = useState("");
+  const [store, setStore] = useState("store-001");
   const containerRef = useRef(null);
 
   useEffect(() => {
