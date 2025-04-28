@@ -1635,7 +1635,7 @@ const inventoryData = [
         "price": 2.00,
         "points": 25,
         "in_stock": true,
-        "store_id": "store-001",
+        "store_id": ["store-001", "store-002", "store-003"],
         "description": "Organic agave with a creamy texture and floral-citrus notes.",
         "image_url": "/assets/drinks/99-bananas-50ml.png",
         "tags": [
@@ -1656,7 +1656,7 @@ const inventoryData = [
         "price": 2.00,
         "points": 25,
         "in_stock": true,
-        "store_id": "store-001",
+        "store_id": ["store-001", "store-002", "store-003"],
         "description": "Organic agave with a creamy texture and floral-citrus notes.",
         "image_url": "/assets/drinks/bacardi_raspberry_50ml.png",
         "tags": [
@@ -1677,7 +1677,7 @@ const inventoryData = [
         "price": 2.00,
         "points": 25,
         "in_stock": true,
-        "store_id": "store-001",
+        "store_id": ["store-001", "store-002", "store-003"],
         "description": "Organic agave with a creamy texture and floral-citrus notes.",
         "image_url": "/assets/drinks/fireball_50ml.png",
         "tags": [
@@ -1698,7 +1698,7 @@ const inventoryData = [
         "price": 2.00,
         "points": 25,
         "in_stock": true,
-        "store_id": "store-001",
+        "store_id": ["store-001", "store-002", "store-003"],
         "description": "Organic agave with a creamy texture and floral-citrus notes.",
         "image_url": "/assets/drinks/smirnoff_root_beer50ml.png",
         "tags": [
@@ -1719,7 +1719,7 @@ const inventoryData = [
         "price": 2.00,
         "points": 25,
         "in_stock": true,
-        "store_id": "store-001",
+        "store_id": ["store-001", "store-002", "store-003"],
         "description": "Organic agave with a creamy texture and floral-citrus notes.",
         "image_url": "/assets/drinks/tito50ml.jpg",
         "tags": [
@@ -1731,6 +1731,111 @@ const inventoryData = [
     },
     {
         "id": "loyalty-006",
+        "name": "Heritage Brown Sugar",
+        "brand": "Heritage",
+        "type": "Bourbon",
+        "subtype": "Blanco",
+        "abv": 40,
+        "volume_ml": 50,
+        "price": 2.00,
+        "points": 25,
+        "in_stock": true,
+        "store_id": ["store-001", "store-002", "store-003"],
+        "description": "Organic agave with a creamy texture and floral-citrus notes.",
+        "image_url": "/assets/drinks/Heritage_brown_sugar50ml.jpg",
+        "tags": [
+            "Organic",
+            "Floral",
+            "Creamy"
+        ],
+        "rating": 4.6
+    },
+    {
+        "id": "deals-001",
+        "name": "Heritage Brown Sugar",
+        "brand": "Heritage",
+        "type": "Bourbon",
+        "subtype": "Blanco",
+        "abv": 40,
+        "volume_ml": 50,
+        "price": 2.00,
+        "points": 25,
+        "in_stock": true,
+        "store_id": "store-001",
+        "description": "Organic agave with a creamy texture and floral-citrus notes.",
+        "image_url": "/assets/drinks/Heritage_brown_sugar50ml.jpg",
+        "tags": [
+            "Organic",
+            "Floral",
+            "Creamy"
+        ],
+        "rating": 4.6
+    },
+    {
+        "id": "deals-002",
+        "name": "Heritage Brown Sugar",
+        "brand": "Heritage",
+        "type": "Bourbon",
+        "subtype": "Blanco",
+        "abv": 40,
+        "volume_ml": 50,
+        "price": 2.00,
+        "points": 25,
+        "in_stock": true,
+        "store_id": "store-001",
+        "description": "Organic agave with a creamy texture and floral-citrus notes.",
+        "image_url": "/assets/drinks/Heritage_brown_sugar50ml.jpg",
+        "tags": [
+            "Organic",
+            "Floral",
+            "Creamy"
+        ],
+        "rating": 4.6
+    },
+    {
+        "id": "deals-003",
+        "name": "Heritage Brown Sugar",
+        "brand": "Heritage",
+        "type": "Bourbon",
+        "subtype": "Blanco",
+        "abv": 40,
+        "volume_ml": 50,
+        "price": 2.00,
+        "points": 25,
+        "in_stock": true,
+        "store_id": "store-001",
+        "description": "Organic agave with a creamy texture and floral-citrus notes.",
+        "image_url": "/assets/drinks/Heritage_brown_sugar50ml.jpg",
+        "tags": [
+            "Organic",
+            "Floral",
+            "Creamy"
+        ],
+        "rating": 4.6
+    },
+    {
+        "id": "deals-004",
+        "name": "Heritage Brown Sugar",
+        "brand": "Heritage",
+        "type": "Bourbon",
+        "subtype": "Blanco",
+        "abv": 40,
+        "volume_ml": 50,
+        "price": 2.00,
+        "points": 25,
+        "in_stock": true,
+        "store_id": "store-001",
+        "description": "Organic agave with a creamy texture and floral-citrus notes.",
+        "image_url": "/assets/drinks/Heritage_brown_sugar50ml.jpg",
+        "tags": [
+            "Organic",
+            "Floral",
+            "Creamy"
+        ],
+        "rating": 4.6
+    },
+    {
+        "id": "deals-005",
         "name": "Heritage Brown Sugar",
         "brand": "Heritage",
         "type": "Bourbon",
@@ -1753,11 +1858,14 @@ const inventoryData = [
 ];
 
 export const seedInventory = async () => {
-  try {
-    for (const item of inventoryData) {
-        const subcollectionRef = collection(db, "stores", item.store_id, "items");
-        const itemDocRef = doc(subcollectionRef, item.id);
-        await setDoc(itemDocRef, {
+    try {
+      for (const item of inventoryData) {
+        const storeIds = Array.isArray(item.store_id) ? item.store_id : [item.store_id];
+        for (const storeId of storeIds) {
+          const subcollectionRef = collection(db, "stores", storeId, "items");
+          const itemDocRef = doc(subcollectionRef, item.id);
+  
+          await setDoc(itemDocRef, {
             name: item.name,
             brand: item.brand,
             type: item.type,
@@ -1771,11 +1879,13 @@ export const seedInventory = async () => {
             tags: item.tags,
             rating: item.rating,
             ...(item.points !== undefined && { points: item.points })
-        }, { merge: true });
-        console.log(`Seeded item ${item.id} into store ${item.store_id}!`);
+          }, { merge: true });
+  
+          console.log(`Seeded item ${item.id} into store ${storeId}!`);
         }
-        console.log("Inventory data seeded successfully into store subcollections!");
+      }
+      console.log("Inventory data seeded successfully into store subcollections!");
     } catch (error) {
-        console.error("Error seeding inventory:", error);
+      console.error("Error seeding inventory:", error);
     }
-};
+  };
