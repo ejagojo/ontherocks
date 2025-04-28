@@ -40,6 +40,10 @@ const LoyaltyRewards = ({ points, setPoints }) => {
   }, []);
 
   const handleRedeem = async (cost) => {
+    if (store == "") {
+      alert("You must choose a store.")
+      return;
+    }
     if (points >= cost) {
       const newPoints = points - cost;
       setPoints(newPoints);

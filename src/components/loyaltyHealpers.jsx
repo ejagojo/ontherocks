@@ -12,6 +12,11 @@ export const redeemLoyaltyReward = async ({ item, cost, total, userPoints, store
             return;
         }
 
+        if (storeId == "") {
+            alert("You must choose a store.")
+            return;
+        }
+
         if (userPoints < cost) {
             alert("Not enough points to redeem this reward!");
             return;
