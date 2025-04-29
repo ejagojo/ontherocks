@@ -1752,87 +1752,87 @@ const inventoryData = [
     },
     {
         "id": "deals-001",
-        "name": "Heritage Brown Sugar",
-        "brand": "Heritage",
-        "type": "Bourbon",
+        "name": "99Banana",
+        "brand": "99 Brand Party",
+        "type": "Vodka",
         "subtype": "Blanco",
-        "abv": 40,
+        "abv": 33,
         "volume_ml": 50,
         "price": 2.00,
         "points": 25,
         "in_stock": true,
-        "store_id": "store-001",
+        "store_id": ["store-001", "store-002", "store-003"],
         "description": "Organic agave with a creamy texture and floral-citrus notes.",
-        "image_url": "/assets/drinks/Heritage_brown_sugar50ml.jpg",
+        "image_url": "/assets/drinks/99-bananas-50ml.png",
         "tags": [
             "Organic",
             "Floral",
             "Creamy"
         ],
-        "rating": 4.6
+        "rating": 4.9
     },
     {
         "id": "deals-002",
-        "name": "Heritage Brown Sugar",
-        "brand": "Heritage",
-        "type": "Bourbon",
+        "name": "Bacardi Raspberry",
+        "brand": "Bacardi",
+        "type": "White Rum",
         "subtype": "Blanco",
         "abv": 40,
         "volume_ml": 50,
         "price": 2.00,
         "points": 25,
         "in_stock": true,
-        "store_id": "store-001",
+        "store_id": ["store-001", "store-002", "store-003"],
         "description": "Organic agave with a creamy texture and floral-citrus notes.",
-        "image_url": "/assets/drinks/Heritage_brown_sugar50ml.jpg",
+        "image_url": "/assets/drinks/bacardi_raspberry_50ml.png",
         "tags": [
             "Organic",
             "Floral",
             "Creamy"
         ],
-        "rating": 4.6
+        "rating": 4.9
     },
     {
         "id": "deals-003",
-        "name": "Heritage Brown Sugar",
-        "brand": "Heritage",
-        "type": "Bourbon",
+        "name": "Fireball Whisky",
+        "brand": "Fireball",
+        "type": "Whisky",
         "subtype": "Blanco",
         "abv": 40,
         "volume_ml": 50,
         "price": 2.00,
         "points": 25,
         "in_stock": true,
-        "store_id": "store-001",
+        "store_id": ["store-001", "store-002", "store-003"],
         "description": "Organic agave with a creamy texture and floral-citrus notes.",
-        "image_url": "/assets/drinks/Heritage_brown_sugar50ml.jpg",
+        "image_url": "/assets/drinks/fireball_50ml.png",
         "tags": [
             "Organic",
             "Floral",
             "Creamy"
         ],
-        "rating": 4.6
+        "rating": 5.0
     },
     {
         "id": "deals-004",
-        "name": "Heritage Brown Sugar",
-        "brand": "Heritage",
-        "type": "Bourbon",
+        "name": "Smirnoff Rootbeer Vodka",
+        "brand": "Smirnoff",
+        "type": "Vodka",
         "subtype": "Blanco",
-        "abv": 40,
+        "abv": 50,
         "volume_ml": 50,
         "price": 2.00,
         "points": 25,
         "in_stock": true,
-        "store_id": "store-001",
+        "store_id": ["store-001", "store-002", "store-003"],
         "description": "Organic agave with a creamy texture and floral-citrus notes.",
-        "image_url": "/assets/drinks/Heritage_brown_sugar50ml.jpg",
+        "image_url": "/assets/drinks/smirnoff_root_beer50ml.png",
         "tags": [
             "Organic",
             "Floral",
             "Creamy"
         ],
-        "rating": 4.6
+        "rating": 3.9
     },
     {
         "id": "deals-005",
