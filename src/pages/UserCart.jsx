@@ -34,10 +34,15 @@ const UserCart = () => {
   });
   const [showSuccess, setShowSuccess] = useState(false);
   const [orderDetails, setOrderDetails] = useState(null);
+  // New state for tracking form submission attempts
+  const [submitAttempted, setSubmitAttempted] = useState(false);
 
   // Additional local states for separated date/time inputs
   const [selectedDateOnly, setSelectedDateOnly] = useState("");
   const [selectedTimeOnly, setSelectedTimeOnly] = useState("");
+
+  // Name validation regex - must be at least two words
+  const nameRegex = /^[A-Za-z]+(?:\s+[A-Za-z]+)+$/;
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -149,6 +154,78 @@ const UserCart = () => {
     return userMinutesTotal >= openMinutesTotal && userMinutesTotal <= closeMinutesTotal;
   };
 
+  // Validate and save new card
+  const saveNewCard = async () => {
+    // Mark that submission was attempted to trigger validation messages
+    setSubmitAttempted(true);
+
+    const { type, number, expires, name, cvc } = newCard;
+    
+    // Check if any required fields are empty
+    if (!type || !number || !expires || !name || !cvc) {
+      return; // Don't proceed further; errors will be shown inline
+    }
+
+    // Remove spaces for validations
+    const cardNumber = number.replace(/\s+/g, "");
+
+    // Validate card number length: 13-19 digits
+    if (!/^\d{13,19}$/.test(cardNumber)) {
+      return; // Error message will be shown inline
+    }
+
+    // Validate expiry in MM/YY format
+    const expRegex = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/;
+    const expMatch = expires.match(expRegex);
+    if (!expMatch) {
+      return; // Error message will be shown inline
+    }
+    
+    // Check if expiry date is in the past
+    const expMonth = parseInt(expMatch[1], 10);
+    const expYear = parseInt("20" + expMatch[2], 10);
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentYear = currentDate.getFullYear();
+
+    if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) {
+      return; // Error message will be shown inline
+    }
+
+    // Validate CVC: must be exactly 3 digits
+    if (!/^\d{3}$/.test(cvc)) {
+      return; // Error message will be shown inline
+    }
+
+    // Validate Name
+    if (!nameRegex.test(name.trim())) {
+      return; // Error message will be shown inline
+    }
+
+    const user = auth.currentUser;
+    if (!user) return;
+    
+    // Last 4 digits for UI display
+    const lastFour = cardNumber.slice(-4);
+    
+    const cardData = {
+      type: type.toLowerCase(),
+      name: name,
+      lastFour,
+      expires: expires,
+      cvc: cvc,
+      createdAt: new Date().toISOString()
+    };
+    
+    const userPayRef = collection(db, "users", user.uid, "paymentMethods");
+    await addDoc(userPayRef, cardData);
+    
+    // Reset form and validation state
+    setNewCard({ type: "", number: "", expires: "", name: "", cvc: "" });
+    setSubmitAttempted(false);
+    setShowNewCardForm(false);
+  };
+
   const handleCheckout = async () => {
     const user = auth.currentUser;
     if (!selectedTime) {
@@ -256,7 +333,7 @@ const UserCart = () => {
               </button>
             </div>
             <p className="text-sm text-gray-700 mb-4">
-              Your order has been processed. Here’s your summary:
+              Your order has been processed. Here's your summary:
             </p>
             <div className="bg-green-50 rounded p-3 text-sm mb-4">
               <p className="font-semibold">Order Number: {orderDetails.orderNumber}</p>
@@ -459,6 +536,9 @@ const UserCart = () => {
                       <option value="visa">Visa</option>
                       <option value="mastercard">Mastercard</option>
                     </select>
+                    {submitAttempted && !newCard.type && (
+                      <span className="text-red-500 text-xs">Please select a card type.</span>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm text-gray-700 mb-1">
@@ -471,6 +551,16 @@ const UserCart = () => {
                       value={newCard.number}
                       onChange={(e) => setNewCard({ ...newCard, number: e.target.value })}
                     />
+                    {submitAttempted && !newCard.number && (
+                      <span className="text-red-500 text-xs">Please enter your card number.</span>
+                    )}
+                    {submitAttempted &&
+                      newCard.number &&
+                      !/^\d{13,19}$/.test(newCard.number.replace(/\s+/g, "")) && (
+                        <span className="text-red-500 text-xs">
+                          Card number must be 13-19 digits.
+                        </span>
+                      )}
                   </div>
                   <div className="flex gap-2">
                     <div className="w-1/2">
@@ -484,6 +574,40 @@ const UserCart = () => {
                         value={newCard.expires}
                         onChange={(e) => setNewCard({ ...newCard, expires: e.target.value })}
                       />
+                      {submitAttempted && !newCard.expires && (
+                        <span className="text-red-500 text-xs">
+                          Please fill out the expiry date.
+                        </span>
+                      )}
+                      {submitAttempted &&
+                        newCard.expires &&
+                        !/^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(newCard.expires) && (
+                          <span className="text-red-500 text-xs">
+                            Expiry must be in MM/YY format.
+                          </span>
+                        )}
+                      {submitAttempted &&
+                        newCard.expires &&
+                        /^(0[1-9]|1[0-2])\/?([0-9]{2})$/.test(newCard.expires) && (
+                          (() => {
+                            const expRegex = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/;
+                            const expMatch = newCard.expires.match(expRegex);
+                            const expMonth = parseInt(expMatch[1], 10);
+                            const expYear = parseInt("20" + expMatch[2], 10);
+                            const currentDate = new Date();
+                            const currentMonth = currentDate.getMonth() + 1;
+                            const currentYear = currentDate.getFullYear();
+                            
+                            if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) {
+                              return (
+                                <span className="text-red-500 text-xs">
+                                  The expiry date cannot be in the past.
+                                </span>
+                              );
+                            }
+                            return null;
+                          })()
+                        )}
                     </div>
                     <div className="w-1/2">
                       <label className="block text-sm text-gray-700 mb-1">
@@ -496,6 +620,18 @@ const UserCart = () => {
                         value={newCard.cvc}
                         onChange={(e) => setNewCard({ ...newCard, cvc: e.target.value })}
                       />
+                      {submitAttempted && !newCard.cvc && (
+                        <span className="text-red-500 text-xs">
+                          Please enter the CVC.
+                        </span>
+                      )}
+                      {submitAttempted &&
+                        newCard.cvc &&
+                        !/^\d{3}$/.test(newCard.cvc) && (
+                          <span className="text-red-500 text-xs">
+                            CVC must be exactly 3 digits.
+                          </span>
+                        )}
                     </div>
                   </div>
                   <div>
@@ -509,35 +645,37 @@ const UserCart = () => {
                       value={newCard.name}
                       onChange={(e) => setNewCard({ ...newCard, name: e.target.value })}
                     />
+                    {submitAttempted && !newCard.name && (
+                      <span className="text-red-500 text-xs">
+                        Please enter the name on card.
+                      </span>
+                    )}
+                    {submitAttempted &&
+                      newCard.name &&
+                      !nameRegex.test(newCard.name.trim()) && (
+                        <span className="text-red-500 text-xs">
+                          Please enter a valid full name (e.g., John Doe).
+                        </span>
+                      )}
                   </div>
-                  <button
-                    onClick={async () => {
-                      const user = auth.currentUser;
-                      if (!user) return;
-                      const lastFour = newCard.number.replace(/\s+/g, "").slice(-4);
-                      const cardData = {
-                        type: newCard.type.toLowerCase(),
-                        name: newCard.name,
-                        lastFour,
-                        expires: newCard.expires,
-                        cvc: newCard.cvc,
-                        createdAt: new Date().toISOString()
-                      };
-                      const userPayRef = collection(db, "users", user.uid, "paymentMethods");
-                      await addDoc(userPayRef, cardData);
-                      setNewCard({ type: "", number: "", expires: "", name: "", cvc: "" });
-                      setShowNewCardForm(false);
-                    }}
-                    className="bg-[#0A0A28] text-white mt-3 px-4 py-2 rounded text-sm font-semibold hover:bg-[#1e1e3e]"
-                    disabled={
-                      !newCard.type ||
-                      !newCard.number ||
-                      !newCard.expires ||
-                      !newCard.name
-                    }
-                  >
-                    Save Card
-                  </button>
+                  <div className="flex justify-between mt-3">
+                    <button
+                      onClick={() => {
+                        setShowNewCardForm(false);
+                        setNewCard({ type: "", number: "", expires: "", name: "", cvc: "" });
+                        setSubmitAttempted(false);
+                      }}
+                      className="bg-[#5E5E5E] text-white px-4 py-2 rounded text-sm font-semibold hover:bg-[#878787]"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={saveNewCard}
+                      className="bg-[#0A0A28] text-white px-4 py-2 rounded text-sm font-semibold hover:bg-[#1e1e3e]"
+                    >
+                      Save Card
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -582,7 +720,7 @@ const UserCart = () => {
               </button>
             </div>
             <p className="text-sm text-gray-700 mb-4">
-              Your order has been processed. Here’s your summary:
+              Your order has been processed. Here's your summary:
             </p>
             <div className="bg-green-50 rounded p-3 text-sm mb-4">
               <p className="font-semibold">
