@@ -8,7 +8,8 @@ import {
   getDoc,
   deleteDoc,
   getDocs,
-  addDoc
+  addDoc,
+  updateDoc
 } from "firebase/firestore";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -285,6 +286,18 @@ const UserCart = () => {
     );
     await Promise.all(deletions);
 
+    const userDocRef = doc(db, "users", user.uid);
+    const userDocSnap = await getDoc(userDocRef);
+
+    if (userDocSnap.exists()) {
+      const currentPoints = userDocSnap.data().loyaltyPoints || 0;
+      const pointsEarned = Math.floor(subtotal);
+      const newPoints = currentPoints + pointsEarned;
+
+      await updateDoc(userDocRef, { loyaltyPoints: newPoints });
+      console.log(`Added ${pointsEarned} loyalty points! New total: ${newPoints}`);
+    }
+
     setCartItems([]);
     setOrderDetails({
       orderNumber,
@@ -380,7 +393,9 @@ const UserCart = () => {
                     </div>
                     <div className="flex flex-col items-end">
                       <button
-                        onClick={() => removeItemFromCart(item.id)}
+                        onClick={() => {removeItemFromCart(item.id);
+                        }
+}
                         className="text-red-500 text-xs hover:underline mt-1"
                       >
                         Remove
