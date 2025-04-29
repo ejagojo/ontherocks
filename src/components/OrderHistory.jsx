@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { auth, db } from '../services/firebase';
 import {
   collection,
@@ -11,6 +11,7 @@ const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const [expandedOrderId, setExpandedOrderId] = useState(null);
   const [currentTime, setCurrentTime] = useState(new Date());
+  const didAutoExpand = useRef(false);
 
   // Subscribe to the user's Orders subcollection
   useEffect(() => {
@@ -106,11 +107,14 @@ const OrderHistory = () => {
   );
 
   // Auto-expand most recent cancellable
-  useEffect(() => {
-    if (sorted[0] && isOrderCancellable(sorted[0])) {
-      setExpandedOrderId(sorted[0].id);
-    }
-  }, [sorted]);
+    // Auto-expand the first cancellable order, but only once
+    useEffect(() => {
+      if (!didAutoExpand.current && sorted.length > 0) {
+        setExpandedOrderId(sorted[0].id);
+        didAutoExpand.current = true;
+      }
+    }, [sorted]);
+  
 
   const toggleExpand = id =>
     setExpandedOrderId(expandedOrderId === id ? null : id);
