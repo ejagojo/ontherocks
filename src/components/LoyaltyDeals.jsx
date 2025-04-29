@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { collection, getDocs } from "firebase/firestore";
+import { addDealToCart } from "./loyaltyHealpers";
 import { db } from "../services/firebase";
 
-const LoyaltyDeals = () => {
+const LoyaltyDeals = ({ store_id }) => {
+  if (!store_id) return;
   const [deals, setDeals] = useState([]);
   const containerRef = useRef(null);
 
@@ -10,19 +12,20 @@ const LoyaltyDeals = () => {
     const fetchDeals = async () => {
       try {
         const querySnapshot = await getDocs(
-          collection(db, "stores", "store-001", "items")
+          collection(db, "stores", store_id, "items")
         );
         const allDeals = [];
 
         querySnapshot.forEach((doc) => {
-          if (doc.id.startsWith("beer-")) {
+          if (doc.id.startsWith("deals-")) {
             const data = doc.data();
             allDeals.push({
               id: doc.id,
               label: data.name,
               assets: data.image_url,
               volume: data.volume_ml,
-              cost: data.price
+              cost: data.price,
+              storeId: store_id
             });
           }
         });
@@ -34,7 +37,7 @@ const LoyaltyDeals = () => {
     };
 
     fetchDeals();
-  }, []);
+  }, [store_id]);
 
   const scrollLeft = () => {
     if (containerRef.current) {
@@ -75,8 +78,9 @@ const LoyaltyDeals = () => {
             <h1 className="text-lg font-semibold mb-1 knewave-font">{deal.label}</h1>
             <h1 className="text-sm text-gray-600 knewave-font">{deal.volume}ml</h1>
             <button
+              onClick={() => addDealToCart(deal, store_id)}
               className="mt-auto px-4 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300"
-            >
+              >
               ${deal.cost?.toFixed(2)}
             </button>
           </div>

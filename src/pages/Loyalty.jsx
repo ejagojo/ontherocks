@@ -11,7 +11,8 @@ import LoadingSpinner from '../components/LoadingSpinner';
 
 const Loyalty = () => {
   const [points, setPoints] = useState(null);
-  const [userName, setUserName] = useState("")
+  const [userName, setUserName] = useState("");
+  const [store_id, setStore] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -57,15 +58,27 @@ const Loyalty = () => {
         </div>
 
         <div className="mx-auto w-4/5 my-8 relative">
+          <select 
+            value={store_id} 
+            onChange={(e) => setStore(e.target.value)} 
+            className="mt-2 px-4 py-2 bg-gray-200 rounded-full font-bold italic text-black whitespace-nowrap hover:bg-gray-300 w-40"
+              >
+            <option value="" disabled hidden>
+              Select a Store
+            </option>
+            <option value="store-001">Total Wine</option>
+            <option value="store-002">The Liquor Store</option>
+            <option value="store-003">Discount Liquors</option>
+          </select>
           <h1 className="text-xl font-semibold font-sans mb-6 mt-4">My Rewards</h1>
           <hr className="w-full border-t border-gray-300 mb-4" />
-          <LoyaltyRewards points={points} setPoints={setPoints} />
+          <LoyaltyRewards points={points} setPoints={setPoints} store_id={store_id}/>
         </div>
 
         <div className="mx-auto w-4/5 my-8 relative">
           <h1 className="text-xl font-semibold font-sans mb-6 mt-4">My Deals</h1>
           <hr className="w-full border-t border-gray-300 mb-4" />
-          <LoyaltyDeals />
+          <LoyaltyDeals store_id={store_id}/>
         </div>
         <Footer />
       </div>

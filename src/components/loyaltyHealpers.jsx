@@ -123,3 +123,37 @@ export const removeLoyaltyRewardAndRefund = async ({ itemId, setPoints }) => {
         console.error("Error removing reward:", err);
         }
 };
+
+export const addDealToCart = async (item, storeId) => {
+    try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+
+        if (!user) {
+            alert("Please sign in to add deals.");
+            return;
+        }
+
+        const rewardRef = doc(db, "users", user.uid, "AddToCartItems", item.id);
+        const rewardSnap = await getDoc(rewardRef);
+
+        let existingQuantity = 0;
+        if (rewardSnap.exists()) {
+            const rewardData = rewardSnap.data();
+            existingQuantity = rewardData.quantity || 0;
+        }
+
+        await setDoc(rewardRef, {
+            name: item.label,
+            price: item.cost,
+            quantity: existingQuantity + 1,
+            storeId: storeId,
+            isLoyaltyReward: false,
+            image_url: item.assets
+        }, { merge: true });
+
+        alert(`Successfully added ${item.label} to your cart!`);
+    } catch (err) {
+        console.error("Error adding deal to cart:", err);
+    }
+};

@@ -1845,7 +1845,7 @@ const inventoryData = [
         "price": 2.00,
         "points": 25,
         "in_stock": true,
-        "store_id": "store-001",
+        "store_id": ["store-001", "store-002", "store-003"],
         "description": "Organic agave with a creamy texture and floral-citrus notes.",
         "image_url": "/assets/drinks/Heritage_brown_sugar50ml.jpg",
         "tags": [
