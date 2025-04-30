@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Scripts } from "react-router-dom";
 import Home from "./pages/Home";
 import Order from "./pages/Order";
 import Contact from "./pages/Contact";
@@ -10,7 +10,7 @@ import UserProfile from "./components/UserProfile";
 import Profile from "./pages/Profile";
 import StoreDetails from "./pages/StoreDetails";
 import UserCart from "./pages/UserCart";
-import { seedInventory } from "./services/seedInventory";
+import ScriptsPage from "./pages/scripts";
 
 const App = () => {
   return (
@@ -26,6 +26,7 @@ const App = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/store/:storeId" element={<StoreDetails />} />
         <Route path="/cart" element={<UserCart />} />
+        <Route path="/scripts" element={<ScriptsPage/>}/>
       </Routes>
     </Router>
   );
