@@ -13,7 +13,7 @@ const StoreSearchPopup = ({ isOpen, address, onClose }) => {
         >
           &times;
         </button>
-        <StoreLocator adrs={address} />
+        <StoreLocator adrs={address} onClose={onClose} />
       </div>
     </div>
   );

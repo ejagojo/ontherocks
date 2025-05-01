@@ -93,7 +93,7 @@ const LoginForm = ({ toggleForm }) => {
           our <span className="underline cursor-pointer">Privacy Policy</span>. Notice at collection.
         </p>
         <p className="mt-3 text-xs text-center">
-          Not on OnTheRocks?{" "}
+          New to OnTheRocks?{" "}
           <button onClick={toggleForm} className="text-yellow-400 hover:underline">
             Sign Up
           </button>
