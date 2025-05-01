@@ -13,7 +13,7 @@ import CartPreviewPopup from "./CartPreviewPopup";
 
 const Header = () => {
   const userName = null;
-  const [address, setAddress] = useState("123 Lowell St");
+  const [address, setAddress] = useState("Find Stores!");
   const [isEditing, setIsEditing] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -25,6 +25,9 @@ const Header = () => {
   const prevCartRef = useRef([]);
 
   const handleInputFocus = () => {
+    if (address === "Find Stores!") {
+    setAddress(""); // Clear placeholder text
+  }
     setIsEditing(true);
     setShowSuggestions(true);
   };
