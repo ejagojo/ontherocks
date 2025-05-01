@@ -44,6 +44,8 @@ const Header = () => {
     setShowCartPreview((prev) => !prev);
   };
 
+  const locationBoxRef = useRef(null);
+
   useEffect(() => {
     const user = auth.currentUser;
     if (!user) return;
@@ -111,6 +113,23 @@ const Header = () => {
     return () => clearTimeout(debounce);
   }, [address]);
 
+  useEffect(() => {
+  const handleClickOutside = (event) => {
+    if (
+      locationBoxRef.current &&
+      !locationBoxRef.current.contains(event.target)
+    ) {
+      setShowSuggestions(false);
+      setIsEditing(false);
+    }
+  };
+
+  document.addEventListener("mousedown", handleClickOutside);
+  return () => {
+    document.removeEventListener("mousedown", handleClickOutside);
+  };
+  }, []);
+
   return (
     <>
       <header className="w-full fixed top-0 bg-white z-50 py-2">
@@ -122,7 +141,9 @@ const Header = () => {
 
           <div className="flex flex-col md:flex-row items-end md:items-center justify-end gap-2 my-4">
             <div className="flex-1 flex md:flex-row items-end md:items-center justify-end gap-2 ml-4">
-              <div className="w-[210px]  md:w-[280px] h-10 relative flex items-center justify-between px-4 py-2 gap-2 bg-gray-200 rounded-full text-black font-medium hover:bg-gray-300">
+              <div
+                ref={locationBoxRef}
+                className="w-[210px]  md:w-[280px] h-10 relative flex items-center justify-between px-4 py-2 gap-2 bg-gray-200 rounded-full text-black font-medium hover:bg-gray-300">
                 {/* to signify this is the location input */}
                 <FaLocationDot />
                 {isEditing ? (
