@@ -6,19 +6,67 @@ import "leaflet/dist/leaflet.css";
 import { db } from "../services/firebase";
 import { collection, getDocs } from "firebase/firestore";
 
-// REMOVED THE FAKE STORES ARRAY HERE
-
-const StoreLocator = ({ adrs }) => {
+const StoreLocator = ({ adrs, onClose }) => {
   const [userLocation, setUserLocation] = useState(null);
   const [nearbyStores, setNearbyStores] = useState([]);
   const [address, setAddress] = useState(adrs || "");
   const [suggestions, setSuggestions] = useState([]);
-  const [selectedAddress, setSelectedAddress] = useState(null);
-  const [stores, setStores] = useState([]); 
+  const [selectedAddress, setSelectedAddress] = useState(null); 
   const mapRef = useRef(null);
   const mapInstance = useRef(null);
   const markerGroup = useRef(null);
   const navigate = useNavigate();
+  const [stores, setStores] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+  const fetchStores = async () => {
+    try {
+      const snapshot = await getDocs(collection(db, "stores"));
+      const formattedStores = [];
+      let numericId = 1;
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+
+        // Convert lat/long to numbers
+        const lat = parseFloat(data.lat);
+        const lng = parseFloat(data.long);
+
+        // Format to match target structure
+        formattedStores.push({
+          id: numericId++,
+          name: data.name,
+          lat: lat,
+          lng: lng,
+        });
+      });
+
+      setStores(formattedStores);
+    } catch (error) {
+      console.error("Error fetching stores:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchStores();
+  }, []);
+
+  useEffect(() => {
+      if (adrs) {
+        setSelectedAddress(adrs);
+        setAddress(adrs);
+        handleGeocodeAndRedirect();
+        console.log("Address from props:", adrs);
+      }
+    }, []);
+
+  useEffect(() => {
+      if (mapInstance.current && stores.length > 0 && userLocation) {
+        updateMarkers(userLocation);
+      }
+  }, [stores, userLocation]);
 
   const fetchSuggestions = async (query) => {
     if (!query.trim()) {
@@ -56,15 +104,23 @@ const StoreLocator = ({ adrs }) => {
   };
 
   const handleGeocodeAndRedirect = async () => {
+    // If we have suggestions but no selection, use the first suggestion
+    if (!selectedAddress && suggestions.length > 0) {
+      setSelectedAddress(suggestions[0]);
+      setAddress(suggestions[0].formatted_name);
+    }
+
     let location = selectedAddress;
     if (!location && address.trim()) {
       const url = `https://corsproxy.io/?https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(address)}`;
       const res = await fetch(url);
       const data = await res.json();
-      location = {
-        ...data[0],
-        formatted_name: data[0]?.display_name,
-      };
+      if (data && data.length > 0) {
+        location = {
+          ...data[0],
+          formatted_name: data[0]?.display_name,
+        };
+      }
     }
 
     const coords = location?.lat && location?.lon
@@ -88,7 +144,6 @@ const StoreLocator = ({ adrs }) => {
         customAddress = [line, area, state, postcode].filter(Boolean).join(", ");
       }
       setAddress(customAddress);
-      navigate(`/order?address=${encodeURIComponent(customAddress)}`);
     }
 
     if (mapInstance.current) {
@@ -137,9 +192,14 @@ const StoreLocator = ({ adrs }) => {
     distances.slice(0, 5).forEach((store) => {
       const marker = L.marker([store.lat, store.lng])
         .bindPopup(`${store.name}<br>${store.distance.toFixed(2)} km away`)
-        .on("click", () => navigate(`/shop/${store.id}`));
+        .on("click", () => handleStoreClick(store.id));
       markerGroup.current.addLayer(marker);
     });
+  };
+
+  const handleStoreClick = (storeId) => {
+    if (onClose) onClose();
+    navigate(`/store/store-00${storeId}`);
   };
 
   useEffect(() => {
@@ -150,38 +210,6 @@ const StoreLocator = ({ adrs }) => {
       }).addTo(mapInstance.current);
       markerGroup.current = L.layerGroup().addTo(mapInstance.current);
     }
-  }, []);
-
-  useEffect(() => {
-    if (adrs) {
-      setAddress(adrs);
-      fetchSuggestions(adrs);
-    }
-  }, [adrs]);
-
-  useEffect(() => {
-    const fetchFirestoreStores = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(db, "stores"));
-        const storeList = [];
-        querySnapshot.forEach((docSnap) => {
-          const data = docSnap.data();
-          if (data.lat && data.lng) {
-            storeList.push({
-              id: docSnap.id,
-              name: data.name || "Unnamed Store",
-              lat: data.lat,
-              lng: data.lng,
-            });
-          }
-        });
-        setStores(storeList);
-        updateMarkers();
-      } catch (error) {
-        console.error("Error fetching stores from Firestore:", error);
-      }
-    };
-    fetchFirestoreStores();
   }, []);
 
   return (
@@ -236,7 +264,7 @@ const StoreLocator = ({ adrs }) => {
             {nearbyStores.map((store) => (
               <li
                 key={store.id}
-                onClick={() => navigate(`/shop/${store.id}`)}
+                onClick={() => handleStoreClick(store.id)}
                 className="cursor-pointer text-blue-700 hover:underline"
               >
                 {store.name} <span className="text-sm text-gray-500">({store.distance.toFixed(2)} km)</span>

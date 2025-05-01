@@ -36,6 +36,7 @@ const Header = () => {
     setAddress(addr);
     setIsEditing(false);
     setShowSuggestions(false);
+    setShowPopup(true);
   };
 
   const handleSearchSubmit = (e) => {
